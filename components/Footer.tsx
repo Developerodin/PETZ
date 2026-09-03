@@ -1,6 +1,7 @@
 "use client";
 
 import { isCompactFooter } from "@/lib/chrome";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -75,7 +76,7 @@ export function Footer() {
                 <h4>Tools</h4>
                 <ul>
                   <li>
-                    <Link href="/symptom-checker">Symptom Checker</Link>
+                    <Link href="/symptom-checker">{ASSISTANT_NAME}</Link>
                   </li>
                   <li>
                     <Link href="/pet-passport">Pet Passport</Link>

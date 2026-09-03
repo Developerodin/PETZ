@@ -582,8 +582,6 @@ function initAssessForm() {
         ? dob.split("-").reverse().join("/")
         : "";
     return {
-      "Your name": trim(named("ownerName")),
-      Email: trim(named("ownerEmail")).toLowerCase(),
       Species: species === "dog" ? "Dog" : species === "cat" ? "Cat" : "",
       "Pet name": trim(named("petName")),
       "Date of birth": age,
@@ -624,11 +622,6 @@ function initAssessForm() {
   const onNext = () => {
     let rules: { field: Element | null; message: string }[] = [];
     if (current === 0) {
-      rules = [
-        { field: form.elements.namedItem("ownerName") as Element, message: validateName((form.elements.namedItem("ownerName") as HTMLInputElement).value, "Your name") },
-        { field: form.elements.namedItem("ownerEmail") as Element, message: validateEmail((form.elements.namedItem("ownerEmail") as HTMLInputElement).value) },
-      ];
-    } else if (current === 1) {
       const dobUnknown = named("petDobUnknown") === "true";
       const dobMessage = dobUnknown
         ? validateAge(named("petAge"))
@@ -643,7 +636,7 @@ function initAssessForm() {
       if (!species) {
         if (speciesError) speciesError.textContent = "Please select dog or cat.";
       } else if (speciesError) speciesError.textContent = "";
-    } else if (current === 2) {
+    } else if (current === 1) {
       rules = [
         { field: form.querySelector("#petBcsScale") || form.querySelector('[name="petBcs"]'), message: validateRequired(named("petBcs"), "Body condition score") },
         { field: form.elements.namedItem("petDiet") as Element, message: validateRequired(named("petDiet"), "Diet type") },
@@ -653,8 +646,8 @@ function initAssessForm() {
       ];
     }
     if (rules.length && !validateFields(rules)) return;
-    if (current === 1 && !species) return;
-    if (current === 2) buildReview();
+    if (current === 0 && !species) return;
+    if (current === 1) buildReview();
     goTo(current + 1);
   };
 
@@ -667,7 +660,7 @@ function initAssessForm() {
       owner: {
         name: trim(named("ownerName")),
         email: trim(named("ownerEmail")).toLowerCase(),
-        marketing: (form!.elements.namedItem("marketing") as HTMLInputElement)?.checked ?? false,
+        marketing: false,
       },
       pet: {
         id: named("petId"),
@@ -701,6 +694,20 @@ function initAssessForm() {
 
   const onSubmit = async (e: Event) => {
     e.preventDefault();
+    const petName = trim(named("petName"));
+    const ownerName = trim(named("ownerName"));
+    if (!petName) return;
+    if (ownerName && petName.toLowerCase() === ownerName.toLowerCase()) {
+      const petNameField = form!.elements.namedItem("petName") as HTMLInputElement | null;
+      if (petNameField) {
+        petNameField.classList.add("is-error");
+        petNameField.setAttribute("aria-invalid", "true");
+        const err = petNameField.closest(".form-field")?.querySelector(".field-error");
+        if (err) err.textContent = "Enter your pet's name, not your own.";
+      }
+      goTo(0);
+      return;
+    }
     const data = collectData();
     const payload = collectRawPayload();
     try {
@@ -709,9 +716,16 @@ function initAssessForm() {
     } catch {
       /* ignore */
     }
-    void postJson("/api/assessments", payload).catch(() => {
+    try {
+      const res = await postJson("/api/assessments", payload);
+      const saved = res as { petId?: string };
+      if (saved.petId) {
+        payload.pet.id = saved.petId;
+        sessionStorage.setItem("petz_assess_answers", JSON.stringify(payload.pet));
+      }
+    } catch {
       /* results still render from sessionStorage if save is unavailable */
-    });
+    }
     window.location.href = "/assess/results";
   };
   form.addEventListener("submit", onSubmit);

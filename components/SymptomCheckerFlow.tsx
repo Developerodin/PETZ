@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { PetFormWizard } from "@/components/PetFormWizard";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 import { getInitials } from "@/lib/user-display";
 import { formatPetAge, type PetRecord } from "@/lib/pet-utils";
 
@@ -94,7 +95,7 @@ export function SymptomCheckerFlow({
       ? initialPets.find((pet) => pet.id === preselectedPetId) ?? null
       : null;
   const chatGreeting = preselectedPet
-    ? `Hi — I'm PETZ's AI health assistant for ${preselectedPet.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`
+    ? `Hi — I'm ${ASSISTANT_NAME}, your health assistant for ${preselectedPet.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`
     : undefined;
 
   const [step, setStep] = useState<Step>(() => {
@@ -174,7 +175,7 @@ export function SymptomCheckerFlow({
           role: "assistant",
           content:
             chatGreeting ||
-            `Hi — I'm PETZ's AI health assistant for ${match.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`,
+            `Hi — I'm ${ASSISTANT_NAME}, your health assistant for ${match.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`,
         },
       ]);
       setStep("chat");
@@ -225,7 +226,7 @@ export function SymptomCheckerFlow({
         role: "assistant",
         content:
           greeting ||
-          `Hi — I'm PETZ's AI health assistant. I can help you understand how urgent this might be for ${pet.name}.\n\nI don't diagnose, prescribe, or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.\n\nWhat's going on with ${pet.name}?`,
+          `Hi — I'm ${ASSISTANT_NAME}. I can help you understand how urgent this might be for ${pet.name}.\n\nI don't diagnose, prescribe, or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.\n\nWhat's going on with ${pet.name}?`,
       },
     ]);
     setStep("chat");
@@ -422,7 +423,7 @@ export function SymptomCheckerFlow({
           <div className="sc-toolbar-copy">
             <p className="eyebrow sc-toolbar-eyebrow">PETZ</p>
             <div className="sc-toolbar-titleblock">
-              <h1 className="display-5">Symptom Checker</h1>
+              <h1 className="display-5">{ASSISTANT_NAME}</h1>
               <p className="sc-status">
                 <span className="sc-dot" aria-hidden="true" />
                 Checking {petName}
@@ -497,7 +498,7 @@ export function SymptomCheckerFlow({
               <span className="sc-avatar" aria-hidden="true">
                 <PawIcon />
               </span>
-              <div className="sc-bubble is-bot sc-typing" aria-label="Assistant is typing">
+              <div className="sc-bubble is-bot sc-typing" aria-label={`${ASSISTANT_NAME} is typing`}>
                 <span />
                 <span />
                 <span />

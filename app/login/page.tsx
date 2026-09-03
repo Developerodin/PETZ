@@ -33,10 +33,7 @@ export default async function LoginPage({
             If your pet may be having an emergency, don&apos;t wait for us — contact the nearest open veterinary clinic now.
           </p>
           <p className="auth-promo">
-            No account yet? You can start a free health assessment right now — just a few questions.{" "}
-            <Link href="/assess">
-              Assess my pet <span aria-hidden="true">→</span>
-            </Link>
+            Sign in to assess your pet, save profiles, and track health insights over time.
           </p>
           <Suspense>
             <LoginForm callbackUrl={callbackUrl} />

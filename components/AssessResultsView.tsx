@@ -7,6 +7,7 @@ import {
   type AssessmentAnswers,
   type AssessmentResult,
 } from "@/lib/assessment-score";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 
 function readAnswers(): AssessmentAnswers {
   try {
@@ -178,7 +179,7 @@ export function AssessResultsView({ signedIn }: { signedIn: boolean }) {
       <div className="button-row is-center-aligned" style={{ marginTop: 32 }}>
         <Link className="button is-primary" href={chatHref}>
           <span className="button-hover"></span>
-          <span className="button-label">Chat with AI assistant</span>
+          <span className="button-label">Chat with {ASSISTANT_NAME}</span>
         </Link>
         {signedIn ? (
           <a className="button is-secondary" href="/account">

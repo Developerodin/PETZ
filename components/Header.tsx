@@ -1,5 +1,6 @@
 "use client";
 
+import { ASSISTANT_NAME } from "@/lib/assistant";
 import { getNavMode } from "@/lib/chrome";
 import { HeaderAuth } from "@/components/HeaderAuth";
 import Link from "next/link";
@@ -14,7 +15,7 @@ const FULL_NAV = [
   { href: "/partners", label: "Partners" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
-  { href: "/symptom-checker", label: "PETZ's AI" },
+  { href: "/symptom-checker", label: ASSISTANT_NAME },
 ];
 
 const BLOG_NAV = [

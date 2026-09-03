@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { SiteShell } from "@/components/SiteShell";
 import { getFormUser } from "@/lib/form-user";
 import { getSavedPets } from "@/lib/saved-pets";
@@ -19,7 +20,10 @@ async function getAssessSavedPets() {
 
 export default async function AssessPage() {
   const user = await getFormUser();
-  const savedPets = user.signedIn ? await getAssessSavedPets() : [];
+  if (!user.signedIn) {
+    redirect("/login?callbackUrl=/assess");
+  }
+  const savedPets = await getAssessSavedPets();
 
   return (
     <SiteShell variant="inflow">
@@ -29,43 +33,19 @@ export default async function AssessPage() {
               <div className="inner-container-center measure-wide reveal">
                 <h1 className="display-8">Assess My Pet</h1>
                 <p>
-                  {user.signedIn
-                    ? `Signed in as ${user.name || user.email}. We'll save this pet on your account.`
-                    : "A few simple questions. PETZ turns what you know into a clearer picture of their health."}
+                  {`Signed in as ${user.name || user.email}. Add or select a pet — we'll save the assessment on your account.`}
                 </p>
               </div>
               <form id="assessForm" className="form-card reveal" noValidate>
+                <input type="hidden" name="ownerName" value={user.name} />
+                <input type="hidden" name="ownerEmail" value={user.email} />
                 <div className="wizard-stepper" aria-label="Progress">
-                  <div className="wizard-step is-active">You</div>
-                  <div className="wizard-step">Pet</div>
+                  <div className="wizard-step is-active">Pet</div>
                   <div className="wizard-step">Health</div>
                   <div className="wizard-step">Review</div>
                 </div>
 
                 <div className="wizard-panel is-active" data-step="1">
-                  <h2 className="display-5">About you</h2>
-                  <div className="form-grid" style={{marginTop: "24px"}}>
-                    <div className="form-field">
-                      <label htmlFor="ownerName">Your name</label>
-                      <input type="text" id="ownerName" name="ownerName" autoComplete="name" required defaultValue={user.name} />
-                      <p className="field-error" aria-live="polite"></p>
-                    </div>
-                    <div className="form-field">
-                      <label htmlFor="ownerEmail">Email</label>
-                      <input type="email" id="ownerEmail" name="ownerEmail" autoComplete="email" required defaultValue={user.email} readOnly={user.signedIn} />
-                      <p className="field-error" aria-live="polite"></p>
-                    </div>
-                    <div className="form-check">
-                      <input type="checkbox" id="marketing" name="marketing" />
-                      <label htmlFor="marketing">Send me evidence-informed pet health tips (optional)</label>
-                    </div>
-                  </div>
-                  <div className="form-actions is-end">
-                    <button type="button" className="button is-primary" data-wizard-next><span className="button-hover"></span><span className="button-label">Continue</span></button>
-                  </div>
-                </div>
-
-                <div className="wizard-panel" data-step="2" hidden>
                   <h2 className="display-5">About your pet</h2>
                   <p className="pet-lede" style={{marginTop: "8px"}}>
                     {savedPets.length
@@ -147,7 +127,7 @@ export default async function AssessPage() {
                     </div>
                     <div className="form-field">
                       <label htmlFor="petName">Pet&apos;s name *</label>
-                      <input type="text" id="petName" name="petName" placeholder="e.g. Max" required />
+                      <input type="text" id="petName" name="petName" autoComplete="off" placeholder="e.g. Max" required />
                       <p className="field-error" aria-live="polite"></p>
                     </div>
                     <div className="form-field">
@@ -185,7 +165,7 @@ export default async function AssessPage() {
                   </div>
                 </div>
 
-                <div className="wizard-panel" data-step="3" hidden>
+                <div className="wizard-panel" data-step="2" hidden>
                   <h2 className="display-5">Health insights</h2>
                   <p className="pet-lede" style={{marginTop: "8px"}}>Simple questions. Skip anything you don&apos;t know — more detail makes the picture clearer.</p>
                   <div className="form-grid" style={{marginTop: "24px"}}>
@@ -360,7 +340,7 @@ export default async function AssessPage() {
                   </div>
                 </div>
 
-                <div className="wizard-panel" data-step="4" hidden>
+                <div className="wizard-panel" data-step="3" hidden>
                   <h2 className="display-5">Review your answers</h2>
                   <p style={{marginTop: "12px"}}>PETZ provides health education and preventive guidance. It does not replace a veterinarian or provide a medical diagnosis.</p>
                   <ul className="review-list" style={{marginTop: "24px"}}></ul>

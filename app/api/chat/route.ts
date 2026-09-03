@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 import { jsonError, jsonOk, requireUser, withDb } from "@/lib/api-utils";
 import { petContextSummary, serializePet } from "@/lib/pet-utils";
 import { ChatSession } from "@/models/ChatSession";
@@ -8,7 +9,7 @@ import { Types } from "mongoose";
 const MODEL = "gpt-4o-mini";
 
 function buildSystemPrompt(petSummary: string, petName: string) {
-  return `You are PETZ, a preventive pet-health assistant helping a pet parent assess symptoms for ${petName}.
+  return `You are ${ASSISTANT_NAME}, PETZ's preventive pet-health assistant helping a pet parent assess symptoms for ${petName}.
 
 Use the pet profile below as context when relevant:
 ${petSummary}

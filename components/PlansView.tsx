@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 
 const DIGITAL_MONTHLY = [
-  "Unlimited AI Health Assistant + Symptom Checker",
+  `Unlimited ${ASSISTANT_NAME} + Symptom Checker`,
   "Monthly Health Score & Health Report",
   "Health reminders, tracking & digital records",
   "Marketplace member pricing",
@@ -11,7 +12,7 @@ const DIGITAL_MONTHLY = [
 ];
 
 const DIGITAL_ANNUAL = [
-  "Unlimited AI Health Assistant + Symptom Checker",
+  `Unlimited ${ASSISTANT_NAME} + Symptom Checker`,
   "Monthly Health Score & Health Report",
   "Health reminders, tracking & digital records",
   "Marketplace member pricing",
@@ -20,7 +21,7 @@ const DIGITAL_ANNUAL = [
   "Annual PETZ Health Review",
   "Digital PETZ Health Passport",
   "12-month Health Journey & progress tracking",
-  "Annual AI Health Summary",
+  `Annual Health Summary from ${ASSISTANT_NAME}`,
   "Priority Member Support",
   "Exclusive annual-member offers & partner benefits",
   "Early access to new PETZ features & programs",

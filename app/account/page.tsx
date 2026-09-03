@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Session } from "next-auth";
 import { auth } from "@/auth";
+import { ASSISTANT_NAME } from "@/lib/assistant";
 import { AccountPets } from "@/components/AccountPets";
 import { SignOutButton } from "@/components/SignOutButton";
 import { UserAvatar } from "@/components/UserAvatar";
@@ -164,7 +165,7 @@ export default async function AccountPage() {
 
           <nav className="account-links" aria-label="Account tools">
             <Link className="account-card account-link" href="/symptom-checker">
-              <span>Symptom Checker</span>
+              <span>{ASSISTANT_NAME}</span>
               <span aria-hidden="true">›</span>
             </Link>
             <Link className="account-card account-link" href="/assess">

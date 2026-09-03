@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { AssessResultsView } from "@/components/AssessResultsView";
 import { SiteShell } from "@/components/SiteShell";
 import { getFormUser } from "@/lib/form-user";
@@ -10,6 +11,9 @@ export const metadata: Metadata = {
 
 export default async function AssessResultsPage() {
   const user = await getFormUser();
+  if (!user.signedIn) {
+    redirect("/login?callbackUrl=/assess/results");
+  }
 
   return (
     <SiteShell variant="inflow">
