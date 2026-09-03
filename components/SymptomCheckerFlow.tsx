@@ -455,16 +455,19 @@ export function SymptomCheckerFlow({
           </div>
         </header>
 
-        <div className="sc-disclaimer">
-          <p>
-            Symptom checker only — not veterinary medical advice. PETZ does not diagnose, prescribe, or replace a
-            veterinarian.
-          </p>
-          <p className="sc-disclaimer-alert">
-            If you believe your pet is having an emergency, do not wait — go to the nearest open veterinary clinic now.
-          </p>
-          <p className="sc-disclaimer-fine">AI-generated guidance for education and urgency awareness.</p>
-        </div>
+        <details className="sc-disclaimer">
+          <summary>Not veterinary advice — tap to read notice</summary>
+          <div className="sc-disclaimer-body">
+            <p>
+              Symptom checker only — not veterinary medical advice. PETZ does not diagnose, prescribe, or replace a
+              veterinarian.
+            </p>
+            <p className="sc-disclaimer-alert">
+              If you believe your pet is having an emergency, do not wait — go to the nearest open veterinary clinic
+              now.
+            </p>
+          </div>
+        </details>
 
         {emergencyNotice ? (
           <div className="sc-emergency-banner" role="alert">
