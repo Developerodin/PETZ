@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import type { Session } from "next-auth";
 import { auth } from "@/auth";
 import { AccountPets } from "@/components/AccountPets";
 import { SignOutButton } from "@/components/SignOutButton";
-import { SiteShell } from "@/components/SiteShell";
 import { UserAvatar } from "@/components/UserAvatar";
-import clientPromise from "@/lib/mongodb-client";
+import clientPromise, { getMongoDbName } from "@/lib/mongodb-client";
 import { connectDb } from "@/lib/mongoose";
 import { formatMemberSince } from "@/lib/user-display";
 import { petCompleteness, serializePet } from "@/lib/pet-utils";
@@ -14,26 +14,23 @@ import { Assessment } from "@/models/Assessment";
 import { ChatSession } from "@/models/ChatSession";
 import { Pet } from "@/models/Pet";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "My Account — PETZ",
   description: "Your PETZ account — pet profiles and assessment history.",
 };
 
-export default async function AccountPage() {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login?callbackUrl=/account");
-  }
-
+async function loadAccountData(userId: string, email?: string | null) {
   await connectDb();
   const [pets, assessments, symptomChecks, memberSince] = await Promise.all([
-    Pet.find({ userId: session.user.id }).sort({ updatedAt: -1 }).lean(),
-    Assessment.find({ userId: session.user.id }).sort({ createdAt: -1 }).limit(20).lean(),
-    ChatSession.countDocuments({ userId: session.user.id }),
+    Pet.find({ userId }).sort({ updatedAt: -1 }).lean(),
+    Assessment.find({ userId }).sort({ createdAt: -1 }).limit(20).lean(),
+    ChatSession.countDocuments({ userId }),
     (async () => {
       try {
         const client = await clientPromise;
-        const doc = await client.db().collection("users").findOne({ email: session.user.email });
+        const doc = await client.db(getMongoDbName()).collection("users").findOne({ email: email || "" });
         return formatMemberSince(doc?._id?.getTimestamp?.() ?? null);
       } catch {
         return "";
@@ -41,25 +38,89 @@ export default async function AccountPage() {
     })(),
   ]);
 
-  const petItems = pets.map((pet) => {
-    const record = serializePet(pet);
-    return {
-      id: record.id,
-      name: record.name,
-      species: record.species,
-      breed: record.breed,
-      dateOfBirth: record.dateOfBirth,
-      dobEstimated: record.dobEstimated,
-      ageYears: record.ageYears,
-      completeness: petCompleteness(record),
-    };
-  });
+  return {
+    pets: pets.map((pet) => {
+      const record = serializePet(pet);
+      return {
+        id: record.id,
+        name: record.name,
+        species: record.species,
+        breed: record.breed,
+        dateOfBirth: record.dateOfBirth,
+        dobEstimated: record.dobEstimated,
+        ageYears: record.ageYears,
+        completeness: petCompleteness(record),
+      };
+    }),
+    assessments,
+    symptomChecks,
+    memberSince,
+  };
+}
 
+function isNextControlFlowError(error: unknown) {
   return (
-    <SiteShell variant="inflow">
+    typeof error === "object" &&
+    error !== null &&
+    "digest" in error &&
+    typeof (error as { digest: unknown }).digest === "string" &&
+    ((error as { digest: string }).digest.startsWith("NEXT_REDIRECT") ||
+      (error as { digest: string }).digest.startsWith("NEXT_NOT_FOUND"))
+  );
+}
+
+function AccountLoadMessage() {
+  return (
+    <p className="account-load-error">
+      We couldn&apos;t load your account just now.{" "}
+      <a href="/account">Refresh</a> to try again.
+    </p>
+  );
+}
+
+export default async function AccountPage() {
+  let session: Session | null = null;
+  try {
+    session = await auth();
+  } catch (error) {
+    if (isNextControlFlowError(error)) throw error;
+    console.error("account auth failed", error);
+    return (
       <section className="section account-screen">
         <div className="container">
           <div className="account-wrap">
+            <AccountLoadMessage />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!session?.user) {
+    redirect("/login?callbackUrl=/account");
+  }
+
+  let petItems: Awaited<ReturnType<typeof loadAccountData>>["pets"] = [];
+  let assessmentCount = 0;
+  let symptomChecks = 0;
+  let memberSince = "";
+  let loadError = false;
+
+  try {
+    const data = await loadAccountData(session.user.id, session.user.email);
+    petItems = data.pets;
+    assessmentCount = data.assessments.length;
+    symptomChecks = data.symptomChecks;
+    memberSince = data.memberSince;
+  } catch (error) {
+    console.error("account data load failed", error);
+    loadError = true;
+  }
+
+  return (
+    <section className="section account-screen">
+      <div className="container">
+        <div className="account-wrap">
           <Link className="account-back" href="/">
             ← Back to home
           </Link>
@@ -80,6 +141,8 @@ export default async function AccountPage() {
             </div>
           </div>
 
+          {loadError ? <AccountLoadMessage /> : null}
+
           <div className="account-stats">
             <div className="account-card account-stat">
               <span className="account-stat-icon" aria-hidden="true">
@@ -92,7 +155,7 @@ export default async function AccountPage() {
               <span className="account-stat-icon" aria-hidden="true">
                 ♡
               </span>
-              <strong>{assessments.length}</strong>
+              <strong>{assessmentCount}</strong>
               <span>Health assessments</span>
             </div>
           </div>
@@ -113,9 +176,8 @@ export default async function AccountPage() {
               <span aria-hidden="true">›</span>
             </Link>
           </nav>
-          </div>
         </div>
-      </section>
-    </SiteShell>
+      </div>
+    </section>
   );
 }

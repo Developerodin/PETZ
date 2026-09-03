@@ -514,6 +514,36 @@ h6 {
   .header-collapse .button {
     width: 100%;
   }
+
+  .header-collapse .header-auth-signin,
+  .header-collapse .header-auth-account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px 24px;
+    border-radius: var(--radius-full);
+    background: var(--color-100);
+    color: var(--color-400);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .header-collapse .header-auth-signin:hover,
+  .header-collapse .header-auth-account:hover {
+    color: var(--color-400);
+  }
+
+  .header-collapse .header-auth-account .user-avatar {
+    display: none;
+  }
+
+  .header-collapse .header-auth-account-label {
+    display: inline;
+  }
 }
 
 .header-component .navbar {
@@ -1022,6 +1052,30 @@ h6 {
   color: var(--color-accent);
 }
 
+.header-auth-signin-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-100);
+  color: var(--color-400);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  flex: none;
+}
+
+.header-auth-signin-chip:hover {
+  color: var(--color-400);
+}
+
+.header-auth-account-label {
+  display: none;
+}
+
 .header-auth-placeholder {
   display: inline-block;
   width: 36px;
@@ -1037,7 +1091,6 @@ h6 {
     margin-left: auto;
   }
 
-  .header-end .header-auth-link,
   .header-end .header-auth-placeholder {
     display: none;
   }

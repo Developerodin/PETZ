@@ -3,7 +3,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { PetFormWizard } from "@/components/PetFormWizard";
-import { SiteShell } from "@/components/SiteShell";
 import { connectDb } from "@/lib/mongoose";
 import { serializePet } from "@/lib/pet-utils";
 import { Pet } from "@/models/Pet";
@@ -28,19 +27,17 @@ export default async function EditPetPage({ params }: { params: Promise<{ id: st
   const pet = serializePet(petDoc);
 
   return (
-    <SiteShell variant="inflow">
-      <section className="section pet-screen">
-        <div className="container">
-          <div className="account-wrap">
-            <Link className="account-back" href="/account">
-              ← Back to account
-            </Link>
-            <div className="pet-card">
-              <PetFormWizard mode="edit" petId={pet.id} initialPet={pet} cancelHref="/account" />
-            </div>
+    <section className="section pet-screen">
+      <div className="container">
+        <div className="account-wrap">
+          <Link className="account-back" href="/account">
+            ← Back to account
+          </Link>
+          <div className="pet-card">
+            <PetFormWizard mode="edit" petId={pet.id} initialPet={pet} cancelHref="/account" />
           </div>
         </div>
-      </section>
-    </SiteShell>
+      </div>
+    </section>
   );
 }

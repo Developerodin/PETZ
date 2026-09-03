@@ -535,6 +535,10 @@
   padding-block: 16px 24px;
 }
 
+.section.sc-screen:has(.sc-app) > .container {
+  padding-block: 12px 16px;
+}
+
 .sc-app {
   display: flex;
   flex-direction: column;
@@ -831,7 +835,8 @@
 }
 
 .sc-composer-wrap {
-  padding: 8px 24px 18px;
+  flex: none;
+  padding: 10px 24px max(16px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-subtle);
   background: var(--surface-raised);
 }
@@ -842,28 +847,44 @@
 
 .sc-composer {
   display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  padding: 6px 6px 6px 10px;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 6px 6px 6px 8px;
   border: 1px solid var(--color-600);
-  border-radius: 1.5rem;
+  border-radius: 1.75rem;
   background: var(--surface-sunken);
 }
 
-.sc-composer textarea {
+.sc-composer-input {
   flex: 1;
   min-width: 0;
-  min-height: 44px;
-  max-height: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.sc-composer textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 24px;
+  max-height: 120px;
   margin: 0;
-  padding: 10px 4px;
+  padding: 0;
   border: 0;
   background: transparent;
   resize: none;
+  overflow-y: auto;
   font: inherit;
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--color-100);
+  field-sizing: content;
+}
+
+.sc-composer textarea::placeholder {
+  color: var(--color-300);
+  opacity: 1;
 }
 
 .sc-composer textarea:focus {
@@ -873,8 +894,8 @@
 .sc-icon-btn,
 .sc-send {
   flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 0;
   display: grid;
   place-items: center;
@@ -904,9 +925,11 @@
 }
 
 .sc-composer-legal {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
+  padding-inline: 4px;
   text-align: center;
   font-size: 0.75rem;
+  line-height: 1.45;
   color: var(--color-300);
 }
 
@@ -925,29 +948,128 @@
   .sc-start-over {
     align-self: flex-start;
   }
+
+  .sc-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .sc-pills::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {
+  .section.sc-screen:has(.sc-app) > .container {
+    padding-block: 0;
+    padding-inline: 0;
+    max-width: none !important;
+  }
+
   .sc-app {
-    min-height: calc(100dvh - 7.5rem);
-    border-radius: var(--radius-regular);
+    min-height: calc(100dvh - 4.75rem);
+    height: calc(100dvh - 4.75rem);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .sc-toolbar,
-  .sc-thread,
-  .sc-composer-wrap {
-    padding-left: 16px;
-    padding-right: 16px;
+  .sc-toolbar {
+    padding: 12px 16px 10px;
+    gap: 12px;
   }
 
-  .sc-disclaimer,
+  .sc-toolbar-copy h1 {
+    font-size: 1.25rem;
+  }
+
+  .sc-toolbar-copy .eyebrow {
+    font-size: 0.6875rem;
+  }
+
+  .sc-change {
+    font-size: 0.75rem;
+  }
+
+  .sc-disclaimer {
+    margin: 8px 16px 0;
+    padding: 10px 12px;
+    font-size: 0.8125rem;
+  }
+
+  .sc-disclaimer-fine {
+    display: none;
+  }
+
   .sc-emergency-banner {
     margin-left: 16px;
     margin-right: 16px;
   }
 
+  .sc-thread {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .sc-msg {
+    max-width: 100%;
+  }
+
+  .sc-bubble {
+    padding: 12px 14px;
+    font-size: 0.9375rem;
+  }
+
+  .sc-composer-wrap {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    padding: 8px 12px max(12px, env(safe-area-inset-bottom));
+    box-shadow: 0 -8px 24px rgba(10, 10, 10, 0.06);
+  }
+
+  .sc-composer {
+    min-height: 48px;
+    padding: 4px 4px 4px 12px;
+    gap: 4px;
+  }
+
+  .sc-attach-btn {
+    display: none;
+  }
+
+  .sc-composer textarea {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .sc-icon-btn,
+  .sc-send {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sc-send svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sc-composer-legal {
+    margin-top: 8px;
+    font-size: 0.6875rem;
+  }
+
   .sc-pill {
-    white-space: normal;
+    flex: none;
+    white-space: nowrap;
+  }
+
+  body.sc-chat-active .page-wrapper > footer {
+    display: none;
   }
 }
 

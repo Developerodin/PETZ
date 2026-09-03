@@ -181,10 +181,10 @@ export function AssessResultsView({ signedIn }: { signedIn: boolean }) {
           <span className="button-label">Chat with AI assistant</span>
         </Link>
         {signedIn ? (
-          <Link className="button is-secondary" href="/account">
+          <a className="button is-secondary" href="/account">
             <span className="button-hover"></span>
             <span className="button-label">View pet profile</span>
-          </Link>
+          </a>
         ) : (
           <Link className="button is-secondary" href="/login?callbackUrl=/account">
             <span className="button-hover"></span>

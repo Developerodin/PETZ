@@ -4,7 +4,7 @@ import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import authConfig from "@/auth.config";
 import { findUserByEmail, verifyPassword } from "@/lib/auth-users";
-import clientPromise, { getMongoDbName } from "@/lib/mongodb-client";
+import { getClientPromise, getMongoDbName } from "@/lib/mongodb-client";
 
 class InvalidLoginError extends CredentialsSignin {
   code = "invalid_credentials";
@@ -16,7 +16,7 @@ class GoogleOnlyError extends CredentialsSignin {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  adapter: MongoDBAdapter(clientPromise, { databaseName: getMongoDbName() }),
+  adapter: MongoDBAdapter(getClientPromise, { databaseName: getMongoDbName() }),
   providers: [
     ...authConfig.providers,
     Credentials({

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { SiteShell } from "@/components/SiteShell";
 import { getFormUser } from "@/lib/form-user";
-import { connectDb } from "@/lib/mongoose";
+import { getSavedPets } from "@/lib/saved-pets";
 import { APPETITE, BEHAVIOUR, BODY_CONDITION_SCORES, ENERGY, EXERCISE, FOOD_TYPE, LIVING_ENVIRONMENT, MEAL_PATTERN, MUSCLE_TONE, SLEEP, WEIGHT_TREND } from "@/lib/pet-options";
-import { formatPetAge, serializePet } from "@/lib/pet-utils";
-import { Pet } from "@/models/Pet";
+import { formatPetAge } from "@/lib/pet-utils";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
@@ -12,21 +11,15 @@ export const metadata: Metadata = {
   description: "Complete a few simple questions about your pet and receive personalized health insights.",
 };
 
-async function getSavedPets() {
+async function getAssessSavedPets() {
   const session = await auth();
-  if (!session?.user?.id) return [];
-  try {
-    await connectDb();
-    const pets = await Pet.find({ userId: session.user.id }).sort({ updatedAt: -1 }).lean();
-    return pets.map((pet) => serializePet(pet));
-  } catch {
-    return [];
-  }
+  if (!session?.user) return [];
+  return getSavedPets();
 }
 
 export default async function AssessPage() {
   const user = await getFormUser();
-  const savedPets = user.signedIn ? await getSavedPets() : [];
+  const savedPets = user.signedIn ? await getAssessSavedPets() : [];
 
   return (
     <SiteShell variant="inflow">

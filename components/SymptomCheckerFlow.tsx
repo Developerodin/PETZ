@@ -72,56 +72,138 @@ function InlineText({ text }: { text: string }) {
   );
 }
 
-export function SymptomCheckerFlow({ signedIn }: { signedIn: boolean }) {
+export function SymptomCheckerFlow({
+  signedIn,
+  initialPets = [],
+  petsPreloaded = false,
+}: {
+  signedIn: boolean;
+  initialPets?: PetRecord[];
+  petsPreloaded?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
   const preselectedPetId = searchParams.get("petId");
   const startInChat = searchParams.get("chat") === "1";
   const threadRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const [step, setStep] = useState<Step>(() => (signedIn && startInChat ? "pick" : "emergency"));
-  const [pets, setPets] = useState<PetRecord[]>([]);
-  const [selectedPet, setSelectedPet] = useState<PetRecord | null>(null);
+  const preselectedPet =
+    preselectedPetId && initialPets.length > 0
+      ? initialPets.find((pet) => pet.id === preselectedPetId) ?? null
+      : null;
+  const chatGreeting = preselectedPet
+    ? `Hi — I'm PETZ's AI health assistant for ${preselectedPet.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`
+    : undefined;
+
+  const [step, setStep] = useState<Step>(() => {
+    if (signedIn && startInChat && preselectedPet) return "chat";
+    if (signedIn && startInChat) return "pick";
+    return "emergency";
+  });
+  const [pets, setPets] = useState<PetRecord[]>(initialPets);
+  const [selectedPet, setSelectedPet] = useState<PetRecord | null>(() =>
+    signedIn && startInChat && preselectedPet ? preselectedPet : null,
+  );
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() =>
+    signedIn && startInChat && preselectedPet && chatGreeting
+      ? [{ role: "assistant", content: chatGreeting }]
+      : [],
+  );
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [loadingPets, setLoadingPets] = useState(false);
   const [emergencyNotice, setEmergencyNotice] = useState(false);
+  const petsLoadedRef = useRef(petsPreloaded || initialPets.length > 0);
+  const preselectHandledRef = useRef(Boolean(signedIn && startInChat && preselectedPet));
 
   useEffect(() => {
-    if (!signedIn || step !== "pick") return;
+    if (!signedIn || petsLoadedRef.current) return;
+
+    let cancelled = false;
     setLoadingPets(true);
+
+    const timeoutId = window.setTimeout(() => {
+      if (cancelled) return;
+      setLoadingPets(false);
+      setError("Saved pets are taking longer than usual. You can add a pet manually below.");
+    }, 12000);
+
     fetch("/api/pets")
       .then((res) => res.json())
       .then((data: { pets?: PetRecord[] }) => {
-        const list = data.pets ?? [];
-        setPets(list);
-        if (preselectedPetId) {
-          const match = list.find((pet) => pet.id === preselectedPetId);
-          if (match) {
-            if (startInChat) {
-              startChat(
-                match,
-                `Hi — I'm PETZ's AI health assistant for ${match.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`,
-              );
-            } else {
-              setSelectedPet(match);
-              setStep("profile");
-            }
-          }
+        if (cancelled) return;
+        setPets(data.pets ?? []);
+        petsLoadedRef.current = true;
+        setError("");
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setError("Could not load your saved pets. You can add a pet manually below.");
         }
       })
-      .finally(() => setLoadingPets(false));
-  }, [signedIn, step, preselectedPetId, startInChat]);
+      .finally(() => {
+        if (!cancelled) {
+          window.clearTimeout(timeoutId);
+          setLoadingPets(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [signedIn]);
+
+  useEffect(() => {
+    if (!preselectedPetId || preselectHandledRef.current || pets.length === 0) return;
+
+    const match = pets.find((pet) => pet.id === preselectedPetId);
+    if (!match) return;
+
+    preselectHandledRef.current = true;
+
+    if (startInChat) {
+      setSelectedPet(match);
+      setEmergencyNotice(false);
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            chatGreeting ||
+            `Hi — I'm PETZ's AI health assistant for ${match.name}. Ask about their health profile, routines, or anything you've noticed.\n\nI don't diagnose or replace a veterinarian. If this is an emergency, go to the nearest open clinic now.`,
+        },
+      ]);
+      setStep("chat");
+      return;
+    }
+
+    setSelectedPet(match);
+    setStep("profile");
+  }, [pets, preselectedPetId, startInChat, chatGreeting]);
 
   useEffect(() => {
     const node = threadRef.current;
     if (!node) return;
     node.scrollTop = node.scrollHeight;
   }, [messages, busy, step]);
+
+  useEffect(() => {
+    const field = inputRef.current;
+    if (!field || step !== "chat") return;
+    field.style.height = "auto";
+    const nextHeight = Math.min(field.scrollHeight, 120);
+    field.style.height = `${Math.max(nextHeight, 24)}px`;
+  }, [input, step]);
+
+  useEffect(() => {
+    if (step !== "chat") return;
+    document.body.classList.add("sc-chat-active");
+    return () => document.body.classList.remove("sc-chat-active");
+  }, [step]);
 
   function continueFromEmergency() {
     if (!signedIn) {
@@ -228,39 +310,52 @@ export function SymptomCheckerFlow({ signedIn }: { signedIn: boolean }) {
           <h1 className="display-6">Which pet is this for?</h1>
           <p className="pet-lede">Select a saved pet to pre-fill their details, or add a new one.</p>
 
-          {loadingPets ? <p className="field-hint">Loading your pets…</p> : null}
+          {loadingPets ? (
+            <div className="pet-select-loading-inline" role="status" aria-live="polite">
+              <span className="pet-select-spinner" aria-hidden="true" />
+              <span>Loading your saved pets…</span>
+            </div>
+          ) : null}
+
+          {error ? <p className="auth-error">{error}</p> : null}
 
           <ul className="pet-select-list">
-            {pets.map((pet) => (
-              <li key={pet.id}>
-                <button
-                  type="button"
-                  className="pet-select-card"
-                  onClick={() => {
-                    setSelectedPet(pet);
-                    setStep("profile");
-                  }}
-                >
-                  <span className="pet-select-glyph" aria-hidden="true">
-                    {pet.species === "dog" ? "🐕" : "🐈"}
-                  </span>
-                  <span>
-                    <strong>{pet.name}</strong>
-                    <span>
-                      {pet.species === "dog" ? "Dog" : "Cat"}
-                      {formatPetAge(pet) ? ` · ${formatPetAge(pet)}` : ""}
-                    </span>
-                  </span>
-                  <span className="pet-select-action">Select →</span>
-                </button>
-              </li>
-            ))}
+            {loadingPets && pets.length === 0
+              ? [0, 1].map((index) => (
+                  <li key={`skeleton-${index}`} aria-hidden="true">
+                    <div className="pet-select-skeleton" />
+                  </li>
+                ))
+              : pets.map((pet) => (
+                  <li key={pet.id}>
+                    <button
+                      type="button"
+                      className="pet-select-card"
+                      onClick={() => {
+                        setSelectedPet(pet);
+                        setStep("profile");
+                      }}
+                    >
+                      <span className="pet-select-glyph" aria-hidden="true">
+                        {pet.species === "dog" ? "🐕" : "🐈"}
+                      </span>
+                      <span className="pet-select-copy">
+                        <strong>{pet.name}</strong>
+                        <span>
+                          {pet.species === "dog" ? "Dog" : "Cat"}
+                          {formatPetAge(pet) ? ` · ${formatPetAge(pet)}` : ""}
+                        </span>
+                      </span>
+                      <span className="pet-select-action">Select →</span>
+                    </button>
+                  </li>
+                ))}
             <li>
               <button type="button" className="pet-select-new" onClick={() => setStep("basics")}>
                 <span className="pet-select-glyph" aria-hidden="true">
                   +
                 </span>
-                <span>
+                <span className="pet-select-copy">
                   <strong>Different pet</strong>
                   <span>Enter details manually</span>
                 </span>
@@ -407,7 +502,7 @@ export function SymptomCheckerFlow({ signedIn }: { signedIn: boolean }) {
           <form className="sc-composer" onSubmit={sendMessage}>
             <button
               type="button"
-              className="sc-icon-btn"
+              className="sc-icon-btn sc-attach-btn"
               disabled
               title="Photo attach coming soon"
               aria-label="Attach a photo (coming soon)"
@@ -417,23 +512,27 @@ export function SymptomCheckerFlow({ signedIn }: { signedIn: boolean }) {
                 <circle cx="12" cy="12.2" r="3.2" stroke="currentColor" strokeWidth="1.6" />
               </svg>
             </button>
-            <label className="visually-hidden" htmlFor="symptomInput">
-              Message
-            </label>
-            <textarea
-              id="symptomInput"
-              rows={1}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  void sendMessage();
-                }
-              }}
-              placeholder={`Describe ${petName}'s symptoms...`}
-              required
-            />
+            <div className="sc-composer-input">
+              <label className="visually-hidden" htmlFor="symptomInput">
+                Message about {petName}
+              </label>
+              <textarea
+                ref={inputRef}
+                id="symptomInput"
+                rows={1}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    void sendMessage();
+                  }
+                }}
+                placeholder={`Ask about ${petName}…`}
+                aria-label={`Message about ${petName}`}
+                required
+              />
+            </div>
             <button type="submit" className="sc-send" disabled={busy || !input.trim()} aria-label={busy ? "Sending" : "Send"}>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
                 <path d="M3.4 11.2 20.2 3.6c.8-.4 1.6.4 1.2 1.2l-7.6 16.8c-.4.9-1.7.8-2-.2l-2.2-7.3-7.3-2.2c-1-.3-1.1-1.6-.2-2Z" />

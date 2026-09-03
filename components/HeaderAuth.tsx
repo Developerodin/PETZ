@@ -15,13 +15,24 @@ export function HeaderAuth({ compact = false }: { compact?: boolean }) {
   if (session?.user) {
     const label = session.user.name ? `${session.user.name}'s account` : "My account";
     return (
-      <Link className="header-auth-link" href="/account" aria-label={label}>
+      <a
+        className={compact ? "header-auth-link" : "header-auth-link header-auth-account"}
+        href="/account"
+        aria-label={label}
+      >
         <UserAvatar name={session.user.name} email={session.user.email} image={session.user.image} size={36} />
-      </Link>
+        {compact ? null : <span className="header-auth-account-label">Account</span>}
+      </a>
     );
   }
 
-  if (compact) return null;
+  if (compact) {
+    return (
+      <a className="header-auth-signin-chip" href="/login">
+        Sign in
+      </a>
+    );
+  }
 
   return (
     <Link className="header-auth-signin" href="/login">

@@ -34,9 +34,34 @@ export function getMongoDbName() {
 
 function createClientPromise() {
   const client = new MongoClient(getMongoUri(), mongoClientOptions);
-  return client.connect();
+  const promise = client.connect();
+  promise.catch(() => {
+    if (global._mongoClientPromise === promise) {
+      global._mongoClientPromise = undefined;
+    }
+  });
+  return promise;
 }
 
-const clientPromise = global._mongoClientPromise ?? (global._mongoClientPromise = createClientPromise());
+export function getClientPromise() {
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = createClientPromise();
+  }
+  return global._mongoClientPromise;
+}
+
+/** Always resolve a live connect — never reuse a rejected promise from a failed cold start. */
+const clientPromise: Promise<MongoClient> = {
+  then(onfulfilled, onrejected) {
+    return getClientPromise().then(onfulfilled, onrejected);
+  },
+  catch(onrejected) {
+    return getClientPromise().catch(onrejected);
+  },
+  finally(onfinally) {
+    return getClientPromise().finally(onfinally);
+  },
+  [Symbol.toStringTag]: "Promise",
+};
 
 export default clientPromise;
