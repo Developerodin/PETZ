@@ -1,0 +1,172 @@
+/* PETZ design tokens — Longevity template language */
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
+
+:root {
+  --color-100: #0a0a0a;
+  --color-200: #272727;
+  --color-300: #6e6d6d;
+  --color-400: #ffffff;
+  --color-500: #f8f7f7;
+  --color-600: #eeeeee;
+  --color-700: #faf6f3;
+  --color-accent: #ff8139;
+
+  --page-glow: #ffffff;
+  --page-cream: #fffdfb;
+  --page-peach: #ffd7b5;
+  --page-orange: #ff8456;
+
+  --font: "Figtree", system-ui, sans-serif;
+
+  --display-10: 4.5rem;
+  --display-9: 3.75rem;
+  --display-8: 3rem;
+  --display-7: 2.5rem;
+  --display-6: 1.875rem;
+  --display-5: 1.5rem;
+  --display-4: 1.25rem;
+  --display-3: 1.125rem;
+  --display-2: 1rem;
+  --display-1: 0.875rem;
+
+  --radius-large: 2.5rem;
+  --radius-medium: 2rem;
+  --radius-regular: 1.5rem;
+  --radius-small: 0.5rem;
+  --radius-full: 9999px;
+
+  --container-regular: 79.5rem;
+  --section-card-max: 87.5rem;
+
+  --spacing-tiny: 4px;
+  --spacing-xsmall: 8px;
+  --spacing-small: 12px;
+  --spacing-default: 16px;
+  --spacing-content: 20px;
+  --spacing-regular: 24px;
+  --spacing-medium: 32px;
+  --spacing-large: 40px;
+  --spacing-xlarge: 48px;
+  --spacing-2xlarge: 56px;
+  --spacing-3xlarge: 64px;
+
+  --section-pad-small: 72px;
+  --section-pad-regular: 80px;
+  --section-pad-medium: 100px;
+  --section-pad-large: 120px;
+  --section-pad-xlarge: 140px;
+
+  --frame-pad-x: 20px;
+  --header-pad-y: 24px;
+  --hero-top-pd: 98px;
+  --shadow-card: 0 2px 8px rgba(10, 10, 10, 0.06), 0 8px 24px rgba(10, 10, 10, 0.06);
+  --shadow-card-hover: 0 4px 16px rgba(10, 10, 10, 0.08), 0 16px 40px rgba(10, 10, 10, 0.1);
+  --border-subtle: rgba(10, 10, 10, 0.08);
+  --surface-raised: #ffffff;
+  --surface-sunken: #f3f1ef;
+  --surface-page: #faf6f3;
+}
+
+@media (max-width: 991px) {
+  :root {
+    --display-10: 3.5rem;
+    --display-9: 3rem;
+    --display-8: 2.5rem;
+    --display-7: 2.25rem;
+    --display-6: 1.75rem;
+    --display-5: 1.5rem;
+    --display-4: 1.25rem;
+    --display-3: 1.125rem;
+    --display-2: 1rem;
+    --display-1: 0.875rem;
+
+    --radius-large: 2rem;
+    --radius-medium: 1.5rem;
+
+    --container-regular: 61.875rem;
+
+    --spacing-medium: 26px;
+    --spacing-large: 32px;
+    --spacing-xlarge: 40px;
+    --spacing-2xlarge: 44px;
+    --spacing-3xlarge: 48px;
+
+    --section-pad-small: 56px;
+    --section-pad-regular: 60px;
+    --section-pad-medium: 72px;
+    --section-pad-large: 88px;
+    --section-pad-xlarge: 88px;
+
+    --frame-pad-x: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --display-10: 3rem;
+    --display-9: 2.5rem;
+    --display-8: 2.25rem;
+    --display-7: 2rem;
+    --display-6: 1.625rem;
+    --display-5: 1.375rem;
+    --display-4: 1.25rem;
+    --display-3: 1rem;
+    --display-2: 0.875rem;
+    --display-1: 0.75rem;
+
+    --spacing-small: 10px;
+    --spacing-default: 14px;
+    --spacing-content: 16px;
+    --spacing-regular: 20px;
+    --spacing-medium: 24px;
+    --spacing-large: 26px;
+    --spacing-xlarge: 32px;
+    --spacing-2xlarge: 40px;
+    --spacing-3xlarge: 44px;
+
+    --section-pad-small: 48px;
+    --section-pad-regular: 56px;
+    --section-pad-medium: 64px;
+    --section-pad-large: 72px;
+    --section-pad-xlarge: 80px;
+
+    --frame-pad-x: 0px;
+    --header-pad-y: 16px;
+    --hero-top-pd: 80px;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --display-10: 2.25rem;
+    --display-9: 1.8rem;
+    --display-8: 1.6rem;
+    --display-7: 1.35rem;
+    --display-6: 1.3rem;
+    --display-5: 1.2rem;
+    --display-4: 1.125rem;
+
+    --radius-large: 1.25rem;
+    --radius-medium: 1rem;
+    --radius-regular: 1.5rem;
+
+    --container-regular: 29.875rem;
+
+    --spacing-xsmall: 6px;
+    --spacing-small: 8px;
+    --spacing-regular: 16px;
+    --spacing-medium: 20px;
+    --spacing-large: 24px;
+    --spacing-xlarge: 28px;
+    --spacing-2xlarge: 32px;
+    --spacing-3xlarge: 40px;
+
+    --section-pad-small: 40px;
+    --section-pad-regular: 48px;
+    --section-pad-medium: 56px;
+    --section-pad-large: 64px;
+    --section-pad-xlarge: 72px;
+
+    --hero-top-pd: 72px;
+  }
+}
