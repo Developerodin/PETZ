@@ -187,8 +187,12 @@ export function SymptomCheckerFlow({
 
   useEffect(() => {
     const node = threadRef.current;
-    if (!node) return;
-    node.scrollTop = node.scrollHeight;
+    if (!node || step !== "chat") return;
+
+    requestAnimationFrame(() => {
+      const overflow = node.scrollHeight - node.clientHeight;
+      node.scrollTop = overflow > 8 ? overflow : 0;
+    });
   }, [messages, busy, step]);
 
   useEffect(() => {
@@ -416,12 +420,14 @@ export function SymptomCheckerFlow({
       <div className="sc-app">
         <header className="sc-toolbar">
           <div className="sc-toolbar-copy">
-            <p className="eyebrow">PETZ</p>
-            <h1 className="display-5">Symptom Checker</h1>
-            <p className="sc-status">
-              <span className="sc-dot" aria-hidden="true" />
-              Checking {petName}
-            </p>
+            <p className="eyebrow sc-toolbar-eyebrow">PETZ</p>
+            <div className="sc-toolbar-titleblock">
+              <h1 className="display-5">Symptom Checker</h1>
+              <p className="sc-status">
+                <span className="sc-dot" aria-hidden="true" />
+                Checking {petName}
+              </p>
+            </div>
             <button type="button" className="sc-change" onClick={() => setStep("emergency")}>
               You said none of the emergency signs apply. <span>Change</span>
             </button>
