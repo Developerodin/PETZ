@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { mongoClientOptions } from "@/lib/mongodb-client";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -21,8 +20,12 @@ export async function connectDb() {
   }
 
   await mongoose.connect(uri, {
-    ...mongoClientOptions,
     bufferCommands: false,
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+    maxPoolSize: 5,
+    tls: true,
+    family: 4,
   });
 
   global._mongooseConn = mongoose;
