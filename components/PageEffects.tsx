@@ -780,7 +780,7 @@ function initPassportForm() {
   const prevButtons = [...form.querySelectorAll("[data-pp-prev]")];
   const onNext = () => {
     if (cur === 0) {
-      const fields = ["ppSpecies", "ppAge", "ppEmirate"].map((id) => document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null);
+      const fields = ["ppSpecies", "ppAge", "ppState"].map((id) => document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null);
       const rules = fields.map((f) => ({
         field: f,
         message: f ? validateRequired(f.value, f.getAttribute("data-label") || f.id) : "",

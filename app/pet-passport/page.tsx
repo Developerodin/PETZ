@@ -12,8 +12,8 @@ export default function PetPassportPage() {
       <section className="section">
             <div className="container">
               <div className="inner-container-center measure-wide reveal">
-                <h1 className="display-8">UAE Pet Passport planner</h1>
-                <p>Vaccination and registration schedule for dogs and cats in the UAE. WSAVA-aligned defaults — pending veterinary sign-off.</p>
+                <h1 className="display-8">India Pet Passport planner</h1>
+                <p>Vaccination and registration schedule for dogs and cats in India. WSAVA-aligned defaults — pending veterinary sign-off.</p>
               </div>
               <form id="passportForm" className="form-card reveal" noValidate>
                 <div className="wizard-stepper">
@@ -40,12 +40,17 @@ export default function PetPassportPage() {
                       <p className="field-error"></p>
                     </div>
                     <div className="form-field">
-                      <label htmlFor="ppEmirate">Emirate</label>
-                      <select id="ppEmirate" data-validate="required" data-label="Emirate" required>
+                      <label htmlFor="ppState">State</label>
+                      <select id="ppState" data-validate="required" data-label="State" required>
                         <option value="">Select</option>
-                        <option value="Dubai">Dubai</option>
-                        <option value="Abu Dhabi">Abu Dhabi</option>
-                        <option value="Other UAE">Other UAE</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Other India">Other India</option>
                       </select>
                       <p className="field-error"></p>
                     </div>
@@ -72,8 +77,8 @@ export default function PetPassportPage() {
                     <label htmlFor="ppTravel">Travel plans</label>
                     <select id="ppTravel">
                       <option value="None">No travel planned</option>
-                      <option value="Leaving UAE">Leaving UAE</option>
-                      <option value="Into UAE">Importing into UAE</option>
+                      <option value="Leaving India">Leaving India</option>
+                      <option value="Into India">Importing into India</option>
                     </select>
                   </div>
                   <div className="form-actions"><button type="button" className="button is-secondary" data-pp-prev>Back</button><button type="button" className="button is-primary" data-pp-next>Continue</button></div>

@@ -55,7 +55,7 @@ export default async function SupportPage() {
                   <div className="section-top-content-wrapper is-stack reveal">
                     <div>
                       <h2 className="display-8">Send us a message</h2>
-                      <p>Fill in the form and our team will reply within one business day. Hours: 9am–9pm GMT+4, Monday–Friday.</p>
+                      <p>Fill in the form and our team will reply within one business day. Hours: 9am–9pm IST, Monday–Friday.</p>
                     </div>
                   </div>
                   <form id="supportForm" className="contact-form-card reveal" noValidate>

@@ -23,7 +23,7 @@ export default function MarketplacePage() {
                 <article className="icon-top-card reveal"><h3 className="display-4">Diagnostics</h3><p>Test kits and lab panels matched to your pet's plan.</p></article>
                 <article className="icon-top-card reveal"><h3 className="display-4">Nutrition</h3><p>Supplements and food brands vetted for evidence.</p></article>
                 <article className="icon-top-card reveal"><h3 className="display-4">Insurance</h3><p>Coverage options for preventive and clinical care.</p></article>
-                <article className="icon-top-card reveal"><h3 className="display-4">Relocation</h3><p>Travel and import support for UAE pet parents.</p></article>
+                <article className="icon-top-card reveal"><h3 className="display-4">Relocation</h3><p>Travel and import support for Indian pet parents.</p></article>
                 <article className="icon-top-card reveal"><h3 className="display-4">Specialist care</h3><p>Cardiology, oncology, hydrotherapy, physiotherapy.</p></article>
               </div>
             </div>

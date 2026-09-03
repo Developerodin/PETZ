@@ -18,7 +18,7 @@ export default function TermsPage() {
                 <h2>Not veterinary advice</h2>
                 <p>PETZ does not provide veterinary medical advice, diagnosis, prescriptions, or treatment. Digital tools are not a substitute for examination by a licensed veterinarian.</p>
                 <h2>Subscriptions</h2>
-                <p>Digital memberships auto-renew until cancelled. Refund policies follow applicable consumer law in your region.</p>
+                <p>Digital memberships auto-renew until cancelled. Refund policies follow applicable consumer law in India.</p>
                 <h2>Marketplace</h2>
                 <p>PETZ facilitates bookings and payments with independent providers via payment processors. PETZ is not the seller of third-party goods or clinical services.</p>
                 <h2>Emergencies</h2>

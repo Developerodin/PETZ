@@ -71,7 +71,6 @@ function FeatureList({ items }: { items: string[] }) {
 
 export function PlansView() {
   const [period, setPeriod] = useState<"monthly" | "annual">("monthly");
-  const [tier, setTier] = useState<"junior" | "senior">("junior");
   const isAnnual = period === "annual";
 
   return (
@@ -93,7 +92,7 @@ export function PlansView() {
 
       <section className="section">
         <div className="container">
-          <h2 className="display-8 reveal">Door 01 — PETZ Digital (worldwide)</h2>
+          <h2 className="display-8 reveal">PETZ Digital plans</h2>
 
           <aside className="pricing-save reveal">
             <p className="eyebrow">Save more with annual membership</p>
@@ -141,7 +140,7 @@ export function PlansView() {
                 annual plan within 60 days.
               </p>
               <div className="button-row" style={{ marginTop: "24px" }}>
-                <a className="button is-secondary" href="/support">
+                <a className="button is-primary" href="/support">
                   <span className="button-hover"></span>
                   <span className="button-label">Contact Us</span>
                 </a>
@@ -181,60 +180,6 @@ export function PlansView() {
         </div>
       </section>
 
-      <section className="section section-band band-cream">
-        <div className="container">
-          <h2 className="display-8 reveal">Door 02 — Care Programs (UAE only)</h2>
-          <p className="reveal" style={{ maxWidth: "40rem", marginTop: "12px" }}>
-            In-clinic diagnostics coordinated by PETZ. Available from September 2026. Indicative launch pricing in INR
-            — partner lab rates may vary.
-          </p>
-          <div className="pricing-toggle reveal" role="tablist" aria-label="Pet age tier">
-            <button
-              type="button"
-              className={tier === "junior" ? "is-active" : undefined}
-              aria-pressed={tier === "junior"}
-              onClick={() => setTier("junior")}
-            >
-              Junior
-            </button>
-            <button
-              type="button"
-              className={tier === "senior" ? "is-active" : undefined}
-              aria-pressed={tier === "senior"}
-              onClick={() => setTier("senior")}
-            >
-              Senior 7+
-            </button>
-          </div>
-          <div className="pricing-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-            <article className="pricing-card reveal">
-              <LaunchLabel />
-              <h3 className="display-5">Essential</h3>
-              <p className="price">from ₹48,500/year</p>
-              <ul className="pricing-features">
-                <li>PETZ Digital + Longevity+ software</li>
-                <li>Essential panel — 40+ parameters</li>
-                <li>Municipality registration handled</li>
-                <li>1 coach session per year</li>
-                <li>One full diagnostic work-up per year</li>
-              </ul>
-            </article>
-            <article className="pricing-card is-featured reveal">
-              <LaunchLabel />
-              <h3 className="display-5">Complete</h3>
-              <p className="price">from ₹82,500/year</p>
-              <ul className="pricing-features">
-                <li>Everything in Essential</li>
-                <li>Complete panel — 60+ parameters</li>
-                <li>Heart, liver, thyroid, inflammation markers</li>
-                <li>Coach walkthrough of every result</li>
-                {tier === "senior" ? <li>Senior: 2 coach sessions + 6-month recheck</li> : null}
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section className="section">
         <div className="container">
           <h2 className="display-8 reveal">Add-ons (member pricing)</h2>
@@ -269,8 +214,7 @@ export function PlansView() {
             </tbody>
           </table>
           <p className="price-disclaimer reveal">
-            Exclusive launch plans. All prices in INR. Digital memberships are worldwide; Care Programs are UAE-only
-            from September 2026 (INR shown for comparison). Pricing is illustrative and may change.
+            Exclusive launch plans in India. All prices in INR. Pricing is illustrative and may change.
           </p>
           <div className="button-row reveal" style={{ marginTop: "24px" }}>
             <a className="text-link" href="/gift-cards">

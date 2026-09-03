@@ -18,17 +18,17 @@ export default function GiftCardsPage() {
               <div className="pricing-grid stagger-group" style={{marginTop: "40px"}}>
                 <article className="pricing-card reveal-scale">
                   <h3 className="display-5">Starter Kit</h3>
-                  <p className="price">$89</p>
+                  <p className="price">₹7,499</p>
                   <p>One Starter Kit for a dog or cat.</p>
                 </article>
                 <article className="pricing-card is-featured reveal-scale">
                   <h3 className="display-5">Pro Kit</h3>
-                  <p className="price">$149</p>
+                  <p className="price">₹12,499</p>
                   <p>One Pro Kit including vet-reviewed report.</p>
                 </article>
                 <article className="pricing-card reveal-scale">
                   <h3 className="display-5">Custom</h3>
-                  <p className="price">$200</p>
+                  <p className="price">₹16,999</p>
                   <p>Kits, subscriptions, or partner services.</p>
                 </article>
               </div>
