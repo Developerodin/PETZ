@@ -33,7 +33,7 @@ export default function HowItWorksPage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">01</div>
-                            <h3 className="display-4">Tell us about your pet.</h3>
+                            <h3 className="display-4">Tell us about your pet</h3>
                             <p>Age. Breed. Weight. Diet. Activity. Medical history. Behaviour. Lifestyle. And the things you've noticed.</p>
                             <p className="mt-3 text-dark" style={{fontWeight: 500}}>Takes only a few minutes.</p>
                           </div>
@@ -46,7 +46,7 @@ export default function HowItWorksPage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">02</div>
-                            <h3 className="display-4">PETZ connects the dots.</h3>
+                            <h3 className="display-4">PETZ connects the dots</h3>
                             <p>Our AI analyzes the information you've provided against evidence-informed health patterns, preventive guidelines and factors relevant to your pet's individual profile.</p>
                           </div>
                           <figure className="image-wrapper">
@@ -58,7 +58,7 @@ export default function HowItWorksPage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">03</div>
-                            <h3 className="display-4">Understand what matters.</h3>
+                            <h3 className="display-4">Understand what matters</h3>
                             <p>Your assessment highlights the areas that appear healthy, areas worth improving and potential concerns that may deserve professional attention.</p>
                           </div>
                           <figure className="image-wrapper">

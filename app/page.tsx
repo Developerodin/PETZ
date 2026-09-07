@@ -18,7 +18,7 @@ export default async function HomePage() {
                 <div className="container">
                   <div className="inner-container-center measure-center hero-copy">
                     <p className="eyebrow">Better health starts before symptoms.</p>
-                    <h1 className="display-9">Know your pet's health before the symptoms.</h1>
+                    <h1 className="display-9">Know earlier. Live healthier.</h1>
                     <p>PETZ uses AI and veterinary-informed health science to understand your pet's current health, identify potential risk areas, and create a personalized plan for a healthier, longer life.</p>
                     <div className="button-row is-center-aligned">
                       <a className="button is-primary" href="/assess"><span className="button-hover"></span><span className="button-label">Assess My Pet</span></a>
@@ -80,12 +80,11 @@ export default async function HomePage() {
               <div className="grid-3 layout-two-images">
                 <div className="inner-container copy-col">
                   <p className="eyebrow">Pet health, defined by data</p>
-                  <h2 className="display-8">Your pet is more than a symptom.</h2>
+                  <h2 className="display-8">Your pet, defined by more.</h2>
                   <div className="paragraph-grid">
-                    <p>Most pet health decisions begin when something feels wrong.</p>
-                    <p>PETZ takes a different approach.</p>
-                    <p>We look at the bigger picture — your pet's age, breed, weight, nutrition, activity, behaviour, medical history and everyday lifestyle — and bring those signals together to understand where your pet stands today and where their health may need more attention.</p>
-                    <p>The result is a personalized health picture built around your pet, not a generic checklist.</p>
+                    <p>Most pet health decisions begin when something feels wrong. PETZ takes a different approach.</p>
+                    <p>We bring together your pet's age, breed, weight, nutrition, activity, behaviour and medical history to create a clearer picture of their health.</p>
+                    <p>The result is a personalized view of your pet — not a generic checklist.</p>
                   </div>
                   <a className="text-link" href="/how-it-works">See How It Works
                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -119,8 +118,7 @@ export default async function HomePage() {
                           <div className="steps_card">
                             <div className="step-num display-10">01</div>
                             <h3 className="display-4">Tell us about your pet</h3>
-                            <p>Share the basics — age, breed, weight, diet, activity, lifestyle, medical history and anything you've noticed recently.</p>
-                            <p className="mt-3 text-dark" style={{fontWeight: 500}}>Simple questions. No complicated forms.</p>
+                            <p>Share the basics — age, breed, weight, diet, activity, lifestyle and medical history.</p>
                           </div>
                           <figure className="image-wrapper">
                             <img src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width="1200" height="800" decoding="async" loading="lazy" />
@@ -131,9 +129,8 @@ export default async function HomePage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">02</div>
-                            <h3 className="display-4">PETZ analyzes the picture</h3>
-                            <p>Our AI brings your pet's information together and compares it against evidence-informed health patterns and risk factors relevant to their profile.</p>
-                            <p className="mt-3 text-dark" style={{fontWeight: 500}}>Your pet's data. One connected picture.</p>
+                            <h3 className="display-4">PETZ connects the dots</h3>
+                            <p>PETZ analyzes your information against health patterns and risk factors relevant to your pet.</p>
                           </div>
                           <figure className="image-wrapper">
                             <img src="/assets/images/labrador.jpg" alt="Labrador close-up" width="1200" height="800" decoding="async" loading="lazy" />
@@ -144,9 +141,8 @@ export default async function HomePage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">03</div>
-                            <h3 className="display-4">Get your personalized health insights</h3>
-                            <p>PETZ highlights the areas that may deserve attention and gives you practical recommendations tailored to your pet.</p>
-                            <p className="mt-3 text-dark" style={{fontWeight: 500}}>Know what matters. Know what to do next.</p>
+                            <h3 className="display-4">Understand what matters</h3>
+                            <p>PETZ highlights healthy areas, potential concerns and where your pet may need attention.</p>
                           </div>
                           <figure className="image-wrapper">
                             <img src="/assets/images/orange-cat.jpg" alt="Orange cat" width="1200" height="1680" decoding="async" loading="lazy" />
@@ -157,9 +153,8 @@ export default async function HomePage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">04</div>
-                            <h3 className="display-4">Keep improving over time</h3>
-                            <p>Health isn't a one-time report. As your pet changes — or as you add new information — PETZ can help you understand what is changing and what deserves attention next.</p>
-                            <p className="mt-3 text-dark" style={{fontWeight: 500}}>Track progress. Build better habits.</p>
+                            <h3 className="display-4">Track over time</h3>
+                            <p>Keep your pet's health profile updated as things change and new information becomes available.</p>
                           </div>
                           <figure className="image-wrapper">
                             <img src="/assets/images/husky.jpg" alt="Husky outdoors" width="1200" height="1600" decoding="async" loading="lazy" />
@@ -186,7 +181,7 @@ export default async function HomePage() {
               <div className="section-top-content-wrapper">
                 <div style={{maxWidth: "40rem"}}>
                   <h2 className="display-8">A complete picture starts with the basics.</h2>
-                  <p>You don't need a laboratory test to start paying closer attention to your pet's health. PETZ begins with the information you already know — then turns it into meaningful health insights.</p>
+                  <p>You don't need laboratory tests to start understanding your pet's health. PETZ begins with what you already know and turns it into meaningful insights.</p>
                 </div>
                 <a className="button is-primary" href="/assess"><span className="button-hover"></span><span className="button-label">Assess My Pet</span></a>
               </div>
@@ -195,22 +190,22 @@ export default async function HomePage() {
                   <div className="image-wrapper is-border-radius-medium">
                     <img src="/assets/images/fluffy-white-dog.jpg" alt="Dog waiting near a bowl" width="1200" height="802" decoding="async" loading="lazy" />
                   </div>
-                  <h3 className="display-4">Nutrition &amp; Body Health</h3>
-                  <p>Understand whether your pet's diet, weight and feeding habits are supporting long-term health.</p>
+                  <h3 className="display-4">Nutrition &amp; Body</h3>
+                  <p>Understand how diet, weight and feeding habits support long-term health.</p>
                 </article>
                 <article className="feature-tile reveal">
                   <div className="image-wrapper is-border-radius-medium">
                     <img src="/assets/images/dog-running.jpg" alt="Dog on a walk" width="1200" height="800" decoding="async" loading="lazy" />
                   </div>
                   <h3 className="display-4">Activity &amp; Lifestyle</h3>
-                  <p>Look at movement, exercise, routines and everyday habits that can influence health and wellbeing.</p>
+                  <p>Understand how movement, exercise and daily routines influence health and wellbeing.</p>
                 </article>
                 <article className="feature-tile reveal">
                   <div className="image-wrapper is-border-radius-medium">
                     <img src="/assets/images/tabby-cat.jpg" alt="Cat at rest" width="1200" height="1200" decoding="async" loading="lazy" />
                   </div>
-                  <h3 className="display-4">Medical History &amp; Health Signals</h3>
-                  <p>Bring together previous conditions, medications, symptoms and other important health information.</p>
+                  <h3 className="display-4">Health History</h3>
+                  <p>Bring together past conditions, medications, symptoms and other important health information.</p>
                 </article>
               </div>
               <p className="future-line">And this is only the beginning. As PETZ evolves, additional layers of health data — including advanced diagnostics and biomarkers — can be incorporated into your pet's health profile.</p>
@@ -223,8 +218,8 @@ export default async function HomePage() {
                 <div>
                   <p className="eyebrow">Health signals</p>
                   <h2 className="display-8">Small changes can tell a bigger story.</h2>
-                  <p>Your pet can't tell you when something feels different. Changes in appetite, weight, energy, activity, behaviour or routine can sometimes be easy to overlook.</p>
-                  <p>PETZ helps you organize these everyday signals and understand what they may mean in the bigger picture of your pet's health.</p>
+                  <p>Your pet can't tell you when something feels different. Changes in appetite, weight, energy, behaviour or routine can be easy to overlook.</p>
+                  <p>PETZ helps you organize these everyday signals and understand what they may mean for your pet's health.</p>
                 </div>
               </div>
               <div className="signals-grid stagger-group">
@@ -265,7 +260,7 @@ export default async function HomePage() {
               <div className="section-card">
                 <div className="container">
                   <h2 className="display-8" style={{maxWidth: "36rem"}}>Better health isn't one-size-fits-all.</h2>
-                  <p style={{maxWidth: "40rem"}}>A puppy, a senior Labrador and an indoor Persian cat don't need the same health strategy. PETZ looks at your pet's individual profile to identify the areas that matter most.</p>
+                  <p style={{maxWidth: "40rem"}}>Every pet is different. PETZ looks at your pet's individual profile to identify the areas that matter most.</p>
                   <div className="grid-4 cards-layout stagger-group">
                     <div className="bento-image-col reveal-scale">
                       <img src="/assets/images/puppy-grass.jpg" alt="Puppy in a garden" width="1200" height="800" decoding="async" loading="lazy" />
@@ -312,7 +307,7 @@ export default async function HomePage() {
             <div className="container">
               <div className="inner-container-center measure-wide">
                 <h2 className="display-8">Your pet's health. At a glance.</h2>
-                <p>Stop trying to piece together your pet's health from scattered vet visits, food labels, notes and internet searches. PETZ brings the information together into one simple health profile — so you can see what's going well, what deserves attention and what you can do next.</p>
+                <p>PETZ brings your pet's health information together in one simple profile — showing what's going well, what needs attention and what to do next.</p>
               </div>
               <div className="dashboard-mock reveal">
                 <div className="dashboard-mock__top">
@@ -349,7 +344,7 @@ export default async function HomePage() {
                 <div className="container">
                   <div className="inner-container-center measure-wide">
                     <h2 className="display-8">Every pet has a different starting point.</h2>
-                    <p>Some pets are perfectly healthy and need a better preventive routine. Some have persistent issues that deserve closer attention. Others simply need their humans to notice the small things earlier. PETZ is built to meet each pet where they are.</p>
+                    <p>Every pet starts from a different place. Some need preventive support, some need closer attention, and others need a better plan for ageing. PETZ adapts to where your pet is today.</p>
                   </div>
                   <div id="journeysCarousel" className="carousel slide journeys-slider" data-bs-ride="false" data-bs-interval="false">
                     <div className="carousel-inner">
@@ -429,7 +424,7 @@ export default async function HomePage() {
                 <div className="container">
                   <div className="final-cta-card inner-container-center measure-wide">
                     <h2 className="display-8">Give your pet's health a head start.</h2>
-                    <p>You know your pet better than anyone. PETZ helps you turn what you know into a clearer picture of their health — and practical steps toward a healthier future.</p>
+                    <p>You know your pet better than anyone. PETZ turns what you know into a clearer picture of their health — and what to do next.</p>
                     <div className="button-row is-center-aligned">
                       <a className="button is-primary" href="/assess"><span className="button-hover"></span><span className="button-label">Assess My Pet</span></a>
                     </div>
