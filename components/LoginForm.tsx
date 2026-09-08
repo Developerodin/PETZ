@@ -90,7 +90,6 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         setLastUsed(true);
       }
     } catch {
-      /* ignore */
     }
   }, []);
 
