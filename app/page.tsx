@@ -18,13 +18,13 @@ export default async function HomePage() {
                 <div className="container">
                   <div className="inner-container-center measure-center hero-copy">
                     <p className="eyebrow">Better health starts before symptoms.</p>
-                    <h1 className="display-9">Know earlier. Live healthier.</h1>
+                    <h1 className="display-9">Your pet's health, decoded the simple way.</h1>
                     <p>PETZ uses AI and veterinary-informed health science to understand your pet's current health, identify potential risk areas, and create a personalized plan for a healthier, longer life.</p>
                     <div className="button-row is-center-aligned">
                       <a className="button is-primary" href="/assess"><span className="button-hover"></span><span className="button-label">Assess My Pet</span></a>
                       <a className="button is-secondary" href="/how-it-works"><span className="button-hover"></span><span className="button-label">How PETZ Works</span></a>
                     </div>
-                    <p className="reassurance">Personalized · Preventive · Data-driven</p>
+                    <p className="reassurance">Personalized · Preventive · Evidence-based</p>
                   </div>
                 </div>
                 <div className="hero-images-wrap">
@@ -208,7 +208,7 @@ export default async function HomePage() {
                   <p>Bring together past conditions, medications, symptoms and other important health information.</p>
                 </article>
               </div>
-              <p className="future-line">And this is only the beginning. As PETZ evolves, additional layers of health data — including advanced diagnostics and biomarkers — can be incorporated into your pet's health profile.</p>
+              
             </div>
           </section>
 

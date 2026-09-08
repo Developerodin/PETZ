@@ -82,7 +82,7 @@ h6 {
 .text-body { color: var(--color-300); }
 .text-white { color: var(--color-400); }
 .max-ch { max-width: 55ch; }
-.measure-center { max-width: 44.5rem; margin-inline: auto; }
+.measure-center { max-width: 42rem; margin-inline: auto; }
 .measure-wide { max-width: 48.75rem; margin-inline: auto; }
 
 .page-wrapper {
