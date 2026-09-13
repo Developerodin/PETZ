@@ -5,7 +5,7 @@ import { SiteShell } from "@/components/SiteShell";
 export const metadata: Metadata = {
   title: "Plans & Pricing — PETZ",
   description:
-    "Exclusive launch plans in India, priced in INR. PETZ Digital and Longevity+ monthly or annual.",
+    "Exclusive launch plans in India, priced in INR. Free and PETZ Care — monthly or annual.",
 };
 
 export default function PlansPage() {

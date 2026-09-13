@@ -30,8 +30,29 @@ export default async function HomePage() {
                 <div className="hero-images-wrap">
                   <div className="hero-images-grid">
                     <div className="cell cell-l1 reveal"><img src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width="1200" height="800" decoding="async" /></div>
+                    <div className="cell cell-lt">
+                      <div className="metric-card">
+                        <div className="metric-label">Sleep</div>
+                        <div className="metric-value">Rest</div>
+                        <div className="metric-bar"><span style={{width: "72%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-l2 reveal"><img src="/assets/images/husky.jpg" alt="Husky outdoors" width="1200" height="1600" decoding="async" /></div>
+                    <div className="cell cell-lb">
+                      <div className="metric-card">
+                        <div className="metric-label">Weight</div>
+                        <div className="metric-value">Monitor</div>
+                        <div className="metric-bar"><span style={{width: "48%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-a reveal"><img src="/assets/images/golden-retriever.jpg" alt="Golden retriever looking at the camera" width="1200" height="1924" decoding="async" loading="eager" fetchPriority="high" /></div>
+                    <div className="cell cell-ab">
+                      <div className="metric-card">
+                        <div className="metric-label">Energy</div>
+                        <div className="metric-value">Good</div>
+                        <div className="metric-bar"><span style={{width: "86%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-b">
                       <div className="metric-card">
                         <div className="metric-label">Nutrition</div>
@@ -40,6 +61,13 @@ export default async function HomePage() {
                       </div>
                     </div>
                     <div className="cell cell-c reveal"><img src="/assets/images/grey-cat.jpg" alt="Grey cat sitting upright" width="1200" height="826" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-cb">
+                      <div className="metric-card">
+                        <div className="metric-label">Mood</div>
+                        <div className="metric-value">Stable</div>
+                        <div className="metric-bar"><span style={{width: "70%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-d">
                       <div className="metric-card">
                         <div className="metric-label">Activity</div>
@@ -48,10 +76,31 @@ export default async function HomePage() {
                       </div>
                     </div>
                     <div className="cell cell-e reveal"><img src="/assets/images/dog-running.jpg" alt="Dog running outdoors" width="1200" height="800" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-eb">
+                      <div className="metric-card">
+                        <div className="metric-label">Body</div>
+                        <div className="metric-value">Fair</div>
+                        <div className="metric-bar"><span style={{width: "62%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-f reveal"><img src="/assets/images/fluffy-white-dog.jpg" alt="Fluffy white dog" width="1200" height="802" decoding="async" loading="eager" /></div>
                     <div className="cell cell-g reveal"><img src="/assets/images/tabby-cat.jpg" alt="Tabby cat portrait" width="1200" height="1200" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-rt">
+                      <div className="metric-card">
+                        <div className="metric-label">Behaviour</div>
+                        <div className="metric-value">Calm</div>
+                        <div className="metric-bar"><span style={{width: "81%"}}></span></div>
+                      </div>
+                    </div>
                     <div className="cell cell-r2 reveal"><img src="/assets/images/corgi.jpg" alt="Corgi portrait" width="1200" height="1811" decoding="async" /></div>
                     <div className="cell cell-r1 reveal"><img src="/assets/images/orange-cat.jpg" alt="Orange cat sitting" width="1200" height="1680" decoding="async" /></div>
+                    <div className="cell cell-rb">
+                      <div className="metric-card">
+                        <div className="metric-label">Appetite</div>
+                        <div className="metric-value">Good</div>
+                        <div className="metric-bar"><span style={{width: "75%"}}></span></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -8,29 +8,19 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const FULL_NAV = [
-  { href: "/", label: "Home" },
-  { href: "/how-it-works", label: "How It Works" },
   { href: "/plans", label: "Plans" },
   { href: "/science", label: "Science" },
   { href: "/partners", label: "Partners" },
-  { href: "/blog", label: "Blog" },
-  { href: "/faq", label: "FAQ" },
   { href: "/symptom-checker", label: ASSISTANT_NAME },
 ];
 
 const BLOG_NAV = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
   { href: "/assess", label: "Assess My Pet" },
 ];
 
-const PRIVACY_NAV = [
-  { href: "/", label: "Home" },
-  { href: "/faq", label: "FAQ" },
-];
+const PRIVACY_NAV: { href: string; label: string }[] = [];
 
 const TERMS_NAV = [
-  { href: "/", label: "Home" },
   { href: "/privacy", label: "Privacy" },
 ];
 

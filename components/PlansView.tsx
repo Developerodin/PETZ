@@ -3,57 +3,20 @@
 import { useState } from "react";
 import { ASSISTANT_NAME } from "@/lib/assistant";
 
-const DIGITAL_MONTHLY = [
-  `Unlimited ${ASSISTANT_NAME} + Symptom Checker`,
-  "Monthly Health Score & Health Report",
-  "Health reminders, tracking & digital records",
-  "Marketplace member pricing",
-  "Up to 2 pet profiles",
+const FREE_FEATURES = [
+  "2 Health Reports / year",
+  `${ASSISTANT_NAME} — AI Health Assistant`,
+  "Ask questions and understand your pet’s health better",
+  "Basic health insights based on your pet’s information",
 ];
 
-const DIGITAL_ANNUAL = [
-  `Unlimited ${ASSISTANT_NAME} + Symptom Checker`,
-  "Monthly Health Score & Health Report",
-  "Health reminders, tracking & digital records",
-  "Marketplace member pricing",
-  "Up to 2 pet profiles",
-  "Personalized 12-month Wellness Roadmap",
-  "Annual PETZ Health Review",
-  "Digital PETZ Health Passport",
-  "12-month Health Journey & progress tracking",
-  `Annual Health Summary from ${ASSISTANT_NAME}`,
-  "Priority Member Support",
-  "Exclusive annual-member offers & partner benefits",
-  "Early access to new PETZ features & programs",
-  "Founding Member pricing/benefits",
-];
-
-const LONGEVITY_MONTHLY = [
-  "Everything included in PETZ Digital",
-  "Initial PETZ Health Coach session",
-  "Annual Health Coach follow-up",
-  "Quarterly vet-reviewed Health Plan",
-  "Quarterly Health Reports",
-  "Bio-Age tracking & priority answers",
-  "10% off test kits",
-];
-
-const LONGEVITY_ANNUAL = [
-  "Everything included in PETZ Digital Annual",
-  "Initial PETZ Health Coach session",
-  "Mid-year Wellness Check-in",
-  "Annual Health Coach follow-up",
-  "Quarterly vet-reviewed Health Plan",
-  "Quarterly Health Reports",
-  "Personalized PETZ Longevity Profile",
-  "Bio-Age tracking & annual Bio-Age review",
-  "Priority Health Answers",
-  "Annual PETZ Longevity Dossier",
-  "Annual test-kit credit",
-  "10% off test kits",
-  "Priority access to new PETZ health programs",
-  "Exclusive Longevity+ member benefits",
-  "Founding Member pricing/benefits",
+const CARE_FEATURES = [
+  "Unlimited Health Reports",
+  `${ASSISTANT_NAME} — AI Health Assistant`,
+  "Live Veterinary Guidance — connect with a real veterinarian for personalised suggestions",
+  "Personalised Health Insights based on your pet’s evolving information",
+  "Health Tracking & History — keep your pet’s health information and reports organised in one place",
+  "Early Health Alerts & Recommendations — understand changes that may need attention",
 ];
 
 function LaunchLabel() {
@@ -81,9 +44,9 @@ export function PlansView() {
           <div className="section-card hero-top-pd">
             <div className="container">
               <div className="page-hero-inner">
-                <h1 className="display-9">Choose your depth of care.</h1>
+                <h1 className="display-9">PETZ — Launch Plans</h1>
                 <p>
-                  Start with a free digital assessment. Exclusive launch plans in INR — billed monthly or annually.
+                  Start free, or choose ongoing care. Exclusive launch plans in INR — billed monthly or annually.
                 </p>
               </div>
             </div>
@@ -93,19 +56,15 @@ export function PlansView() {
 
       <section className="section">
         <div className="container">
-          <h2 className="display-8 reveal">PETZ Digital plans</h2>
+          <h2 className="display-8 reveal">Choose your plan</h2>
 
           <aside className="pricing-save reveal">
             <p className="eyebrow">Save more with annual membership</p>
             <p className="pricing-save-title">Exclusive launch pricing</p>
-            <div className="pricing-save-row">
+            <div className="pricing-save-row pricing-save-row--single">
               <p>
-                PETZ Digital — <strong>₹4,999/year</strong>
+                PETZ Care — <strong>₹4,999/year</strong>
                 <span>Save ₹989 vs monthly</span>
-              </p>
-              <p>
-                PETZ Longevity+ — <strong>₹9,999/year</strong>
-                <span>Save ₹1,989 vs monthly</span>
               </p>
             </div>
           </aside>
@@ -129,51 +88,37 @@ export function PlansView() {
             </button>
           </div>
 
-          <div className="pricing-grid stagger-group">
+          <div className="pricing-grid pricing-grid--two stagger-group">
             <article className="pricing-card reveal-scale">
               <LaunchLabel />
-              <p className="eyebrow">One-time</p>
-              <h3 className="display-5">PETZ Health Coach</h3>
-              <p className="price">₹1,499</p>
-              <p className="price-note">One-time session</p>
-              <p>
-                Live online session + vet-reviewed Health Report (PDF) + 30-day app preview. Fully credited to an
-                annual plan within 60 days.
-              </p>
-              <div className="button-row" style={{ marginTop: "24px" }}>
-                <a className="button is-primary" href="/support">
-                  <span className="button-hover"></span>
-                  <span className="button-label">Contact Us</span>
-                </a>
-              </div>
-            </article>
-
-            <article className="pricing-card reveal-scale">
-              <LaunchLabel />
-              <p className="eyebrow">Membership</p>
-              <h3 className="display-5">PETZ Digital</h3>
-              <p className="price">{isAnnual ? "₹4,999/year" : "₹499/month"}</p>
-              <p className="price-note">{isAnnual ? "Billed annually" : "Cancel anytime"}</p>
-              <FeatureList items={isAnnual ? DIGITAL_ANNUAL : DIGITAL_MONTHLY} />
-              <div className="button-row" style={{ marginTop: "24px" }}>
+              <p className="eyebrow">Free</p>
+              <h3 className="display-5">Free</h3>
+              <p className="price">₹0</p>
+              <p className="price-note">No credit card required</p>
+              <p>For pet parents who want to start understanding their pet’s health.</p>
+              <FeatureList items={FREE_FEATURES} />
+              <div className="button-row">
                 <a className="button is-primary" href="/assess">
                   <span className="button-hover"></span>
-                  <span className="button-label">Start free assessment</span>
+                  <span className="button-label">Start for Free</span>
                 </a>
               </div>
             </article>
 
             <article className="pricing-card is-featured reveal-scale">
               <LaunchLabel />
-              <p className="eyebrow">Flagship</p>
-              <h3 className="display-5">PETZ Longevity+</h3>
-              <p className="price">{isAnnual ? "₹9,999/year" : "₹999/month"}</p>
-              <p className="price-note">{isAnnual ? "Billed annually" : "Cancel anytime"}</p>
-              <FeatureList items={isAnnual ? LONGEVITY_ANNUAL : LONGEVITY_MONTHLY} />
-              <div className="button-row" style={{ marginTop: "24px" }}>
+              <p className="eyebrow">Membership</p>
+              <h3 className="display-5">PETZ Care</h3>
+              <p className="price">{isAnnual ? "₹4,999/year" : "₹499/month"}</p>
+              <p className="price-note">
+                {isAnnual ? "Billed annually · ₹499/month equivalent" : "₹4,999/year if billed annually"}
+              </p>
+              <p>For pet parents who want ongoing, more personalised health guidance.</p>
+              <FeatureList items={CARE_FEATURES} />
+              <div className="button-row">
                 <a className="button is-primary" href="/waitlist">
                   <span className="button-hover"></span>
-                  <span className="button-label">Join waitlist</span>
+                  <span className="button-label">Give Your Pet More Care</span>
                 </a>
               </div>
             </article>

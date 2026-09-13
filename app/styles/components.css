@@ -60,7 +60,7 @@ h6 {
 }
 
 .display-10 { font-size: var(--display-10); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
-.display-9 { font-size: var(--display-9); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
+.display-9 { font-size: var(--display-9); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
 .display-8 { font-size: var(--display-8); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
 .display-7 { font-size: var(--display-7); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
 .display-6 { font-size: var(--display-6); line-height: 1.4; font-weight: 600; letter-spacing: -0.02em; }
@@ -83,7 +83,7 @@ h6 {
 .text-white { color: var(--color-400); }
 .max-ch { max-width: 55ch; }
 .measure-center { max-width: 42rem; margin-inline: auto; }
-.measure-wide { max-width: 48.75rem; margin-inline: auto; }
+.measure-wide { max-width: 52.75rem; margin-inline: auto; }
 
 .page-wrapper {
   position: relative;
@@ -130,8 +130,8 @@ h6 {
   max-width: var(--container-regular) !important;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 54px;
+  padding-right: 54px;
 }
 
 @media (max-width: 479px) {
@@ -161,7 +161,7 @@ h6 {
 
 /* External vertical rhythm for inset cards (matches .section > .container padding-block) */
 .section > .section-frame:not(.absolute-nav) {
-  padding-bottom: var(--spacing-large);
+  padding-bottom: auto;
 }
 
 .section + .section > .section-frame:not(.absolute-nav) {
@@ -193,7 +193,7 @@ h6 {
   border-radius: var(--radius-large);
   max-width: var(--section-card-max);
   width: 100%;
-  margin-inline: auto;
+
   overflow: clip;
   padding-block: var(--spacing-large);
   border: 1px solid var(--border-subtle);
@@ -814,9 +814,6 @@ h6 {
   color: var(--color-400);
 }
 
-.newsletter-cta {
-  padding-block: var(--section-pad-regular);
-}
 
 .newsletter-cta-row {
   display: flex;
