@@ -2,7 +2,6 @@ import { jsonError, jsonOk, withDb } from "@/lib/api-utils";
 import { WaitlistEntry } from "@/models/WaitlistEntry";
 
 type WaitlistBody = {
-  //* TODO: Add phone number
   name?: string;
   email?: string;
   country?: string;
