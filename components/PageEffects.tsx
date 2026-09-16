@@ -197,12 +197,28 @@ function initSiteChrome() {
   const reduced = !isWindowsClient() && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const cleanups: Array<() => void> = [];
 
-  document.querySelectorAll(".marquee-track").forEach((track) => {
-    const el = track as HTMLElement;
-    if (el.dataset.cloned) return;
-    el.innerHTML += el.innerHTML;
-    el.dataset.cloned = "true";
-  });
+  const syncMarquees = () => {
+    document.querySelectorAll(".marquee-track").forEach((track) => {
+      const el = track as HTMLElement;
+      const wrapper = el.closest(".marquee-wrapper") as HTMLElement | null;
+      const template = el.querySelector(":scope > .marquee-group");
+      if (!wrapper || !template) return;
+
+      const unit = template.cloneNode(true) as HTMLElement;
+      el.replaceChildren();
+
+      // Build one half at least as wide as the viewport, then duplicate it for a seamless -50% loop.
+      do {
+        el.appendChild(unit.cloneNode(true));
+      } while (el.scrollWidth < wrapper.clientWidth && el.childElementCount < 12);
+
+      el.insertAdjacentHTML("beforeend", el.innerHTML);
+    });
+  };
+
+  syncMarquees();
+  window.addEventListener("resize", syncMarquees);
+  cleanups.push(() => window.removeEventListener("resize", syncMarquees));
 
   document.querySelectorAll(".stagger-group").forEach((group) => {
     const children = group.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale");

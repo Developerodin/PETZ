@@ -282,9 +282,9 @@ export function SymptomCheckerFlow({
   if (step === "emergency") {
     return (
       <div className="account-wrap">
-        <div className="form-card reveal">
+        <div className="form-card">
           <h1 className="display-6">Before we continue — emergency signs</h1>
-          <p style={{ marginTop: "12px" }}>
+          <p style={{ marginBlock: "22px" }}>
             If your pet shows any of these, go to an open veterinary clinic immediately. Do not use this tool.
           </p>
           <div className="emergency-list">
@@ -310,7 +310,7 @@ export function SymptomCheckerFlow({
   if (step === "pick") {
     return (
       <div className="account-wrap">
-        <div className="form-card reveal">
+        <div className="form-card">
           <p className="auth-emergency">If your pet may be having an emergency, contact the nearest open veterinary clinic now.</p>
           <h1 className="display-6">Which pet is this for?</h1>
           <p className="pet-lede">Select a saved pet to pre-fill their details, or add a new one.</p>
@@ -380,7 +380,7 @@ export function SymptomCheckerFlow({
             mode="create"
             cancelHref="/symptom-checker"
             submitBasicsLabel="Continue"
-            submitLifestyleLabel={`Continue to chat`}
+            submitLifestyleLabel="Continue to chat"
             onSaved={(pet) => {
               setSelectedPet(pet);
               startChat(pet);
@@ -405,7 +405,7 @@ export function SymptomCheckerFlow({
             cancelHref="/symptom-checker"
             startStep="lifestyle"
             submitBasicsLabel="Continue"
-            submitLifestyleLabel={`Continue to chat with ${selectedPet.name}'s details on file →`}
+            submitLifestyleLabel={`Continue with ${selectedPet.name} →`}
             onSaved={(pet) => startChat(pet)}
           />
         </div>

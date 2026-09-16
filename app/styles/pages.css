@@ -201,6 +201,13 @@
   width: max-content;
   align-items: center;
   animation: marquee-x 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee-group {
+  display: flex;
+  flex: none;
+  align-items: center;
 }
 
 .marquee-item {
@@ -228,7 +235,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-force-motion="true"]) .marquee-track { animation: none; }
+  html:not([data-force-motion="true"]) .marquee-track {
+    animation: none;
+    will-change: auto;
+  }
 }
 
 /* Split editorial */
@@ -250,7 +260,7 @@
 }
 
 .layout-two-images .copy-col .text-link {
-  margin-top: var(--spacing-regular);
+  margin-block: var(--spacing-regular);
 }
 
 .layout-two-images .image-wrapper {
@@ -1658,6 +1668,8 @@
   width: min(100%, 36rem);
   margin-inline: auto;
   min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .account-wrap .form-card {
@@ -1946,11 +1958,20 @@
 /* Pet profile wizard */
 .pet-card {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: var(--color-400);
   border: 1px solid var(--border-subtle);
   border-radius: 1.25rem;
   box-shadow: var(--shadow-card);
   padding: 24px 22px 22px;
+  overflow-x: clip;
+}
+
+.pet-wizard,
+.pet-form {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .pet-wizard-steps {
@@ -2075,9 +2096,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .pet-chip {
+  max-width: 100%;
   padding: 10px 14px;
   border: 1px solid var(--color-600);
   border-radius: var(--radius-full);
@@ -2088,6 +2112,9 @@
   font-weight: 500;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .pet-chip.is-selected {
@@ -2098,15 +2125,28 @@
 
 .pet-form-actions {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   margin-top: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.pet-form-actions .button {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .pet-continue {
   width: 100%;
   justify-content: center;
+}
+
+.pet-continue .button-label {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .pet-form .species-option {
@@ -2268,7 +2308,24 @@
 }
 
 @media (max-width: 767px) {
+  .pet-card {
+    padding: 20px 16px 18px;
+  }
+
   .pet-form-actions {
     grid-template-columns: 1fr;
+  }
+
+  .pet-form-actions .button {
+    width: 100%;
+    white-space: normal;
+    height: auto;
+    min-height: 44px;
+    padding-block: 12px;
+  }
+
+  .pet-chip {
+    padding: 9px 12px;
+    font-size: 0.8125rem;
   }
 }

@@ -115,11 +115,20 @@ export default async function HomePage() {
             </div>
             <div className="marquee-wrapper" aria-hidden="true">
               <div className="marquee-track">
-                <div className="marquee-item">Veterinary science<span className="marquee-dot"></span></div>
-                <div className="marquee-item">Preventive health<span className="marquee-dot"></span></div>
-                <div className="marquee-item">Pet-specific data<span className="marquee-dot"></span></div>
-                <div className="marquee-item">AI-assisted analysis<span className="marquee-dot"></span></div>
-                <div className="marquee-item">Evidence-informed recommendations<span className="marquee-dot"></span></div>
+                <div className="marquee-group">
+                  <div className="marquee-item">Veterinary science<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Preventive health<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Pet-specific data<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">AI-assisted analysis<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Evidence-informed recommendations<span className="marquee-dot"></span></div>
+                </div>
+                <div className="marquee-group">
+                  <div className="marquee-item">Veterinary science<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Preventive health<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Pet-specific data<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">AI-assisted analysis<span className="marquee-dot"></span></div>
+                  <div className="marquee-item">Evidence-informed recommendations<span className="marquee-dot"></span></div>
+                </div>
               </div>
             </div>
           </section>

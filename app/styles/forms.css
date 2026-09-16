@@ -125,6 +125,8 @@
   gap: 8px;
   margin-bottom: 32px;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .wizard-step {
@@ -138,6 +140,52 @@
   font-weight: 600;
   color: var(--color-300);
   text-align: center;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+  .wizard-stepper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .wizard-step {
+    flex: 0 1 calc((100% - 12px) / 3);
+    width: calc((100% - 12px) / 3);
+    max-width: calc((100% - 12px) / 3);
+    min-width: 0;
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .form-card {
+    padding: var(--spacing-regular);
+  }
+
+  .form-actions {
+    gap: 10px;
+  }
+
+  .form-actions .button {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    height: auto;
+    min-height: 44px;
+  }
+
+  .form-actions.is-end {
+    justify-content: stretch;
+  }
+
+  .form-actions.is-end .button {
+    width: 100%;
+  }
 }
 
 .wizard-step.is-active {
