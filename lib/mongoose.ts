@@ -1,13 +1,20 @@
 import mongoose from "mongoose";
 
-const connectOptions = {
-  bufferCommands: false,
-  serverSelectionTimeoutMS: 8000,
-  connectTimeoutMS: 8000,
-  maxPoolSize: 5,
-  tls: true,
-  family: 4,
-} as const;
+function getConnectOptions(uri: string) {
+  const needsTls =
+    uri.startsWith("mongodb+srv://") ||
+    /[?&](tls|ssl)=true/i.test(uri) ||
+    /\.mongodb\.net/i.test(uri);
+
+  return {
+    bufferCommands: false,
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+    maxPoolSize: 5,
+    family: 4,
+    ...(needsTls ? { tls: true } : {}),
+  } as const;
+}
 
 export async function connectDb() {
   const uri = process.env.MONGODB_URI;
@@ -23,6 +30,8 @@ export async function connectDb() {
     await mongoose.connection.asPromise();
     return mongoose.connection;
   }
+
+  const connectOptions = getConnectOptions(uri);
 
   try {
     await mongoose.connect(uri, connectOptions);

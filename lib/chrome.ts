@@ -2,7 +2,6 @@ export const COMPACT_FOOTER_PATHS = new Set([
   "/academy",
   "/assess/results",
   "/gift-cards",
-  "/marketplace",
   "/partner-apply",
   "/pet-passport",
   "/privacy",

@@ -37,9 +37,7 @@ export default {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const path = nextUrl.pathname;
-      const isProtected =
-        path.startsWith("/account") || path === "/assess" || path.startsWith("/assess/");
-      if (isProtected) return isLoggedIn;
+      if (path.startsWith("/account")) return isLoggedIn;
       return true;
     },
   },

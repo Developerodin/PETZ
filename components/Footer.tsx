@@ -76,7 +76,7 @@ export function Footer() {
                 <h4>Tools</h4>
                 <ul>
                   <li>
-                    <Link href="/symptom-checker">{ASSISTANT_NAME}</Link>
+                    <Link href="/symptom-checker">{`Ask ${ASSISTANT_NAME} (AI)`}</Link>
                   </li>
                   <li>
                     <Link href="/pet-passport">Pet Passport</Link>

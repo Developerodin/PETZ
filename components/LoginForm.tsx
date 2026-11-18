@@ -65,6 +65,18 @@ function credentialsError(code?: string | null) {
   return "Invalid email or password.";
 }
 
+const ERROR_ID = "login-form-error";
+
+function errorFields(error: string) {
+  const text = error.toLowerCase();
+  if (!text) return { name: false, email: false, password: false };
+  if (text.includes("full name")) return { name: true, email: false, password: false };
+  if (text.includes("valid email")) return { name: false, email: true, password: false };
+  if (text.includes("password must")) return { name: false, email: false, password: true };
+  // Invalid credentials, Google account, server and generic errors affect both fields.
+  return { name: false, email: true, password: true };
+}
+
 export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,15 +84,25 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState<"google" | "form" | null>(null);
   const [lastUsed, setLastUsed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [forgotHint, setForgotHint] = useState(false);
+  const [forgotBusy, setForgotBusy] = useState(false);
+  const [forgotMsg, setForgotMsg] = useState("");
 
   const isSignup = mode === "signup";
+  const invalid = errorFields(error);
+
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = isSignup ? "Create account — PETZ" : "Sign in — PETZ";
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [isSignup]);
 
   useEffect(() => {
     try {
@@ -105,6 +127,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
     setError("");
     setBusy(null);
     setForgotHint(false);
+    setForgotMsg("");
     const params = new URLSearchParams();
     if (next === "signup") params.set("mode", "signup");
     if (callbackUrl && callbackUrl !== "/account") params.set("callbackUrl", callbackUrl);
@@ -116,6 +139,33 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
     setError("");
     setBusy("google");
     return signIn("google", { callbackUrl });
+  }
+
+  async function sendReset() {
+    const emailValue = email.trim().toLowerCase();
+    setForgotMsg("");
+    if (!EMAIL_RE.test(emailValue)) {
+      setForgotMsg("Enter your email above first, then try again.");
+      return;
+    }
+    setForgotBusy(true);
+    try {
+      const res = await fetch("/api/auth/forgot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailValue }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
+      setForgotMsg(
+        !res.ok
+          ? data.error || "Could not send a reset email right now. Try again later."
+          : data.message || "If an account exists for that email, we've sent a link to reset your password.",
+      );
+    } catch {
+      setForgotMsg("Something went wrong. Try again.");
+    } finally {
+      setForgotBusy(false);
+    }
   }
 
   function rememberEmail(value: string) {
@@ -133,10 +183,6 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
     const fullName = name.trim().replace(/\s+/g, " ");
     const emailValue = email.trim().toLowerCase();
 
-    if (isSignup && fullName.length < 2) {
-      setError("Enter your full name.");
-      return;
-    }
     if (!EMAIL_RE.test(emailValue)) {
       setError("Enter a valid email address.");
       return;
@@ -145,8 +191,8 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       setError("Password must be at least 8 characters.");
       return;
     }
-    if (isSignup && password !== confirm) {
-      setError("Passwords do not match.");
+    if (isSignup && fullName.length < 2) {
+      setError("Enter your full name.");
       return;
     }
 
@@ -191,7 +237,9 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
   return (
     <div className="auth-card">
       <div className="auth-card-body">
-        <p className="auth-brand">PETZ</p>
+        <Link className="auth-brand" href="/">
+          PETZ
+        </Link>
         <h1 className="auth-title">{isSignup ? "Create your account" : "Welcome back"}</h1>
         <p className="auth-lede">
           {isSignup ? "Enter your details to save pet profiles and assessments." : "Sign in to access PETZ tools"}
@@ -207,23 +255,6 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         </div>
 
         <form className="auth-email-form" noValidate onSubmit={submitForm}>
-          {isSignup ? (
-            <div className="auth-field">
-              <label htmlFor="loginName">Full name</label>
-              <input
-                id="loginName"
-                type="text"
-                autoComplete="name"
-                placeholder="Your full name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (error) setError("");
-                }}
-              />
-            </div>
-          ) : null}
-
           <div className="auth-field">
             <div className="auth-field-head">
               <label htmlFor="loginEmail">Email address</label>
@@ -234,6 +265,8 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
               type="email"
               autoComplete="email"
               placeholder="Enter your email address"
+              aria-invalid={invalid.email ? "true" : undefined}
+              aria-describedby={invalid.email ? ERROR_ID : undefined}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -258,6 +291,8 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
                 type={showPassword ? "text" : "password"}
                 autoComplete={isSignup ? "new-password" : "current-password"}
                 placeholder={isSignup ? "At least 8 characters" : "Enter your password"}
+                aria-invalid={invalid.password ? "true" : undefined}
+                aria-describedby={invalid.password ? ERROR_ID : undefined}
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -274,41 +309,49 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
               </button>
             </div>
             {forgotHint && !isSignup ? (
-              <p className="auth-hint">
-                Password reset isn&apos;t available yet. Try Google, or{" "}
-                <Link href="/support">contact us</Link>.
-              </p>
+              <div className="auth-hint">
+                <p>Enter your email above and we&apos;ll send you a reset link.</p>
+                <button
+                  className="auth-forgot"
+                  type="button"
+                  onClick={sendReset}
+                  disabled={forgotBusy}
+                >
+                  {forgotBusy ? "Sending…" : "Email me a reset link"}
+                </button>
+                {forgotMsg ? (
+                  <p id="login-forgot-msg" role="alert">
+                    {forgotMsg}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
           </div>
 
           {isSignup ? (
             <div className="auth-field">
-              <label htmlFor="loginConfirm">Confirm password</label>
-              <div className="auth-input-wrap">
-                <input
-                  id="loginConfirm"
-                  type={showConfirm ? "text" : "password"}
-                  autoComplete="new-password"
-                  placeholder="Re-enter your password"
-                  value={confirm}
-                  onChange={(e) => {
-                    setConfirm(e.target.value);
-                    if (error) setError("");
-                  }}
-                />
-                <button
-                  className="auth-eye"
-                  type="button"
-                  aria-label={showConfirm ? "Hide password" : "Show password"}
-                  onClick={() => setShowConfirm((value) => !value)}
-                >
-                  <EyeIcon off={showConfirm} />
-                </button>
-              </div>
+              <label htmlFor="loginName">Full name</label>
+              <input
+                id="loginName"
+                type="text"
+                autoComplete="name"
+                placeholder="Your full name"
+                aria-invalid={invalid.name ? "true" : undefined}
+                aria-describedby={invalid.name ? ERROR_ID : undefined}
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (error) setError("");
+                }}
+              />
             </div>
           ) : null}
 
-          {error ? <p className="auth-error">{error}</p> : null}
+          {error ? (
+            <p className="auth-error" id={ERROR_ID} role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <button className="auth-continue" type="submit" disabled={busy !== null}>
             <span>

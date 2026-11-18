@@ -17,6 +17,8 @@ const eslintConfig = defineConfig([
     rules: {
       "react/no-unescaped-entities": "off",
       "@next/next/no-img-element": "off",
+      // Client bootstrap from localStorage / route changes — warn only
+      "react-hooks/set-state-in-effect": "warn",
     },
   },
 ]);

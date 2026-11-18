@@ -1,14 +1,5 @@
 import { MongoClient, type MongoClientOptions } from "mongodb";
 
-export const mongoClientOptions: MongoClientOptions = {
-  serverSelectionTimeoutMS: 8000,
-  connectTimeoutMS: 8000,
-  maxPoolSize: 5,
-  tls: true,
-  family: 4,
-  autoSelectFamily: false,
-};
-
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
@@ -22,6 +13,27 @@ export function getMongoUri() {
   return uri;
 }
 
+/** Atlas / SRV need TLS; plain local `mongodb://` does not. */
+export function getMongoClientOptions(uri = getMongoUri()): MongoClientOptions {
+  const needsTls =
+    uri.startsWith("mongodb+srv://") ||
+    /[?&](tls|ssl)=true/i.test(uri) ||
+    /\.mongodb\.net/i.test(uri);
+
+  return {
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+    maxPoolSize: 5,
+    family: 4,
+    autoSelectFamily: false,
+    ...(needsTls ? { tls: true } : {}),
+  };
+}
+
+export const mongoClientOptions: MongoClientOptions = getMongoClientOptions(
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/petz",
+);
+
 export function getMongoDbName() {
   try {
     const pathname = new URL(getMongoUri()).pathname.replace(/^\//, "");
@@ -33,7 +45,8 @@ export function getMongoDbName() {
 }
 
 function createClientPromise() {
-  const client = new MongoClient(getMongoUri(), mongoClientOptions);
+  const uri = getMongoUri();
+  const client = new MongoClient(uri, getMongoClientOptions(uri));
   const promise = client.connect();
   promise.catch(() => {
     if (global._mongoClientPromise === promise) {

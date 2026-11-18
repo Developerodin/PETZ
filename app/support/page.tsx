@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteShell } from "@/components/SiteShell";
 import { getFormUser } from "@/lib/form-user";
+import { INDIA_CITIES } from "@/lib/form-schema";
 
 export const metadata: Metadata = {
   title: "Contact Us — PETZ",
@@ -18,7 +19,7 @@ export default async function SupportPage() {
                 <div className="container">
                   <div className="page-hero-inner">
                     <h1 className="display-9">We're just a hello away</h1>
-                    <p>Questions about your pet's assessment, partnerships, or anything else — reach out and we'll get back to you within one business day.</p>
+                    <p>Questions about your pet&apos;s assessment, partnerships, or anything else — reach out and we&apos;ll get back to you within one business day.</p>
                   </div>
                   <div className="grid-3 contact-links-layout">
                     <a className="contact-card reveal" href="mailto:hello@petz.love">
@@ -58,16 +59,20 @@ export default async function SupportPage() {
                       <p>Fill in the form and our team will reply within one business day. Hours: 9am–9pm IST, Monday–Friday.</p>
                     </div>
                   </div>
-                  <form id="supportForm" className="contact-form-card reveal" noValidate>
+                  <form id="supportForm" className="contact-form-card reveal" method="post" noValidate>
+                    <div className="hp-field" aria-hidden="true">
+                      <label htmlFor="supCompany">Company</label>
+                      <input type="text" id="supCompany" name="supCompany" tabIndex={-1} autoComplete="off" />
+                    </div>
                     <div className="contact-form-layout">
                       <div className="form-field">
                         <label htmlFor="supFirstName">First name</label>
-                        <input type="text" id="supFirstName" data-validate="name" data-label="First name" required defaultValue={user.firstName} />
+                        <input type="text" id="supFirstName" data-validate="name" data-label="First name" required maxLength={80} defaultValue={user.firstName} />
                         <p className="field-error"></p>
                       </div>
                       <div className="form-field">
                         <label htmlFor="supLastName">Last name</label>
-                        <input type="text" id="supLastName" data-validate="name" data-label="Last name" required defaultValue={user.lastName} />
+                        <input type="text" id="supLastName" data-validate="name" data-label="Last name" required maxLength={80} defaultValue={user.lastName} />
                         <p className="field-error"></p>
                       </div>
                       <div className="form-field">
@@ -76,23 +81,35 @@ export default async function SupportPage() {
                         <p className="field-error"></p>
                       </div>
                       <div className="form-field">
-                        <label htmlFor="supPhone">Phone <span style={{fontWeight: 400, color: "var(--color-300)"}}>(optional)</span></label>
-                        <input type="tel" id="supPhone" />
+                        <label htmlFor="supPhone">Phone</label>
+                        <input type="tel" id="supPhone" data-validate="phone" data-label="Phone" required />
+                        <p className="field-error"></p>
+                      </div>
+                      <div className="form-field">
+                        <label htmlFor="supCity">City</label>
+                        <select id="supCity" data-validate="city" data-label="City" required defaultValue="">
+                          <option value="">Select</option>
+                          {INDIA_CITIES.map((city) => (
+                            <option key={city} value={city}>
+                              {city}
+                            </option>
+                          ))}
+                        </select>
                         <p className="field-error"></p>
                       </div>
                       <div className="form-field form-field--full">
                         <label htmlFor="supSubject">Subject</label>
-                        <input type="text" id="supSubject" data-validate="required" data-label="Subject" required />
+                        <input type="text" id="supSubject" data-validate="required" data-label="Subject" required maxLength={120} />
                         <p className="field-error"></p>
                       </div>
                       <div className="form-field form-field--full">
                         <label htmlFor="supMessage">Message</label>
-                        <textarea id="supMessage" rows={5} data-validate="required" data-label="Message" required></textarea>
+                        <textarea id="supMessage" rows={5} data-validate="message" data-label="Message" required maxLength={2000}></textarea>
                         <p className="field-error"></p>
                       </div>
                     </div>
                     <div className="form-actions is-end" style={{marginTop: "24px"}}>
-                      <button type="submit" className="button is-primary"><span className="button-hover"></span><span className="button-label">Send message</span></button>
+                      <button type="submit" className="button is-primary" disabled><span className="button-hover"></span><span className="button-label">Send message</span></button>
                     </div>
                     <div className="form-success-panel" hidden>
                       <div className="form-success">

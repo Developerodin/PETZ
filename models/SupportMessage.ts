@@ -6,6 +6,7 @@ const SupportMessageSchema = new Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, index: true },
     phone: { type: String, default: "" },
+    city: { type: String, default: "" },
     subject: { type: String, required: true },
     message: { type: String, required: true },
   },

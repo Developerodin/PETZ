@@ -75,6 +75,11 @@ export function AssessResultsView({ signedIn }: { signedIn: boolean }) {
           Based on the information you provided. PETZ highlights what appears healthy, what is worth improving, and
           potential concerns that may deserve professional attention.
         </p>
+        {!signedIn ? (
+          <p className="pet-lede" style={{ marginTop: 12 }}>
+            Create a free account to save this assessment to your pet profile.
+          </p>
+        ) : null}
       </div>
 
       <div className="dashboard-mock">
@@ -187,9 +192,9 @@ export function AssessResultsView({ signedIn }: { signedIn: boolean }) {
             <span className="button-label">View pet profile</span>
           </a>
         ) : (
-          <Link className="button is-secondary" href="/login?callbackUrl=/account">
+          <Link className="button is-secondary" href="/login?mode=signup&callbackUrl=/account">
             <span className="button-hover"></span>
-            <span className="button-label">Sign in to save</span>
+            <span className="button-label">Create account to save</span>
           </Link>
         )}
         <Link className="button is-secondary" href="/science">

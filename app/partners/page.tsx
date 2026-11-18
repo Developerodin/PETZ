@@ -18,28 +18,28 @@ export default function PartnersPage() {
                     <p>PETZ brings together technology, pet parents, veterinarians, researchers and pet-health businesses around one goal: helping pets live healthier lives for longer.</p>
                   </div>
                   <div className="grid-4 contact-links-layout">
-                    <a className="contact-card reveal" href="/partner-apply">
+                    <a className="contact-card reveal" href="/partner-apply?type=Veterinary">
                       <div>
                         <h3 className="display-4">Veterinary Partners</h3>
                         <p>Help pet parents move from digital insights to professional care when it matters.</p>
                       </div>
                       <svg className="arrow" width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </a>
-                    <a className="contact-card reveal" href="/partner-apply">
+                    <a className="contact-card reveal" href="/partner-apply?type=Diagnostic">
                       <div>
                         <h3 className="display-4">Diagnostic Partners</h3>
                         <p>Bring deeper health data into the PETZ ecosystem as the platform evolves.</p>
                       </div>
                       <svg className="arrow" width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </a>
-                    <a className="contact-card reveal" href="/partner-apply">
+                    <a className="contact-card reveal" href="/partner-apply?type=Pet%20Health%20Brands">
                       <div>
                         <h3 className="display-4">Pet Health Brands</h3>
                         <p>Connect pet parents with products and services that genuinely support their health goals.</p>
                       </div>
                       <svg className="arrow" width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </a>
-                    <a className="contact-card reveal" href="/partner-apply">
+                    <a className="contact-card reveal" href="/partner-apply?type=Research">
                       <div>
                         <h3 className="display-4">Research &amp; Science Partners</h3>
                         <p>Help strengthen the evidence behind the way we understand pet health and ageing.</p>
@@ -49,7 +49,7 @@ export default function PartnersPage() {
                   </div>
                   <div className="inner-container-center">
                     <a className="button is-primary" href="/partner-apply"><span className="button-hover"></span><span className="button-label">Partner With PETZ</span></a>
-                    <p className="reassurance">We're building the pet-health ecosystem of tomorrow.</p>
+                    <p className="reassurance">Our partnerships team will reply within 3 business days.</p>
                   </div>
                 </div>
               </div>
