@@ -24,7 +24,8 @@ export function getAdminEmail() {
 
 export function getAdminPasswordHash() {
   const raw = String(process.env.ADMIN_PASSWORD_HASH || "").trim();
-  // dotenv may keep surrounding quotes; bcrypt hashes also contain `$`.
+  // Local .env.local should escape `$` as `\$` so Next.js dotenv keeps the bcrypt hash.
+  // Vercel env values are raw hashes. Quotes are stripped if dotenv kept them.
   if (
     (raw.startsWith("'") && raw.endsWith("'")) ||
     (raw.startsWith('"') && raw.endsWith('"'))
