@@ -19,8 +19,8 @@ const CARE_FEATURES = [
   "Early Health Alerts & Recommendations — understand changes that may need attention",
 ];
 
-function LaunchLabel() {
-  return <p className="launch-pill">Exclusive launch plan</p>;
+function LaunchLabel({ recommended = false }: { recommended?: boolean }) {
+  return recommended ? <p className="recommended-pill">Recommended</p> : <p className="launch-pill">Exclusive launch plan</p>;
 }
 
 function FeatureList({ items }: { items: string[] }) {
@@ -32,6 +32,10 @@ function FeatureList({ items }: { items: string[] }) {
     </ul>
   );
 }
+
+const CARE_ANNUAL = 4999;
+const CARE_MONTHLY = 499;
+const CARE_ANNUAL_MONTHLY_EQ = Math.round(CARE_ANNUAL / 12);
 
 export function PlansView() {
   const [period, setPeriod] = useState<"monthly" | "annual">("monthly");
@@ -90,7 +94,7 @@ export function PlansView() {
 
           <div className="pricing-grid pricing-grid--two stagger-group">
             <article className="pricing-card reveal-scale">
-              <LaunchLabel />
+              <LaunchLabel recommended={false} />
               <p className="eyebrow">Free</p>
               <h3 className="display-5">Free</h3>
               <p className="price">₹0</p>
@@ -106,19 +110,21 @@ export function PlansView() {
             </article>
 
             <article className="pricing-card is-featured reveal-scale">
-              <LaunchLabel />
+              <LaunchLabel recommended />
               <p className="eyebrow">Membership</p>
               <h3 className="display-5">PETZ Care</h3>
-              <p className="price">{isAnnual ? "₹4,999/year" : "₹499/month"}</p>
+              <p className="price">{isAnnual ? `₹${CARE_ANNUAL.toLocaleString("en-IN")}/year` : `₹${CARE_MONTHLY}/month`}</p>
               <p className="price-note">
-                {isAnnual ? "Billed annually · ₹499/month equivalent" : "₹4,999/year if billed annually"}
+                {isAnnual
+                  ? `Billed annually · about ₹${CARE_ANNUAL_MONTHLY_EQ}/month`
+                  : `₹${CARE_ANNUAL.toLocaleString("en-IN")}/year if billed annually`}
               </p>
               <p>For pet parents who want ongoing, more personalised health guidance.</p>
               <FeatureList items={CARE_FEATURES} />
               <div className="button-row">
-                <a className="button is-primary" href="/waitlist">
+                <a className="button is-primary" href="/waitlist?plan=care">
                   <span className="button-hover"></span>
-                  <span className="button-label">Give Your Pet More Care</span>
+                  <span className="button-label">Join Care waitlist</span>
                 </a>
               </div>
             </article>

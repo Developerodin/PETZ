@@ -3,30 +3,18 @@
 import { getSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import {
+  MESSAGE_MIN,
+  trim,
+  validateCity,
+  validateEmail,
+  validateIndianMobile,
+  validateMessage,
+  validateName,
+  validatePetType,
+  validateRequired,
+} from "@/lib/form-schema";
 import { parseDateOfBirth } from "@/lib/pet-utils";
-
-const NAME_RE = /^[A-Za-z][A-Za-z\s\-']{1,39}$/;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function trim(val: unknown) {
-  return String(val ?? "").trim();
-}
-
-function validateName(value: string, label = "Name") {
-  const v = trim(value);
-  if (!v) return `${label} is required.`;
-  if (v.length < 2) return `${label} must be at least 2 characters.`;
-  if (v.length > 40) return `${label} must be 40 characters or fewer.`;
-  if (!NAME_RE.test(v)) return `${label} can only contain letters, spaces, hyphens and apostrophes.`;
-  return "";
-}
-
-function validateEmail(value: string) {
-  const v = trim(value).toLowerCase();
-  if (!v) return "Email is required.";
-  if (!EMAIL_RE.test(v)) return "Enter a valid email address.";
-  return "";
-}
 
 function validateAge(value: string) {
   const n = Number(value);
@@ -49,14 +37,7 @@ function validateOptionalWeight(value: string) {
 }
 
 function validateTextarea(value: string, max = 500) {
-  const v = trim(value);
-  if (v.length > max) return `Maximum ${max} characters.`;
-  return "";
-}
-
-function validateRequired(value: string, label: string) {
-  if (!trim(value)) return `${label} is required.`;
-  return "";
+  return validateMessage(value, "This field", { optional: true, min: 0, max });
 }
 
 function showFieldError(field: Element, message: string) {
@@ -121,7 +102,10 @@ const FORM_ENDPOINTS: Record<
     body: (form) => ({
       name: (form.elements.namedItem("wlName") as HTMLInputElement)?.value?.trim() || "",
       email: (form.elements.namedItem("wlEmail") as HTMLInputElement)?.value?.trim() || "",
-      country: (form.elements.namedItem("wlCountry") as HTMLInputElement)?.value?.trim() || "",
+      city: (form.elements.namedItem("wlCity") as HTMLSelectElement)?.value?.trim() || "",
+      petType: (form.elements.namedItem("wlPetType") as HTMLSelectElement)?.value?.trim() || "",
+      plan: (form.elements.namedItem("wlPlan") as HTMLInputElement)?.value?.trim() || "",
+      company: (form.elements.namedItem("wlCompany") as HTMLInputElement)?.value?.trim() || "",
     }),
   },
   partnerForm: {
@@ -129,23 +113,28 @@ const FORM_ENDPOINTS: Record<
     body: (form) => ({
       partnerType: (form.elements.namedItem("paType") as HTMLSelectElement)?.value || "",
       organisation: (form.elements.namedItem("paOrg") as HTMLInputElement)?.value?.trim() || "",
+      contactName: (form.elements.namedItem("paContact") as HTMLInputElement)?.value?.trim() || "",
       email: (form.elements.namedItem("paEmail") as HTMLInputElement)?.value?.trim() || "",
-      city: (form.elements.namedItem("paCity") as HTMLInputElement)?.value?.trim() || "",
+      phone: (form.elements.namedItem("paPhone") as HTMLInputElement)?.value?.trim() || "",
+      city: (form.elements.namedItem("paCity") as HTMLSelectElement)?.value?.trim() || "",
       message: (form.elements.namedItem("paMessage") as HTMLTextAreaElement)?.value?.trim() || "",
+      company: (form.elements.namedItem("paCompany") as HTMLInputElement)?.value?.trim() || "",
     }),
   },
   supportForm: {
     url: "/api/support",
     body: (form) => {
       const val = (id: string) =>
-        (form.querySelector(`#${id}`) as HTMLInputElement | HTMLTextAreaElement)?.value?.trim() || "";
+        (form.querySelector(`#${id}`) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)?.value?.trim() || "";
       return {
         firstName: val("supFirstName"),
         lastName: val("supLastName"),
         email: val("supEmail"),
-        phone: val("supPhone") || undefined,
+        phone: val("supPhone"),
+        city: val("supCity"),
         subject: val("supSubject"),
         message: val("supMessage"),
+        company: val("supCompany"),
       };
     },
   },
@@ -159,11 +148,15 @@ function bindSimpleForm(form: HTMLFormElement) {
     const rules = [...fields].map((field) => {
       let msg = "";
       const type = field.dataset.validate;
+      const label = field.dataset.label || "This field";
       if (type === "name") {
-        msg = field.dataset.optional && !trim(field.value) ? "" : validateName(field.value, field.dataset.label || "Name");
+        msg = validateName(field.value, label, { optional: field.dataset.optional === "true" });
       } else if (type === "email") msg = validateEmail(field.value);
-      else if (type === "required") msg = validateRequired(field.value, field.dataset.label || "This field");
-      else if (type === "message") msg = validateTextarea(field.value, 1000);
+      else if (type === "required") msg = validateRequired(field.value, label);
+      else if (type === "message") msg = validateMessage(field.value, label, { min: MESSAGE_MIN });
+      else if (type === "phone") msg = validateIndianMobile(field.value, { optional: field.dataset.optional === "true" });
+      else if (type === "city") msg = validateCity(field.value);
+      else if (type === "petType") msg = validatePetType(field.value);
       return { field, message: msg };
     });
     if (!validateFields(rules)) return;
@@ -195,7 +188,9 @@ function isWindowsClient() {
 function initSiteChrome() {
   if (isWindowsClient()) document.documentElement.setAttribute("data-force-motion", "true");
   const reduced = !isWindowsClient() && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduced) document.documentElement.classList.add("js-reveal");
   const cleanups: Array<() => void> = [];
+  cleanups.push(() => document.documentElement.classList.remove("js-reveal"));
 
   const syncMarquees = () => {
     document.querySelectorAll(".marquee-track").forEach((track) => {
@@ -366,40 +361,69 @@ function initSiteChrome() {
 
   document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
     const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+    const consent = form.querySelector<HTMLInputElement>('input[name="consent"]');
     const success = form.parentElement?.querySelector<HTMLElement>(".newsletter-success");
+    const errorEl = form.querySelector<HTMLElement>(".field-error") || form.parentElement?.querySelector<HTMLElement>(".newsletter-error");
     if (!input) return;
-    const onSubmit = async (e: Event) => {
-      e.preventDefault();
-      const email = input.value.trim();
-      if (!email || !EMAIL_RE.test(email)) {
-        input.classList.add("is-error");
-        input.setAttribute("aria-invalid", "true");
-        return;
+
+    const showError = (message: string) => {
+      input.classList.add("is-error");
+      input.setAttribute("aria-invalid", "true");
+      if (errorEl) {
+        errorEl.hidden = false;
+        errorEl.textContent = message;
+        errorEl.setAttribute("role", "alert");
       }
+    };
+    const clearError = () => {
       input.classList.remove("is-error");
       input.removeAttribute("aria-invalid");
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = "";
+      }
+    };
+
+    const onSubmit = async (e: Event) => {
+      e.preventDefault();
+      clearError();
+      const emailErr = validateEmail(input.value);
+      if (emailErr) {
+        showError(emailErr);
+        return;
+      }
+      if (consent && !consent.checked) {
+        showError("Please agree to the privacy notice to subscribe.");
+        return;
+      }
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
       try {
-        await postJson("/api/newsletter", { email });
+        const honeypot = (form.elements.namedItem("company") as HTMLInputElement | null)?.value || "";
+        await postJson("/api/newsletter", {
+          email: input.value.trim(),
+          consent: Boolean(consent?.checked),
+          company: honeypot,
+        });
         form.classList.add("is-success");
-        if (success) success.hidden = false;
-      } catch {
-        input.classList.add("is-error");
-        input.setAttribute("aria-invalid", "true");
+        if (success) {
+          success.hidden = false;
+          success.textContent = "Check your email to confirm your subscription.";
+        }
+      } catch (err) {
+        showError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }
     };
-    const onInput = () => {
-      input.classList.remove("is-error");
-      input.removeAttribute("aria-invalid");
-    };
+    const onInput = () => clearError();
     form.addEventListener("submit", onSubmit);
     input.addEventListener("input", onInput);
+    consent?.addEventListener("change", onInput);
     cleanups.push(() => {
       form.removeEventListener("submit", onSubmit);
       input.removeEventListener("input", onInput);
+      consent?.removeEventListener("change", onInput);
     });
   });
 

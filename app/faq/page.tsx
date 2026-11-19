@@ -6,9 +6,35 @@ export const metadata: Metadata = {
   description: "Answers about PETZ, the AI-powered preventive pet-health platform.",
 };
 
+const FAQ_ITEMS = [
+  {
+    q: "What is PETZ?",
+    a: "PETZ is an AI-powered preventive pet-health platform that helps pet parents understand their pet's health, identify areas that may need attention and receive personalized recommendations based on the information they provide.",
+  },
+  {
+    q: "How does PETZ work?",
+    a: "You answer a series of questions about your pet, including their age, breed, weight, diet, lifestyle, activity, medical history and other health information. PETZ analyzes those inputs and generates personalized health insights and recommendations.",
+  },
+  {
+    q: "Does PETZ diagnose diseases?",
+    a: "No. PETZ is designed for health education, preventive awareness and personalized guidance. It does not replace a veterinarian or provide a medical diagnosis. If you believe your pet is unwell, you should consult a licensed veterinarian.",
+  },
+];
+
 export default function FaqPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
   return (
     <SiteShell variant="overlay">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="section">
             <div className="section-frame pd-top">
               <div className="section-card hero-top-pd hero-flush overflow-visible">

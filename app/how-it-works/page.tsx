@@ -3,7 +3,8 @@ import { SiteShell } from "@/components/SiteShell";
 
 export const metadata: Metadata = {
   title: "How It Works — PETZ",
-  description: "Tell PETZ about your pet. Our AI analyzes the information. You get a personalized picture of what may matter most.",
+  description:
+    "Tell PETZ about your pet. Our AI analyses the information. You get a personalised picture of what may matter most.",
 };
 
 export default function HowItWorksPage() {
@@ -16,7 +17,7 @@ export default function HowItWorksPage() {
                   <div className="container">
                     <div className="page-hero-inner">
                       <h1 className="display-9">Your pet's health, understood in a few simple steps.</h1>
-                      <p>No complicated medical terminology. No endless searching. Tell PETZ about your pet. Our AI analyzes the information. You get a personalized picture of what may matter most — and what you can do next.</p>
+                      <p>No complicated medical terminology. No endless searching. Tell PETZ about your pet. Our AI analyses the information. You get a personalised picture of what may matter most — and what you can do next.</p>
                       <div className="button-row is-center-aligned">
                         <a className="button is-primary" href="/assess"><span className="button-hover"></span><span className="button-label">Assess My Pet</span></a>
                         <a className="button is-secondary" href="/science"><span className="button-hover"></span><span className="button-label">The science</span></a>
@@ -26,7 +27,7 @@ export default function HowItWorksPage() {
                 </div>
                 <div className="section-card">
                   <div className="container">
-                    <h2 className="display-8" style={{maxWidth: "36rem"}}>Four steps to a clearer picture.</h2>
+                    <h2 className="display-8" style={{maxWidth: "36rem"}}>Five steps to a clearer picture.</h2>
                     <div id="hiwSteps" className="carousel slide steps-slider" data-bs-ride="false" data-bs-interval="false">
                     <div className="carousel-inner">
                       <div className="carousel-item active">
@@ -70,7 +71,7 @@ export default function HowItWorksPage() {
                         <div className="steps-layout">
                           <div className="steps_card">
                             <div className="step-num display-10">04</div>
-                            <h3 className="display-4">Get your personalized action plan.</h3>
+                            <h3 className="display-4">Get your personalised action plan.</h3>
                             <p>Instead of giving you a pile of information, PETZ prioritizes what you can actually do.</p>
                             <ul className="mt-3" style={{paddingLeft: "1.1rem"}}>
                               <li>What to focus on.</li>

@@ -45,7 +45,7 @@ export function Footer() {
             </div>
             <nav className="footer-nav" aria-label="Footer">
               <div>
-                <h4>Main</h4>
+                <p className="footer-heading">Main</p>
                 <ul>
                   <li>
                     <Link href="/">Home</Link>
@@ -62,7 +62,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h4>Learn</h4>
+                <p className="footer-heading">Learn</p>
                 <ul>
                   <li>
                     <Link href="/blog">Blog</Link>
@@ -73,7 +73,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h4>Tools</h4>
+                <p className="footer-heading">Tools</p>
                 <ul>
                   <li>
                     <Link href="/symptom-checker">{`Ask ${ASSISTANT_NAME} (AI)`}</Link>
@@ -87,7 +87,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h4>Company</h4>
+                <p className="footer-heading">Company</p>
                 <ul>
                   <li>
                     <Link href="/partners">Partners</Link>

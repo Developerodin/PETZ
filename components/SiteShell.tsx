@@ -11,8 +11,11 @@ export function SiteShell({
 }) {
   return (
     <div className="page-wrapper">
+      <a className="skip-link" href="#content">
+        Skip to content
+      </a>
       <Header variant={variant} />
-      {children}
+      <main id="content">{children}</main>
       <Footer />
       <PageEffects />
     </div>

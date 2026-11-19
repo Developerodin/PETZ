@@ -1,0 +1,1375 @@
+
+===== PAGE 1 =====
+WEBSITE QA AUDIT
+petz.love
+Full-site test: navigation, functions, forms, responsive layout, performance, usability
+Tested live on 11 November 2026 · 31 URLs · phone, tablet and desktop sizes
+46 / 100
+Overall health score. The site looks finished and its pages, links and
+forms work. The score is held down by what a visitor cannot do: every
+route to the product ends at a sign-in wall, a waitlist or a mock, the
+privacy policy is a placeholder, and one safety screen is cut off on
+phones. The score is a weighted judgment across ten areas (table
+below), not a tool output.
+5
+Critical
+18
+High
+15
+Medium
+17
+Low
+55
+Total issues
+Executive summary
+ Fix before sending traffic (5 critical): the sign-in wall in front of the assessment, the clipped
+emergency list in Luna, the mock Pet Passport schedule, the placeholder privacy policy, and the missing
+password reset.
+ What blocks revenue and trust (18 high): a wrong monthly price on the annual plan, a paid-plan
+button that leads to a waitlist, prices that contradict each other, forms that reject names like S. Kumar,
+form APIs that accept junk, a 2.5 MB home page, and no robots.txt, sitemap or link previews.
+ What works: every linked page loads, no link is broken, layouts hold at all three sizes with no sideways
+scrolling, the console is clean, the server answers in under 0.1 s, and all four public forms submit and
+confirm.
+ Compared with the 24 September audit: almost every issue is still open. Two small things improved
+(the Bootstrap stylesheet is gone; the password message now links to Contact). One new finding: a live,
+unlinked /marketplace page.
+ Limits of this pass: one Chromium browser only; nothing behind sign-in was tested; PageSpeed was
+not re-run. See Coverage and limits.
+
+===== PAGE 2 =====
+petz.love QA audit · 11 November 2026
+Page 2
+Contents
+1
+Executive summary
+3
+1. Health score and how the site was tested
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 3
+Method
+4
+2. Prioritised action plan
+5
+3. Detailed findings
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 5
+3.1 Site-wide: header, menu, footer, 404
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 6
+3.2 Home page
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 8
+3.3 Assessment and sign-in (/assess, /login)
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 9
+3.4 Luna symptom checker (/symptom-checker)
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+3.5 Plans, pricing and gift cards
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+3.6 Pet Passport (/pet-passport)
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+3.7 Forms: newsletter, waitlist, contact, partner application
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 14
+3.8 Content pages: Science, How It Works, Sample, FAQ, Blog
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 16
+3.9 Legal: privacy and terms
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 17
+3.10 SEO and link sharing
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 18
+3.11 Performance and server
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 20
+3.12 Security
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 20
+3.13 Accessibility
+22
+4. Working correctly
+22
+5. Coverage and limits
+  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 22
+Test entries to delete
+23
+6. Screenshots
+
+===== PAGE 3 =====
+petz.love QA audit · 11 November 2026
+Page 3
+1. Health score and how the site was tested
+ Area
+Weight
+Score / 100
+Core functions (assessment, Luna, passport, sign-in)
+20%
+35
+Conversion and usability
+15%
+40
+Content and trust
+10%
+35
+Legal and compliance
+10%
+20
+Performance
+10%
+55
+Accessibility
+10%
+65
+SEO and sharing
+10%
+40
+Security
+5%
+50
+Responsive layout
+5%
+90
+Navigation and links
+5%
+90
+Weighted overall
+100%
+46
+Area scores are my assessment from the findings in this report. They are useful for tracking direction between audits, not
+as a precise measure.
+Method
+ Pages: 31 URLs fetched and read: 18 linked pages, all 10 blog posts, the sign-in page and its sign-up
+mode, plus about two dozen probe URLs for 404s, redirects and hidden pages.
+ Sizes: phone 375×812, tablet 768×1024, desktop 1440×900.
+ Functions: each form submitted empty, with invalid input, with edge cases, and with valid test data.
+Form APIs also called directly to check server-side validation.
+ Journeys: first-time visitor (home to Assess My Pet), worried owner (Luna), buyer (Plans to paid plan),
+gift buyer, partner applicant, a user who makes mistakes on every form, and a returning user who forgot
+their password. Key pages were reloaded five times each to look for intermittent failures; none
+appeared.
+ Evidence tags: [V] means reproduced live on 11 November 2026. [C] means carried from the 24
+September audit and not re-measured today.
+ Severity: Critical = safety, legal or a blocked core journey. High = lost conversions, trust or data
+quality. Medium = friction or technical debt. Low = polish.
+
+===== PAGE 4 =====
+petz.love QA audit · 11 November 2026
+Page 4
+2. Prioritised action plan
+Work top to bottom. Effort: S = under a day, M = a few days, L = a week or more.
+#
+Action
+Issues
+Effort
+1
+Show the full emergency list on phones
+LU-1
+S
+2
+Publish a real privacy policy; add Terms to the footer
+LG-1, LG-2
+M
+3
+Unpublish or label Coming soon: Pet Passport, gift
+cards, /marketplace
+PP-1, PL-4, LG-3
+S
+4
+Fix pricing copy: about ₹417/month, honest waitlist
+button, no illustrative prices, GST
+PL-1, PL-2, PL-3
+S
+5
+Accept real names; validate, de-duplicate and
+rate-limit the form APIs; POST-only forms
+FM-2, FM-1, FM-3
+S
+6
+Password reset or magic-link sign-in; tidy the sign-in
+page
+AU-2, AU-3
+M
+7
+Tell users Luna needs an account before the
+emergency check
+LU-2
+S
+8
+Let visitors start the assessment without an account
+AU-1
+L
+9
+Mobile header: show Assess My Pet, make it sticky, fix
+the menu
+SW-1, SW-2
+S
+10
+Home page weight: WebP, right-sized images, one
+preload; HTTP/2 and caching; no fade on key content
+HM-1, PF-1, PF-2
+M
+11
+robots.txt, sitemap, canonicals, share previews,
+unique descriptions
+SE-1, SE-2, SE-3
+S
+12
+Security headers; self-host or pin the CDN script
+SC-1, SC-2
+S
+13
+Trust content: About page and footer identity, real
+sample report, Science sources, honest testimonials
+SW-4, CT-1, CT-2, HM-2
+M
+14
+Accessibility: contrast, keyboard blog filters, main
+landmark, error announcements
+AX-1, AX-2, AX-3, AU-4, FM-4
+S
+15
+Content depth: blog articles, FAQ rewrite, partner
+form match
+CT-3, CT-4, FM-5
+L
+16
+Polish: 404 page, font, tap targets, headings, alt text,
+remaining Low items
+SW-3, PF-3, SW-5, AX-4,
+HM-3 and others
+S
+
+===== PAGE 5 =====
+petz.love QA audit · 11 November 2026
+Page 5
+3. Detailed findings
+Grouped by page or function. Required changes are in bold. Fig numbers refer to the screenshots in
+section 6.
+3.1 Site-wide: header, menu, footer, 404
+SW-1 Mobile header hides the main action and scrolls away
+ HIGH
+LOCATION
+Header, all pages, phone and tablet (below 992px)
+STEPS
+Open any page at 375px or 768px wide. Look at the header, then scroll.
+EXPECTED
+The primary action, Assess My Pet, is visible in the header and stays reachable while
+scrolling.
+ACTUAL
+The header shows only a Sign in chip and the menu button. Assess My Pet is inside the
+menu. The header is position: relative, so it scrolls off screen.
+CHANGE
+REQUIRED
+Put Assess My Pet in the mobile header and move Sign in into the menu. Make
+the header sticky: header { position: sticky; top: 0; z-index: 50; }.
+EVIDENCE
+Header links measured at 375px and 768px: PETZ, Sign in, menu button. Computed header
+position: relative. Fig 5, Fig 12. [V]
+SW-4 No company identity, About page or social proof
+ HIGH
+LOCATION
+Footer, all pages; /about
+STEPS
+Scroll to the footer on any page. Open /about.
+EXPECTED
+A legal entity name, address, a way to reach a person, an About page, named vets and
+links to social profiles.
+ACTUAL
+The footer ends with Copyright © PETZ: no year, entity, address, phone or WhatsApp.
+/about returns 404. The site has zero external links on every page tested.
+CHANGE
+REQUIRED
+Add an About page (founders, vet advisers with credentials). Put the legal
+entity, registered address, WhatsApp number and Instagram/LinkedIn links in
+the footer.
+EVIDENCE
+External link count per page: 0 on all 21 pages scanned. /about: 404. [V]
+SW-2 Mobile menu does not close on Escape and is missing key pages
+ MEDIUM
+LOCATION
+Header menu, phone and tablet
+STEPS
+Open the menu. Press Escape. Scroll the page. Read the list of links.
+EXPECTED
+Escape and a tap outside close the menu, the page behind does not scroll, and all main
+pages are listed.
+ACTUAL
+aria-expanded stays true after Escape. Body overflow stays visible, so the page scrolls
+behind the menu. Sign in appears twice (header chip and menu). How It Works, Blog, FAQ
+and Contact are not in the menu; they are only in the footer.
+CHANGE
+REQUIRED
+Close the menu on Escape, outside tap and route change. Set body overflow to
+hidden while open. Add How It Works, Blog, FAQ and Contact to the menu. Show
+Sign in once.
+EVIDENCE
+Tested with a real Escape key press and a dispatched keydown: aria-expanded true both
+times. Menu links found: Plans, Science, Partners, Luna, Sign in, Assess My Pet. Fig 4. [V]
+
+===== PAGE 6 =====
+petz.love QA audit · 11 November 2026
+Page 6
+SW-3 Unknown URLs show the default framework 404
+ LOW
+LOCATION
+Any unknown URL, for example /about, /pricing, /contact, /Plans
+STEPS
+Open https://petz.love/about.
+EXPECTED
+A branded page with the header, a short message and links to Home, Plans and Contact,
+with the tab title Page not found.
+ACTUAL
+Plain text: 404, This page could not be found. No header, footer or links. The tab title is the
+home page title. /Plans with a capital P also returns 404.
+CHANGE
+REQUIRED
+Add app/not-found.tsx with the site header and footer, links to the main pages,
+and metadata title 'Page not found - PETZ'. Add redirects for /about, /contact,
+/pricing, /signup and /luna to the right pages.
+EVIDENCE
+17 probe URLs returned HTTP 404 with noindex (correct status). Fig 6. [V]
+SW-5 Footer and inline links are small tap targets
+ LOW
+LOCATION
+Footer links, all pages; See How It Works and Browse all articles on home
+STEPS
+Open any page at 375px and try the footer links.
+EXPECTED
+Tap targets at least 24px tall, ideally 44px on phones.
+ACTUAL
+Footer links are 17px tall; See How It Works and Browse all articles are 21px; Privacy Policy
+and Terms on /login are 15px.
+CHANGE
+REQUIRED
+Add vertical padding to footer and inline links: footer a { display: inline-block;
+padding: 10px 0; }.
+EVIDENCE
+15 to 18 undersized controls per page at 375px. [V]
+SW-6 The nav label Luna does not say what it is
+ LOW
+LOCATION
+Header navigation
+STEPS
+Read the header as a first-time visitor.
+EXPECTED
+A label that explains the feature.
+ACTUAL
+The item reads Luna with no hint that it is the AI symptom checker.
+CHANGE
+REQUIRED
+Rename the item to 'Ask Luna (AI)' or 'Symptom checker'.
+EVIDENCE
+Header labels: Plans, Science, Partners, Luna. [V]
+3.2 Home page
+
+===== PAGE 7 =====
+petz.love QA audit · 11 November 2026
+Page 7
+HM-1 Home page ships 2.5 MB of images, most of it not needed
+ HIGH
+LOCATION
+/ (home), worst on phones
+STEPS
+Load the home page and inspect the image requests.
+EXPECTED
+Images sized for their slots, in WebP or AVIF, with only the main hero image preloaded.
+ACTUAL
+13 unique images total 2,520 KB. All are 1200px JPEGs shown in slots about 218px wide.
+husky.jpg alone is 691 KB. Nine images are preloaded in the page head. No WebP or AVIF.
+CHANGE
+REQUIRED
+Serve images through next/image (or pre-generate 320/640/960px WebP).
+Preload only the largest hero image with fetchpriority="high" and remove the
+other eight preloads. Target under 100 KB per image.
+EVIDENCE
+Sizes from HEAD requests today: husky 691 KB, orange-cat 348, golden-retriever 294,
+corgi 288, tabby-cat 217. The 24 Sep PageSpeed mobile test recorded LCP 10.5 s and
+Performance 66; PageSpeed could not be re-run today, and the page weight is unchanged.
+[V] + [C]
+HM-2 Invented testimonials are shown as quotes
+ HIGH
+LOCATION
+/ (home), section Every pet has a different starting point
+STEPS
+Scroll to the three quote cards.
+EXPECTED
+Real, attributed reviews, or scenarios that are clearly not quotes.
+ACTUAL
+Three quotes in quotation marks such as Everything seemed fine. PETZ helped us
+understand... are labelled only by a small, low-contrast ILLUSTRATIVE EXAMPLE tag.
+CHANGE
+REQUIRED
+Remove the quotation marks and rewrite the cards as scenarios ('The healthy
+pet: what PETZ looks at'), or replace them with real reviews with name and city.
+EVIDENCE
+Text present in today's page source. Label contrast measured at about 2:1 on 24 Sep. [V]
++ [C]
+HM-3 Images have missing or wrong alt text
+ LOW
+LOCATION
+/ (home), /blog, /sample-assessment
+STEPS
+Inspect the alt attribute of each image.
+EXPECTED
+Every meaningful image has alt text that describes it.
+ACTUAL
+4 images on the home page, 10 on /blog and Bella's photo on /sample-assessment have
+empty alt text. On 24 Sep several alts described the wrong animal (labrador.jpg is a Jack
+Russell).
+CHANGE
+REQUIRED
+Write accurate alt text for each image and rename the files to match what they
+show.
+EVIDENCE
+Empty alt count from the DOM today: home 4, blog 10, sample 1. [V] + [C]
+
+===== PAGE 8 =====
+petz.love QA audit · 11 November 2026
+Page 8
+HM-4 Step numbers are almost invisible
+ LOW
+LOCATION
+/ (home) and /how-it-works, step cards 01 to 05
+STEPS
+Look at the numerals on the step cards.
+EXPECTED
+Numerals readable at 3:1 contrast or better.
+ACTUAL
+The numerals are rgb(238,238,238) on white, about 1.2:1.
+CHANGE
+REQUIRED
+Change the numeral colour to #9A9A9A or darker, or mark them aria-hidden if
+decorative.
+EVIDENCE
+Computed colour read from the page today. [V]
+HM-5 Scrolling marquee cannot be paused; background is fixed
+ LOW
+LOCATION
+/ (home)
+STEPS
+Watch the Built around evidence strip. Scroll on a low-end phone.
+EXPECTED
+Moving content can be paused; scrolling is smooth.
+ACTUAL
+The marquee loops with no pause control. The body gradient uses background-attachment:
+fixed, which causes repaint on scroll and is ignored by iOS Safari.
+CHANGE
+REQUIRED
+Pause the marquee on hover and focus: .marquee-track:hover {
+animation-play-state: paused; }. Paint the gradient on a fixed pseudo-element
+instead of background-attachment: fixed.
+EVIDENCE
+Marquee element and computed background-attachment 'fixed, fixed' found today. [V]
+3.3 Assessment and sign-in (/assess, /login)
+AU-1 Every Assess My Pet button leads to a sign-in wall
+ CRITICAL
+LOCATION
+/assess, reached from every Assess My Pet button on home, /plans, /sample-assessment,
+/pet-passport, /waitlist and blog posts
+STEPS
+Signed out, click Assess My Pet anywhere.
+EXPECTED
+The visitor starts answering questions, as the home page promises (It starts with a few
+simple questions).
+ACTUAL
+/assess redirects to /login with a callback URL. The page greets first-time visitors with
+Welcome back and asks for Google or email and password before showing anything.
+CHANGE
+REQUIRED
+Let visitors answer the questions without an account, keep answers in the
+session, show a preview, then ask them to sign up to save the report. Until then,
+open /login in sign-up mode with the heading 'Create your free account' and one
+line on why an account is needed.
+EVIDENCE
+fetch('/assess') followed a redirect to /login. /account does the same. [V]
+
+===== PAGE 9 =====
+petz.love QA audit · 11 November 2026
+Page 9
+AU-2 Email accounts have no password reset
+ CRITICAL
+LOCATION
+/login
+STEPS
+Open /login and click Forgot password?
+EXPECTED
+An email with a reset link.
+ACTUAL
+The page shows: Password reset isn't available yet. Try Google, or contact us. The same
+form offers email and password sign-up.
+CHANGE
+REQUIRED
+Ship a reset flow (emailed one-time token that expires in 30 minutes), or remove
+passwords and offer Google plus an emailed magic link.
+EVIDENCE
+Message reproduced today. Since September, 'contact us' is now a link to /support. Fig 2.
+[V]
+AU-3 Sign-in page has no way back to the site and mixed signals
+ MEDIUM
+LOCATION
+/login and /login?mode=signup
+STEPS
+Open /login. Look for a link to the home page. Click Sign up and read the tab title. Tab
+through the form.
+EXPECTED
+A header or logo link home, a title that matches the mode, and tab order email, password,
+submit.
+ACTUAL
+The PETZ wordmark is not a link and there is no header. The tab title stays Sign in - PETZ in
+sign-up mode. Tab order is email, Forgot password?, password. Sign-up asks for the
+password twice.
+CHANGE
+REQUIRED
+Link the wordmark to /. Give sign-up its own route and title. Move Forgot
+password? after the password field. Drop Confirm password and keep the
+show/hide button.
+EVIDENCE
+Links to / on the page: 0. Focus order read from the DOM. Fig 8. [V]
+AU-4 Sign-in errors are not announced to screen readers
+ LOW
+LOCATION
+/login
+STEPS
+Submit the form empty, then with the email notanemail.
+EXPECTED
+The error is tied to its field and announced.
+ACTUAL
+Enter a valid email address. appears as plain text under the password field. No aria-invalid,
+aria-describedby or role=alert.
+CHANGE
+REQUIRED
+Render the error next to its field with role="alert", set aria-invalid="true" on the
+input and link them with aria-describedby.
+EVIDENCE
+Validation text appeared on both tests; no ARIA state changed. [V]
+3.4 Luna symptom checker (/symptom-checker)
+
+===== PAGE 10 =====
+petz.love QA audit · 11 November 2026
+Page 10
+LU-1 Emergency signs list is cut off on phones
+ CRITICAL
+LOCATION
+/symptom-checker at 375px wide
+STEPS
+Open the page on a phone. Read the emergency list without scrolling inside the grey box.
+EXPECTED
+All seven emergency signs are visible before the user can continue.
+ACTUAL
+The list sits in a fixed-height scrolling box. The seventh sign, Sudden loss of back-leg
+function or heatstroke, is clipped. The only button, None of these - continue, is directly
+below.
+CHANGE
+REQUIRED
+Remove max-height and overflow from .emergency-list so the card grows to fit.
+Add a second button, 'My pet has one of these', that shows nearby emergency
+vets with a tap-to-call number.
+EVIDENCE
+Fig 1 shows the clipped seventh item. No tel: link on the page. [V]
+LU-2 Luna asks for an account only after the emergency check
+ HIGH
+LOCATION
+/symptom-checker
+STEPS
+Click None of these - continue.
+EXPECTED
+Either the chat opens, or the page says up front that a free account is needed.
+ACTUAL
+The browser goes to /login?callbackUrl=/symptom-checker. Nothing on the Luna page
+mentions an account.
+CHANGE
+REQUIRED
+Add 'Free account required' above the continue button, or allow three questions
+before asking the user to sign in.
+EVIDENCE
+Redirect reproduced today. [V]
+3.5 Plans, pricing and gift cards
+PL-1 Annual price shows the wrong monthly equivalent
+ HIGH
+LOCATION
+/plans, PETZ Care card with the Annual toggle selected
+STEPS
+Open /plans and select Annual.
+EXPECTED
+₹4,999 a year shown as about ₹417 a month.
+ACTUAL
+The card reads: ₹4,999/year, Billed annually · ₹499/month equivalent. ₹499 is the monthly
+plan price. The banner above correctly says Save ₹989 vs monthly.
+CHANGE
+REQUIRED
+Change the line to 'Billed annually · about ₹417/month'. Compute it in code:
+Math.round(4999 / 12).
+EVIDENCE
+Text read from the card after each of four toggle clicks. Fig 11. [V]
+
+===== PAGE 11 =====
+petz.love QA audit · 11 November 2026
+Page 11
+PL-2 Paid plan button leads to a waitlist without saying so
+ HIGH
+LOCATION
+/plans, PETZ Care card
+STEPS
+Click Give Your Pet More Care.
+EXPECTED
+Checkout, or a button that says the plan is not yet available.
+ACTUAL
+The button opens /waitlist. The waitlist form does not record which plan the visitor wanted.
+CHANGE
+REQUIRED
+Rename the button 'Join the PETZ Care waitlist' and link to /waitlist?plan=care.
+Store the plan value with the sign-up.
+EVIDENCE
+Link target read today: /waitlist. [V]
+PL-3 Products and prices contradict each other across pages
+ HIGH
+LOCATION
+/plans, /gift-cards, /waitlist, /how-it-works, /faq
+STEPS
+Compare what each page says PETZ sells.
+EXPECTED
+One consistent list of what is sold today, with final prices and tax treatment.
+ACTUAL
+/plans lists five add-ons from ₹14,500 to ₹29,700 with no description or buy button, under
+Pricing is illustrative and may change. /gift-cards sells Starter Kit, Pro Kit and Custom cards
+redeemable in the PETZ app; no kit or app exists elsewhere. /waitlist promises biomarker
+kits; /faq says biomarkers are not part of launch. No page mentions GST.
+CHANGE
+REQUIRED
+Show only what is on sale at launch. Move add-ons, kits and the app into one
+section labelled 'Coming soon'. Remove 'illustrative' from live prices and state
+'incl. GST'.
+EVIDENCE
+All quoted text present in today's pages. [V]
+PL-4 Gift cards page is a dead end
+ HIGH
+LOCATION
+/gift-cards
+STEPS
+Open the page and try to buy or register interest.
+EXPECTED
+A buy button, or a notify-me form.
+ACTUAL
+Three priced tiers and the line Checkout coming with app launch. No button, form or link
+other than the header.
+CHANGE
+REQUIRED
+Add a 'Notify me' button linking to /waitlist?product=gift, or unpublish the page
+and remove the View gift cards link on /plans.
+EVIDENCE
+No form or button elements in the page body. Fig 7. [V]
+PL-5 The price is the smallest text on each plan card
+ LOW
+LOCATION
+/plans
+STEPS
+Look at the two plan cards.
+EXPECTED
+The price is the most prominent element.
+ACTUAL
+Plan names are 24px; ₹0 and ₹499/month are 16px. Both cards carry the same EXCLUSIVE
+LAUNCH PLAN chip.
+CHANGE
+REQUIRED
+Set the price to 32px bold. Use one 'Recommended' badge on PETZ Care only.
+EVIDENCE
+Fig 11. [V]
+
+===== PAGE 12 =====
+petz.love QA audit · 11 November 2026
+Page 12
+3.6 Pet Passport (/pet-passport)
+PP-1 Vaccination schedule is a hard-coded mock that ignores the
+answers
+ CRITICAL
+LOCATION
+/pet-passport, steps 3 and 5
+STEPS
+Choose Dog, age 99, Delhi. Continue through History, Schedule, Travel and Record.
+EXPECTED
+A schedule calculated from species, age and vaccine history, and a record to download or
+share.
+ACTUAL
+Age 99 is accepted although the field is limited to 0 to 30. Step 3 shows Suggested
+schedule (mock): Rabies - Due soon (annual), Core booster - Upcoming in 3 months,
+Parasite prevention - Needs attention, whatever was entered. The last step shows no
+record, only a link to the sign-in-gated assessment.
+CHANGE
+REQUIRED
+Unpublish the page or label it 'Coming soon' until the schedule is calculated from
+the inputs and signed off by a vet. Then enforce the 0 to 30 range in the submit
+handler and add a PDF download on the final step.
+EVIDENCE
+Run today with age 99: step 2 opened. Step text copied from the page. Empty-field
+validation works (Fig 3). [V]
+PP-2 Step pills are truncated on phones and not announced
+ LOW
+LOCATION
+/pet-passport at 375px
+STEPS
+Open the page on a phone and read the five step pills.
+EXPECTED
+All five labels readable; the current step announced.
+ACTUAL
+Schedule is cut to Schedul and pills overlap. The pills have no aria-current.
+CHANGE
+REQUIRED
+Reduce pill padding or show 'Step 1 of 5' on phones. Set aria-current="step" on
+the active pill.
+EVIDENCE
+Fig 3. [V]
+3.7 Forms: newsletter, waitlist, contact, partner application
+FM-1 Form APIs accept invalid and oversized data and have no abuse
+protection
+ HIGH
+LOCATION
+POST /api/newsletter, /api/waitlist (same handlers back /api/support and /api/partners)
+STEPS
+Send a POST to /api/newsletter with the email notanemail. Send /api/waitlist a
+5,000-character name. Send the same email twice.
+EXPECTED
+HTTP 400 for invalid email and over-long fields; duplicates ignored; requests rate-limited.
+ACTUAL
+All return 201 {ok:true}, including an email containing a script tag. No CAPTCHA, honeypot
+or rate-limit header. Only an empty email is rejected (400).
+CHANGE
+REQUIRED
+Validate on the server with a schema (zod: z.string().email().max(254); name
+max 100). Add a unique index on email. Rate-limit by IP (for example 5 requests
+a minute) and add Cloudflare Turnstile or a honeypot field.
+EVIDENCE
+Eight direct API calls made today; responses recorded. Test rows are listed in the appendix
+for deletion. [V]
+
+===== PAGE 13 =====
+petz.love QA audit · 11 November 2026
+Page 13
+FM-2 Name fields reject common Indian names
+ HIGH
+LOCATION
+/waitlist Name field (the same rule is on /support)
+STEPS
+Enter S. Kumar, A.P.J. Abdul Kalam, a name typed in Hindi (Devanagari) script, or José and
+submit.
+EXPECTED
+The name is accepted.
+ACTUAL
+Each is rejected with Name can only contain letters, spaces, hyphens and apostrophes.
+CHANGE
+REQUIRED
+Replace the pattern with a Unicode-aware one: /^[\p{L}\p{M}.' -]{1,100}$/u, or
+validate length only.
+EVIDENCE
+Six names tested today; only O'Brien-Smith passed. [V]
+FM-3 Forms fall back to GET, which can put emails in the URL
+ MEDIUM
+LOCATION
+Newsletter, /waitlist, /support, /partner-apply, /pet-passport
+STEPS
+Inspect each form element.
+EXPECTED
+method=post with an action, so a submit before JavaScript loads still works safely.
+ACTUAL
+Every form has no action and method get, with named inputs (wlEmail, supEmail...). A
+submit before the script is ready navigates to a URL containing the visitor's email.
+CHANGE
+REQUIRED
+Set method="post" and action to the API route on each form, or disable the
+submit button until hydration completes.
+EVIDENCE
+Form attributes read from five pages today: action null, method get. [V]
+FM-4 Newsletter error is a red border only; sign-up is single opt-in with
+no consent text
+ MEDIUM
+LOCATION
+Newsletter form, footer of home, /science, /blog
+STEPS
+Submit empty, then with notanemail. Then submit a valid address.
+EXPECTED
+A text error; a confirmation email before subscribing; a line linking to the privacy policy.
+ACTUAL
+Invalid input shows a red outline and no message. A valid address is subscribed at once
+(201) with no confirmation email step and no consent or privacy wording near the field.
+CHANGE
+REQUIRED
+Show 'Enter a valid email address' under the field. Add 'By subscribing you agree
+to our Privacy Policy'. Send a confirmation email and activate the subscription
+only after the click.
+EVIDENCE
+Three UI submissions today. Success state shown in Fig 9. [V]
+
+===== PAGE 14 =====
+petz.love QA audit · 11 November 2026
+Page 14
+FM-5 Partner form does not match the partner types on offer
+ MEDIUM
+LOCATION
+/partners and /partner-apply
+STEPS
+Read the four partner cards on /partners, then open the Partner type list on /partner-apply.
+Submit the form.
+EXPECTED
+The same four types in the list, and one response time.
+ACTUAL
+/partners offers Veterinary, Diagnostic, Pet Health Brands and Research. The list offers
+Veterinary clinic, Groomer, Nutrition provider, Supplements provider. The intro says
+approval in 5 to 7 business days; the confirmation says reply within 3 business days.
+CHANGE
+REQUIRED
+Make the options match the four cards and pre-select with ?type=. Use one
+response time in both places. Add contact name and phone fields.
+EVIDENCE
+Options and both messages read today; test submission returned 201. [V]
+FM-6 Weak field checks on phone, city, country and message
+ LOW
+LOCATION
+/support, /partner-apply, /waitlist
+STEPS
+Enter abc as phone, 12345 as city, Xyzland123 as country, x as message.
+EXPECTED
+Each is rejected or corrected.
+ACTUAL
+All are accepted.
+CHANGE
+REQUIRED
+Validate phone with /^\+?[0-9 ()-]{7,15}$/. Use a city select on the waitlist
+instead of free-text country. Require at least 10 characters in the message.
+EVIDENCE
+Each value submitted successfully today. [V]
+FM-7 Waitlist asks for country, not city
+ LOW
+LOCATION
+/waitlist
+STEPS
+Open the form.
+EXPECTED
+Fields that help plan a city-by-city India launch.
+ACTUAL
+Country is required and pre-filled with India. There is no city or pet field.
+CHANGE
+REQUIRED
+Replace Country with City (select with Other) and add pet type.
+EVIDENCE
+Default value 'India' read today. [V]
+3.8 Content pages: Science, How It Works, Sample, FAQ, Blog
+
+===== PAGE 15 =====
+petz.love QA audit · 11 November 2026
+Page 15
+CT-1 Sample assessment does not show what users get
+ HIGH
+LOCATION
+/sample-assessment
+STEPS
+Open the page.
+EXPECTED
+A full sample report: what each status means, top actions, what to raise with a vet.
+ACTUAL
+A score of 82 and six one-word statuses (Strong, Monitor, On track, Good, Review). No
+explanation or recommendations. The Labrador profile used a Jack Russell photo on 24
+Sep.
+CHANGE
+REQUIRED
+Add a section per status with one line of meaning and one action, plus 'Top 3
+things to do this month'. Use a Labrador photo.
+EVIDENCE
+Page text read today contains only the labels above. Photo mismatch not re-checked
+visually. [V] + [C]
+CT-2 The Science page cites no science
+ HIGH
+LOCATION
+/science
+STEPS
+Read the page looking for methods, sources or named reviewers.
+EXPECTED
+How scores are calculated, guidelines used, reviewing vets and limits.
+ACTUAL
+Five sections of general copy. No citations, methodology or named veterinarians. No
+outbound links.
+CHANGE
+REQUIRED
+Add 'How the score works', a reference list (WSAVA, AAHA guidelines), the
+names and registration numbers of reviewing vets, and a limitations paragraph.
+EVIDENCE
+Page read in full today. [V]
+CT-3 Blog articles are very short and unattributed
+ HIGH
+LOCATION
+/blog and all 10 articles
+STEPS
+Open each article.
+EXPECTED
+Useful length, author, vet reviewer, full date, sources, related posts.
+ACTUAL
+Body length is about 35 to 175 words; five articles are about 50 words or fewer. No author,
+reviewer or sources. Date shown as August 2026 only. No links between articles.
+CHANGE
+REQUIRED
+Expand the top five articles to 800+ words with a vet reviewer and citations. Add
+byline, full date, related posts and Article structured data. Unpublish stubs until
+written.
+EVIDENCE
+All 10 articles fetched today and measured. [V]
+
+===== PAGE 16 =====
+petz.love QA audit · 11 November 2026
+Page 16
+CT-4 FAQ reads like internal draft copy
+ MEDIUM
+LOCATION
+/faq
+STEPS
+Read the answers.
+EXPECTED
+Definite answers about the product as it is.
+ACTUAL
+Answers say PETZ can be designed for multiple companion animals, PETZ should protect
+personal and pet information, and We envision PETZ becoming more useful. No answers on
+price, cities, data deletion or refunds.
+CHANGE
+REQUIRED
+Rewrite in present tense ('PETZ supports dogs and cats'). Add questions on
+price, cities served, deleting data, refunds and who the vets are.
+EVIDENCE
+Phrases present today. Accordion opens and closes correctly. [V]
+CT-5 Blog has nine categories for ten posts and every card says Guide
+ LOW
+LOCATION
+/blog
+STEPS
+Click each category chip.
+EXPECTED
+A few useful categories, shown on each card, with a shareable URL.
+ACTUAL
+Counts per chip: 10, 1, 2, 2, 1, 1, 1, 1, 1. Every card is labelled Guide. The URL does not
+change when a chip is chosen.
+CHANGE
+REQUIRED
+Cut to four categories, show the category on the card, and use links such as
+/blog?category=nutrition.
+EVIDENCE
+Chip counts measured today. [V]
+CT-6 Four steps is followed by a fifth; US and UK spellings are mixed
+ LOW
+LOCATION
+/how-it-works; site-wide copy
+STEPS
+Read the steps heading and the cards. Compare spellings across pages.
+EXPECTED
+Heading and count agree; one spelling convention.
+ACTUAL
+Four steps to a clearer picture is followed by a card numbered 05. Home uses personalized;
+/plans uses personalised.
+CHANGE
+REQUIRED
+Remove the number from the Future card. Pick British/Indian English and apply
+it everywhere.
+EVIDENCE
+Both read today. [V]
+3.9 Legal: privacy and terms
+
+===== PAGE 17 =====
+petz.love QA audit · 11 November 2026
+Page 17
+LG-1 Privacy Policy is a placeholder while forms collect personal data
+ CRITICAL
+LOCATION
+/privacy
+STEPS
+Open the page.
+EXPECTED
+A complete policy naming the entity and grievance officer, with purposes, retention, rights
+and processors.
+ACTUAL
+The page says Placeholder for PETZ operator details and Operator legal entity details to be
+updated when finalised. No grievance officer, retention, user rights or processors. Sign-up,
+newsletter, waitlist, contact and partner forms are live.
+CHANGE
+REQUIRED
+Publish a full policy: legal entity and address, grievance officer contact, data
+collected and why, retention, rights and how to use them, processors (Google
+sign-in, hosting, AI provider), cookies. Have counsel review it.
+EVIDENCE
+Text read today. This is a compliance observation, not legal advice. [V]
+LG-2 Terms are thin, describe a marketplace that is not offered, and
+are not in the footer
+ HIGH
+LOCATION
+/terms; site footer
+STEPS
+Open /terms. Look for a Terms link in the main footer.
+EXPECTED
+Terms that match the product, with refund and cancellation, governing law and liability,
+linked from every page.
+ACTUAL
+Five short sections. A Marketplace section describes bookings and payments. No governing
+law, liability or termination terms, and no refund process. The main footer links only
+Privacy Policy.
+CHANGE
+REQUIRED
+Publish counsel-reviewed Terms with a refund and cancellation policy and
+governing law. Add a Terms link to the footer next to Privacy Policy.
+EVIDENCE
+Footer link check today: Terms absent. [V]
+LG-3 An unlinked Marketplace page is live
+ MEDIUM
+LOCATION
+/marketplace
+STEPS
+Open https://petz.love/marketplace.
+EXPECTED
+404, or a finished page that is linked from the site.
+ACTUAL
+The page returns 200 with the title Marketplace - PETZ and category cards (Vet clinics: GP,
+internal medicine, dental...). Nothing links to it and it is indexable.
+CHANGE
+REQUIRED
+Remove the route, or add a noindex robots tag until the marketplace launches.
+EVIDENCE
+Found by URL probe today: HTTP 200, 12.9 KB, no noindex. [V]
+3.10 SEO and link sharing
+
+===== PAGE 18 =====
+petz.love QA audit · 11 November 2026
+Page 18
+SE-1 No robots.txt, sitemap or canonical tags
+ HIGH
+LOCATION
+/robots.txt, /sitemap.xml, all pages
+STEPS
+Open both URLs. View the page source for a canonical link.
+EXPECTED
+Both files exist; each page declares its canonical URL.
+ACTUAL
+Both return 404. No page has a canonical link.
+CHANGE
+REQUIRED
+Add app/robots.ts and app/sitemap.ts. Set metadataBase and
+alternates.canonical in each page's metadata. Submit the sitemap in Google
+Search Console.
+EVIDENCE
+HTTP 404 on both today; canonical null on home. [V]
+SE-2 Shared links have no preview
+ HIGH
+LOCATION
+All pages
+STEPS
+Paste a petz.love link into WhatsApp or LinkedIn.
+EXPECTED
+A card with title, description and image.
+ACTUAL
+No og: or twitter: meta tags on any page, so apps show a bare URL.
+CHANGE
+REQUIRED
+Add openGraph and twitter metadata in the root layout and an
+app/opengraph-image (1200x630).
+EVIDENCE
+Meta tag count on home today: 0. [V]
+SE-3 16 pages share one meta description; no structured data
+ MEDIUM
+LOCATION
+All 10 articles, /gift-cards, /partner-apply, /pet-passport, /privacy, /sample-assessment,
+/terms, /waitlist, /marketplace
+STEPS
+View the meta description on each page.
+EXPECTED
+A unique description per page; JSON-LD for Organization, FAQ and Article.
+ACTUAL
+These pages all use PETZ uses AI and veterinary-informed health science to understand
+your pet's health. No JSON-LD anywhere.
+CHANGE
+REQUIRED
+Write a unique description for each page. Add Organization and WebSite
+JSON-LD to the layout, FAQPage to /faq and Article to posts.
+EVIDENCE
+Descriptions read from each page today; JSON-LD count 0. [V]
+SE-4 No web manifest or theme colour
+ LOW
+LOCATION
+/manifest.json; page head
+STEPS
+Open /manifest.json.
+EXPECTED
+A manifest and a theme-color meta tag.
+ACTUAL
+404; no theme-color tag.
+CHANGE
+REQUIRED
+Add app/manifest.ts with name, icons and theme_color.
+EVIDENCE
+Checked today. [V]
+3.11 Performance and server
+
+===== PAGE 19 =====
+petz.love QA audit · 11 November 2026
+Page 19
+PF-1 Server uses HTTP/1.1 and does not cache images or pages
+ MEDIUM
+LOCATION
+nginx server, all first-party requests
+STEPS
+Inspect the protocol and Cache-Control headers.
+EXPECTED
+HTTP/2, long cache lifetimes for static files, cached marketing pages.
+ACTUAL
+petz.love serves over HTTP/1.1. /assets/images/* are sent with public, max-age=0. Every
+HTML page is private, no-cache, no-store.
+CHANGE
+REQUIRED
+Enable HTTP/2 in nginx: listen 443 ssl; http2 on;. Send Cache-Control: public,
+max-age=31536000, immutable for /assets/. Statically render marketing pages
+(remove dynamic session reads from the layout).
+EVIDENCE
+nextHopProtocol and headers read today. Server response itself is fast: 40 to 80 ms over
+20 timed requests. [V]
+PF-2 Content is invisible until a script reveals it
+ MEDIUM
+LOCATION
+All pages, including the Luna emergency card and all forms
+STEPS
+Load a page and watch the first seconds, or load with scripts blocked.
+EXPECTED
+Content is visible immediately; safety content is never animated in.
+ACTUAL
+Blocks carry class reveal (opacity 0) and appear only after a script runs and a 0.7 s fade
+ends. In testing, forms and the emergency card stayed faint for several seconds after load.
+CHANGE
+REQUIRED
+Hide only when scripts are running: html.js .reveal { opacity: 0 }. Remove reveal
+from the emergency card, forms and the hero image.
+EVIDENCE
+7 reveal blocks on /plans, all at opacity below 1 before the script fired. Timing in the
+embedded test browser may be slower than a normal tab. [V]
+PF-3 Brand font never loads
+ MEDIUM
+LOCATION
+All pages
+STEPS
+Check the font requests and @font-face rules.
+EXPECTED
+Figtree loads on every device.
+ACTUAL
+CSS asks for Figtree, system-ui, sans-serif but there is no @font-face rule and no font
+request. Visitors see their system font.
+CHANGE
+REQUIRED
+Load Figtree with next/font/google in the root layout: const figtree = Figtree({
+subsets: ['latin'], display: 'swap' }).
+EVIDENCE
+@font-face rules: 0; loaded fonts: 0. [V]
+PF-4 Session endpoint is called four times on every page
+ LOW
+LOCATION
+All pages
+STEPS
+Watch network requests on load.
+EXPECTED
+One session request.
+ACTUAL
+/api/auth/session is requested 4 times per page load.
+CHANGE
+REQUIRED
+Use a single SessionProvider in the root layout and pass the server session to it.
+EVIDENCE
+Counted on 8 page loads today. [V]
+
+===== PAGE 20 =====
+petz.love QA audit · 11 November 2026
+Page 20
+PF-5 Body text is 14px on phones
+ LOW
+LOCATION
+All content pages at 375px
+STEPS
+Read a paragraph on a phone.
+EXPECTED
+16px body text.
+ACTUAL
+Computed body font size is 14px.
+CHANGE
+REQUIRED
+Set body { font-size: 16px; } at mobile widths.
+EVIDENCE
+Computed style read today. [V]
+3.12 Security
+SC-1 Missing security headers; server and framework versions exposed
+ HIGH
+LOCATION
+All responses
+STEPS
+Inspect the response headers of the home page.
+EXPECTED
+HSTS, a Content-Security-Policy and a Permissions-Policy; no version banners.
+ACTUAL
+No Strict-Transport-Security, Content-Security-Policy or Permissions-Policy. Headers reveal
+Server: nginx/1.24.0 (Ubuntu) and X-Powered-By: Next.js.
+CHANGE
+REQUIRED
+In nginx add: add_header Strict-Transport-Security "max-age=31536000;
+includeSubDomains" always; and server_tokens off;. In next.config set
+poweredByHeader: false and add a CSP (start with
+Content-Security-Policy-Report-Only).
+EVIDENCE
+Headers read today. X-Frame-Options, X-Content-Type-Options and Referrer-Policy are
+present. [V]
+SC-2 Third-party script loaded without integrity check
+ MEDIUM
+LOCATION
+All pages
+STEPS
+View the script tags.
+EXPECTED
+Self-hosted script, or a CDN script with an integrity hash.
+ACTUAL
+bootstrap.bundle.min.js loads from cdn.jsdelivr.net with no integrity attribute. The
+carousels and FAQ accordion depend on it.
+CHANGE
+REQUIRED
+Self-host the file, or add integrity="sha384-..." and crossorigin="anonymous".
+Better: replace the two widgets with small React components and remove
+Bootstrap.
+EVIDENCE
+Script tag read today. The Bootstrap stylesheet is no longer loaded (improved since
+September). [V]
+3.13 Accessibility
+
+===== PAGE 21 =====
+petz.love QA audit · 11 November 2026
+Page 21
+AX-1 Grey and orange text fail contrast
+ MEDIUM
+LOCATION
+Home sections, /plans, /login
+STEPS
+Measure text contrast.
+EXPECTED
+4.5:1 for small text (WCAG AA).
+ACTUAL
+Grey body copy rgb(110,109,109) on the peach page background measures 3.84:1 (14 text
+blocks on home). Orange rgb(255,129,57) is used for text such as Forgot password? (about
+2.5:1 on white).
+CHANGE
+REQUIRED
+Darken body copy to #333333. Add a text-safe orange token #C2410C for orange
+text and keep #FF8139 for fills.
+EVIDENCE
+Grey ratio computed from live styles today; orange ratio from the 24 Sep audit with the
+colour re-confirmed today. [V] + [C]
+AX-2 Blog filters cannot be used with a keyboard
+ MEDIUM
+LOCATION
+/blog category chips
+STEPS
+Press Tab to reach the chips.
+EXPECTED
+Chips are focusable buttons that expose their state.
+ACTUAL
+The chips are span elements with no role, so they work only with a mouse or touch.
+CHANGE
+REQUIRED
+Render each chip as <button type="button" aria-pressed="true|false">.
+EVIDENCE
+Element type read today: SPAN, role null. Mouse filtering works. [V]
+AX-3 No main landmark or skip link
+ MEDIUM
+LOCATION
+All pages except /login
+STEPS
+Tab from the top of a page; inspect landmarks.
+EXPECTED
+A Skip to content link and a main element.
+ACTUAL
+No main element on 20 of 21 pages scanned and no skip link on any.
+CHANGE
+REQUIRED
+Wrap page content in <main id="content"> and add <a class="skip-link"
+href="#content">Skip to content</a> as the first element in body.
+EVIDENCE
+DOM scan today. [V]
+AX-4 Heading levels skip
+ LOW
+LOCATION
+All pages
+STEPS
+List the headings in order.
+EXPECTED
+No skipped levels.
+ACTUAL
+Footer column titles are h4 directly after h2 sections. /partners, /gift-cards and
+/marketplace jump from h1 to h3. Five blog posts have no h2.
+CHANGE
+REQUIRED
+Change footer titles to <p class="footer-title">. Use h2 for card titles on those
+pages.
+EVIDENCE
+Heading order read from each page today. [V]
+
+===== PAGE 22 =====
+petz.love QA audit · 11 November 2026
+Page 22
+4. Working correctly
+✓ All 18 linked pages and all 10 blog posts load (HTTP 200). No broken internal links in the header, menu,
+footer or page bodies.
+✓ No horizontal scrolling at 375px, 768px or 1440px on any page tested.
+✓ No console errors on page load.
+✓ Server responds in 40 to 80 ms; 20 repeated requests across four pages showed no failures or slow
+outliers.
+✓ Newsletter, waitlist, contact and partner forms submit and show a confirmation (HTTP 201).
+✓ Required-field messages appear on the waitlist, contact, partner, Pet Passport, sign-in and sign-up
+forms.
+✓ Monthly / Annual toggle switches prices correctly and keeps its state in step (four switches).
+✓ FAQ accordion opens and closes; opening one question closes the previous one.
+✓ Blog category chips filter the list with a mouse or tap.
+✓ Mobile menu opens and closes with its button; desktop navigation shows all items from 992px.
+✓ /assess and /account redirect signed-out visitors to sign-in with a return address; /plans/ redirects to
+/plans.
+✓ Unknown URLs return a real 404 status with noindex.
+✓ HTTPS, gzip, X-Frame-Options, X-Content-Type-Options and Referrer-Policy are set; script bundles are
+cached for a year.
+✓ Every page has one H1, lang=en, a unique title, and labels on all form fields.
+✓ Email links open the mail app; favicon and app icons load.
+✓ Improved since 24 Sep: the Bootstrap stylesheet is gone, and 'contact us' on the password message is
+now a link.
+5. Coverage and limits
+ Firefox, Safari and Edge. Testing ran in one Chromium-based browser on a Mac, at phone (375), tablet
+(768) and desktop (1440) sizes. Edge shares the same engine; Safari and Firefox need a separate pass.
+ Anything behind sign-in: the assessment questions, Luna chat, account pages. I do not create accounts
+or enter passwords, so these need a test account from you.
+ Google sign-in, and whether confirmation emails arrive.
+ Throttled slow-connection runs and a fresh PageSpeed test. The September mobile figures are quoted
+where marked.
+ Real iOS and Android devices and screen-reader sessions.
+Test entries to delete
+Testing the forms created these rows in your data. They all use example.com addresses or obviously
+invalid values.
+ /api/newsletter: qa-audit-test@example.com (3 times), notanemail, a script-tag test address
+ /api/waitlist: QA Audit Test / qa-audit-test@example.com / Xyzland123; notanemail / India;
+qa-audit-test@example.com with a 5,000-character name
+ /api/support: QA Audit, qa-audit-test@example.com, subject 'QA audit test'
+ /api/partners: QA Audit Test Org, qa-audit-test@example.com, city 12345
+
+===== PAGE 23 =====
+petz.love QA audit · 11 November 2026
+Page 23
+6. Screenshots
+Captured in the test browser on 11 November 2026.
+Fig 1. Luna on a phone: the seventh
+emergency sign is cut off above the
+continue button.
+Fig 2. Sign-in: Forgot password? says
+reset is not available.
+Fig 3. Pet Passport: required-field
+messages work; step pills are
+truncated.
+Fig 4. Mobile menu: four links, Sign in
+shown twice.
+Fig 5. Home on a phone: header shows
+Sign in, not Assess My Pet.
+Fig 6. Default 404 page with no
+navigation.
+
+===== PAGE 24 =====
+petz.love QA audit · 11 November 2026
+Page 24
+Fig 7. Gift cards: prices with no way to
+buy.
+Fig 8. Sign-up mode: password asked
+twice.
+Fig 9. Newsletter confirmation after a
+valid address.
+Fig 10. Home at 1440px: layout and
+navigation render correctly.
+Fig 11. Plans at 1440px.
+Fig 12. Home at 768px: menu button
+replaces the navigation.

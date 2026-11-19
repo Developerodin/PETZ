@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SiteShell } from "@/components/SiteShell";
 import { getFormUser } from "@/lib/form-user";
 
@@ -10,8 +11,26 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const user = await getFormUser();
 
+  const siteUrl = (process.env.AUTH_URL || "https://petz.love").replace(/\/$/, "");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        name: "PETZ",
+        url: siteUrl,
+      },
+      {
+        "@type": "Organization",
+        name: "PETZ",
+        url: siteUrl,
+      },
+    ],
+  };
+
   return (
     <SiteShell variant="overlay">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="section">
             <div className="section-frame pd-top">
               <div className="section-card hero-top-pd hero-flush">
@@ -29,7 +48,7 @@ export default async function HomePage() {
                 </div>
                 <div className="hero-images-wrap">
                   <div className="hero-images-grid">
-                    <div className="cell cell-l1 reveal"><img src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width="1200" height="800" decoding="async" /></div>
+                    <div className="cell cell-l1 reveal"><Image src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width={1200} height={800} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-lt">
                       <div className="metric-card">
                         <div className="metric-label">Sleep</div>
@@ -37,7 +56,7 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "72%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-l2 reveal"><img src="/assets/images/husky.jpg" alt="Husky outdoors" width="1200" height="1600" decoding="async" /></div>
+                    <div className="cell cell-l2 reveal"><Image src="/assets/images/husky.jpg" alt="Husky outdoors" width={1200} height={1600} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-lb">
                       <div className="metric-card">
                         <div className="metric-label">Weight</div>
@@ -45,7 +64,7 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "48%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-a reveal"><img src="/assets/images/golden-retriever.jpg" alt="Golden retriever looking at the camera" width="1200" height="1924" decoding="async" loading="eager" fetchPriority="high" /></div>
+                    <div className="cell cell-a reveal"><Image src="/assets/images/golden-retriever.jpg" alt="Golden retriever looking at the camera" width={1200} height={1924} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} preload /></div>
                     <div className="cell cell-ab">
                       <div className="metric-card">
                         <div className="metric-label">Energy</div>
@@ -60,7 +79,7 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "78%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-c reveal"><img src="/assets/images/grey-cat.jpg" alt="Grey cat sitting upright" width="1200" height="826" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-c reveal"><Image src="/assets/images/grey-cat.jpg" alt="Grey cat sitting upright" width={1200} height={826} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-cb">
                       <div className="metric-card">
                         <div className="metric-label">Mood</div>
@@ -75,7 +94,7 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "54%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-e reveal"><img src="/assets/images/dog-running.jpg" alt="Dog running outdoors" width="1200" height="800" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-e reveal"><Image src="/assets/images/dog-running.jpg" alt="Dog running outdoors" width={1200} height={800} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-eb">
                       <div className="metric-card">
                         <div className="metric-label">Body</div>
@@ -83,8 +102,8 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "62%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-f reveal"><img src="/assets/images/fluffy-white-dog.jpg" alt="Fluffy white dog" width="1200" height="802" decoding="async" loading="eager" /></div>
-                    <div className="cell cell-g reveal"><img src="/assets/images/tabby-cat.jpg" alt="Tabby cat portrait" width="1200" height="1200" decoding="async" loading="eager" /></div>
+                    <div className="cell cell-f reveal"><Image src="/assets/images/fluffy-white-dog.jpg" alt="Fluffy white dog" width={1200} height={802} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+                    <div className="cell cell-g reveal"><Image src="/assets/images/tabby-cat.jpg" alt="Tabby cat portrait" width={1200} height={1200} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-rt">
                       <div className="metric-card">
                         <div className="metric-label">Behaviour</div>
@@ -92,8 +111,8 @@ export default async function HomePage() {
                         <div className="metric-bar"><span style={{width: "81%"}}></span></div>
                       </div>
                     </div>
-                    <div className="cell cell-r2 reveal"><img src="/assets/images/corgi.jpg" alt="Corgi portrait" width="1200" height="1811" decoding="async" /></div>
-                    <div className="cell cell-r1 reveal"><img src="/assets/images/orange-cat.jpg" alt="Orange cat sitting" width="1200" height="1680" decoding="async" /></div>
+                    <div className="cell cell-r2 reveal"><Image src="/assets/images/corgi.jpg" alt="Corgi portrait" width={1200} height={1811} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+                    <div className="cell cell-r1 reveal"><Image src="/assets/images/orange-cat.jpg" alt="Orange cat sitting" width={1200} height={1680} sizes="(max-width: 768px) 40vw, 220px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
                     <div className="cell cell-rb">
                       <div className="metric-card">
                         <div className="metric-label">Appetite</div>
@@ -149,10 +168,10 @@ export default async function HomePage() {
                   </a>
                 </div>
                 <figure className="image-wrapper reveal">
-                  <img src="/assets/images/two-dogs.jpg" alt="Two dogs outdoors" width="1200" height="801" decoding="async" loading="lazy" />
+                  <Image src="/assets/images/two-dogs.jpg" alt="Two dogs outdoors" width={1200} height={801} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </figure>
                 <figure className="image-wrapper reveal">
-                  <img src="/assets/images/cat-looking.jpg" alt="Cat looking toward the camera" width="1200" height="800" decoding="async" loading="lazy" />
+                  <Image src="/assets/images/cat-looking.jpg" alt="Cat looking toward the camera" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </figure>
               </div>
             </div>
@@ -179,7 +198,7 @@ export default async function HomePage() {
                             <p>Share the basics — age, breed, weight, diet, activity, lifestyle and medical history.</p>
                           </div>
                           <figure className="image-wrapper">
-                            <img src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width="1200" height="800" decoding="async" loading="lazy" />
+                            <Image src="/assets/images/puppy-grass.jpg" alt="Puppy in grass" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </figure>
                         </div>
                       </div>
@@ -191,7 +210,7 @@ export default async function HomePage() {
                             <p>PETZ analyzes your information against health patterns and risk factors relevant to your pet.</p>
                           </div>
                           <figure className="image-wrapper">
-                            <img src="/assets/images/labrador.jpg" alt="Labrador close-up" width="1200" height="800" decoding="async" loading="lazy" />
+                            <Image src="/assets/images/labrador.jpg" alt="Labrador close-up" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </figure>
                         </div>
                       </div>
@@ -203,7 +222,7 @@ export default async function HomePage() {
                             <p>PETZ highlights healthy areas, potential concerns and where your pet may need attention.</p>
                           </div>
                           <figure className="image-wrapper">
-                            <img src="/assets/images/orange-cat.jpg" alt="Orange cat" width="1200" height="1680" decoding="async" loading="lazy" />
+                            <Image src="/assets/images/orange-cat.jpg" alt="Orange cat" width={1200} height={1680} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </figure>
                         </div>
                       </div>
@@ -215,7 +234,7 @@ export default async function HomePage() {
                             <p>Keep your pet's health profile updated as things change and new information becomes available.</p>
                           </div>
                           <figure className="image-wrapper">
-                            <img src="/assets/images/husky.jpg" alt="Husky outdoors" width="1200" height="1600" decoding="async" loading="lazy" />
+                            <Image src="/assets/images/husky.jpg" alt="Husky outdoors" width={1200} height={1600} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </figure>
                         </div>
                       </div>
@@ -246,21 +265,21 @@ export default async function HomePage() {
               <div className="grid-3 cols-1-tablet">
                 <article className="feature-tile reveal">
                   <div className="image-wrapper is-border-radius-medium">
-                    <img src="/assets/images/fluffy-white-dog.jpg" alt="Dog waiting near a bowl" width="1200" height="802" decoding="async" loading="lazy" />
+                    <Image src="/assets/images/fluffy-white-dog.jpg" alt="Dog waiting near a bowl" width={1200} height={802} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                   <h3 className="display-4">Nutrition &amp; Body</h3>
                   <p>Understand how diet, weight and feeding habits support long-term health.</p>
                 </article>
                 <article className="feature-tile reveal">
                   <div className="image-wrapper is-border-radius-medium">
-                    <img src="/assets/images/dog-running.jpg" alt="Dog on a walk" width="1200" height="800" decoding="async" loading="lazy" />
+                    <Image src="/assets/images/dog-running.jpg" alt="Dog on a walk" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                   <h3 className="display-4">Activity &amp; Lifestyle</h3>
                   <p>Understand how movement, exercise and daily routines influence health and wellbeing.</p>
                 </article>
                 <article className="feature-tile reveal">
                   <div className="image-wrapper is-border-radius-medium">
-                    <img src="/assets/images/tabby-cat.jpg" alt="Cat at rest" width="1200" height="1200" decoding="async" loading="lazy" />
+                    <Image src="/assets/images/tabby-cat.jpg" alt="Cat at rest" width={1200} height={1200} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                   <h3 className="display-4">Health History</h3>
                   <p>Bring together past conditions, medications, symptoms and other important health information.</p>
@@ -321,7 +340,7 @@ export default async function HomePage() {
                   <p style={{maxWidth: "40rem"}}>Every pet is different. PETZ looks at your pet's individual profile to identify the areas that matter most.</p>
                   <div className="grid-4 cards-layout stagger-group">
                     <div className="bento-image-col reveal-scale">
-                      <img src="/assets/images/puppy-grass.jpg" alt="Puppy in a garden" width="1200" height="800" decoding="async" loading="lazy" />
+                      <Image src="/assets/images/puppy-grass.jpg" alt="Puppy in a garden" width={1200} height={800} sizes="(max-width: 768px) 100vw, 480px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     </div>
                     <div className="bento-cards-col">
                       <article className="icon-top-card reveal">
@@ -370,7 +389,7 @@ export default async function HomePage() {
               <div className="dashboard-mock reveal">
                 <div className="dashboard-mock__top">
                   <div className="dashboard-pet">
-                    <img src="/assets/images/golden-retriever.jpg" alt="" width="1200" height="1924" decoding="async" loading="lazy" />
+                    <Image src="/assets/images/golden-retriever.jpg" alt="Golden retriever looking at the camera" width={64} height={64} sizes="64px" quality={75} />
                     <div>
                       <div className="display-4">Sample profile</div>
                       <p>Illustrative health profile preview</p>
@@ -458,18 +477,18 @@ export default async function HomePage() {
               </div>
               <div className="grid-3 section-posts-3-items">
                 <a className="post-item reveal" href="/blog/5-things-your-pet-cant-tell-you">
-                  <div className="image-wrapper is-border-radius-medium"><img src="/assets/images/cat-guide.jpg" alt="" width="1200" height="800" decoding="async" loading="lazy" /></div>
-                  <div className="post-meta"><span>Guide</span></div>
+                  <div className="image-wrapper is-border-radius-medium"><Image src="/assets/images/cat-guide.jpg" alt="Cat guide cover photo" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+                  <div className="post-meta"><span>Pet Health</span></div>
                   <h3 className="display-4">5 Things Your Pet Can't Tell You About Their Health</h3>
                 </a>
                 <a className="post-item reveal" href="/blog/is-your-dog-at-healthy-weight">
-                  <div className="image-wrapper is-border-radius-medium"><img src="/assets/images/labrador.jpg" alt="" width="1200" height="800" decoding="async" loading="lazy" /></div>
-                  <div className="post-meta"><span>Guide</span></div>
+                  <div className="image-wrapper is-border-radius-medium"><Image src="/assets/images/labrador.jpg" alt="Labrador close-up" width={1200} height={800} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+                  <div className="post-meta"><span>Pet Health</span></div>
                   <h3 className="display-4">Is Your Dog Actually at a Healthy Weight?</h3>
                 </a>
                 <a className="post-item reveal" href="/blog/common-pet-health-problems">
-                  <div className="image-wrapper is-border-radius-medium"><img src="/assets/images/grey-cat.jpg" alt="" width="1200" height="826" decoding="async" loading="lazy" /></div>
-                  <div className="post-meta"><span>Guide</span></div>
+                  <div className="image-wrapper is-border-radius-medium"><Image src="/assets/images/grey-cat.jpg" alt="Grey cat sitting upright" width={1200} height={826} sizes="(max-width: 768px) 100vw, 560px" quality={75} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+                  <div className="post-meta"><span>Nutrition</span></div>
                   <h3 className="display-4">The Most Common Pet Health Problems We Catch Too Late</h3>
                 </a>
               </div>
@@ -503,11 +522,20 @@ export default async function HomePage() {
                       <p className="newsletter-cta-dek">Receive pet health tips, guides, and updates from PETZ.</p>
                     </div>
                     <div>
-                      <form className="newsletter-form small-input-single" data-newsletter-form noValidate>
+                      <form className="newsletter-form small-input-single" method="post" action="/api/newsletter" data-newsletter-form noValidate>
+                        <div className="hp-field" aria-hidden="true">
+                          <label htmlFor="nlHomeCompany">Company</label>
+                          <input type="text" id="nlHomeCompany" name="company" tabIndex={-1} autoComplete="off" />
+                        </div>
                         <input type="email" name="email" placeholder="Enter your email" autoComplete="email" required aria-label="Email address" defaultValue={user.email} />
                         <button type="submit" className="newsletter-submit" aria-label="Subscribe">
                           <svg viewBox="0 0 16 16" fill="none" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
+                        <label className="newsletter-consent">
+                          <input type="checkbox" name="consent" value="1" required />
+                          <span>I agree to receive emails from PETZ and accept the <a href="/privacy">Privacy Policy</a>.</span>
+                        </label>
+                        <p className="field-error newsletter-error" hidden></p>
                       </form>
                       <p className="newsletter-success" hidden>Thanks for subscribing! We'll be in touch soon.</p>
                     </div>

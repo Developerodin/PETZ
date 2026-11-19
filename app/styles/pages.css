@@ -204,6 +204,11 @@
   will-change: transform;
 }
 
+.marquee-wrapper:hover .marquee-track,
+.marquee-wrapper:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 .marquee-group {
   display: flex;
   flex: none;
@@ -323,7 +328,7 @@
 }
 
 .steps_card .step-num {
-  color: var(--color-600);
+  color: #9a9a9a;
   line-height: 1;
   margin-bottom: 16px;
 }
@@ -1138,12 +1143,16 @@
 }
 
 .category-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
   padding: 8px 16px;
   border-radius: var(--radius-full);
   font-weight: 500;
   color: var(--color-100);
   font-size: 0.95rem;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .category-link.is-current {

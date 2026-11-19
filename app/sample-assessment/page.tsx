@@ -19,7 +19,7 @@ export default function SampleAssessmentPage() {
               <div className="dashboard-mock reveal">
                 <div className="dashboard-mock__top">
                   <div className="dashboard-pet">
-                    <img src="/assets/images/labrador.jpg" alt="" width="1200" height="800" />
+                    <img src="/assets/images/labrador.jpg" alt="Sample assessment illustration" width="1200" height="800" />
                     <div>
                       <div className="display-4">Bella</div>
                       <p>Illustrative health profile</p>

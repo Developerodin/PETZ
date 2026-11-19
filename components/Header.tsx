@@ -5,28 +5,35 @@ import { getNavMode } from "@/lib/chrome";
 import { HeaderAuth } from "@/components/HeaderAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const FULL_NAV = [
+type NavItem = { href: string; label: string; mobileOnly?: boolean };
+
+const FULL_NAV: NavItem[] = [
   { href: "/plans", label: "Plans" },
+  { href: "/how-it-works", label: "How It Works", mobileOnly: true },
   { href: "/science", label: "Science" },
+  { href: "/blog", label: "Blog", mobileOnly: true },
+  { href: "/faq", label: "FAQ", mobileOnly: true },
   { href: "/partners", label: "Partners" },
-  { href: "/symptom-checker", label: ASSISTANT_NAME },
+  { href: "/symptom-checker", label: `Ask ${ASSISTANT_NAME} (AI)` },
+  { href: "/support", label: "Contact", mobileOnly: true },
 ];
 
-const BLOG_NAV = [
+const BLOG_NAV: NavItem[] = [
   { href: "/assess", label: "Assess My Pet" },
 ];
 
-const PRIVACY_NAV: { href: string; label: string }[] = [];
+const PRIVACY_NAV: NavItem[] = [];
 
-const TERMS_NAV = [
+const TERMS_NAV: NavItem[] = [
   { href: "/privacy", label: "Privacy" },
 ];
 
 export function Header({ variant }: { variant: "overlay" | "inflow" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const navMode = getNavMode(pathname);
   const links =
     navMode === "blog" ? BLOG_NAV : navMode === "privacy" ? PRIVACY_NAV : navMode === "terms" ? TERMS_NAV : FULL_NAV;
@@ -36,21 +43,57 @@ export function Header({ variant }: { variant: "overlay" | "inflow" }) {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!open) {
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+
+    function onPointerDown(event: MouseEvent | TouchEvent) {
+      const target = event.target as Node | null;
+      if (!target || !headerRef.current) return;
+      if (!headerRef.current.contains(target)) setOpen(false);
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+    };
+  }, [open]);
+
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
+  const assessCta = showCta ? (
+    <Link className="button is-primary header-assess-cta" href="/assess">
+      <span className="button-hover"></span>
+      <span className="button-label">Assess My Pet</span>
+    </Link>
+  ) : null;
+
   const header = (
-    <header className={`header-component${variant === "inflow" ? " header-inflow" : ""}`}>
+    <header
+      ref={headerRef}
+      className={`header-component${variant === "inflow" ? " header-inflow" : ""}`}
+    >
       <div className="container">
         <div className="header-container">
           <Link className="brand" href="/">
             PETZ
           </Link>
-          <div className="header-auth-mobile">
-            <HeaderAuth compact />
-          </div>
+          {showCta ? <div className="header-cta-mobile">{assessCta}</div> : null}
           <button
             className={`header-menu-box${open ? " is-open" : ""}`}
             type="button"
@@ -64,7 +107,10 @@ export function Header({ variant }: { variant: "overlay" | "inflow" }) {
           <div className={`header-end header-collapse${open ? " show" : ""}`} id="mainNav">
             <ul className="nav-links">
               {links.map((item) => (
-                <li key={`${item.href}-${item.label}`}>
+                <li
+                  key={`${item.href}-${item.label}`}
+                  className={item.mobileOnly ? "nav-mobile-only" : undefined}
+                >
                   <Link className={isActive(item.href) ? "is-active" : undefined} href={item.href}>
                     {item.label}
                   </Link>
@@ -72,12 +118,7 @@ export function Header({ variant }: { variant: "overlay" | "inflow" }) {
               ))}
             </ul>
             <HeaderAuth />
-            {showCta ? (
-              <Link className="button is-primary" href="/assess">
-                <span className="button-hover"></span>
-                <span className="button-label">Assess My Pet</span>
-              </Link>
-            ) : null}
+            {assessCta}
           </div>
         </div>
       </div>

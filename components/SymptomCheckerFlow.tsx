@@ -118,6 +118,7 @@ export function SymptomCheckerFlow({
   const [busy, setBusy] = useState(false);
   const [loadingPets, setLoadingPets] = useState(false);
   const [emergencyNotice, setEmergencyNotice] = useState(false);
+  const [showEmergencyPanel, setShowEmergencyPanel] = useState(false);
   const petsLoadedRef = useRef(petsPreloaded || initialPets.length > 0);
   const preselectHandledRef = useRef(Boolean(signedIn && startInChat && preselectedPet));
 
@@ -298,10 +299,42 @@ export function SymptomCheckerFlow({
               <li>Sudden loss of back-leg function or heatstroke</li>
             </ul>
           </div>
-          <button type="button" className="button is-primary pet-continue" onClick={continueFromEmergency}>
-            <span className="button-hover"></span>
-            <span className="button-label">None of these — continue</span>
-          </button>
+          {!signedIn ? (
+            <p className="auth-emergency" style={{ marginBottom: 12 }}>
+              Free account required to continue after this check.
+            </p>
+          ) : null}
+          <div className="emergency-actions">
+            <button
+              type="button"
+              className="button is-primary pet-continue"
+              onClick={() => setShowEmergencyPanel(true)}
+            >
+              <span className="button-hover"></span>
+              <span className="button-label">My pet has one of these</span>
+            </button>
+            <button type="button" className="button pet-continue" onClick={continueFromEmergency}>
+              <span className="button-hover"></span>
+              <span className="button-label">None of these — continue</span>
+            </button>
+          </div>
+          {showEmergencyPanel ? (
+            <div className="emergency-panel" role="alert">
+              <p>
+                <strong>Stop using this tool.</strong> Take your pet to the nearest open veterinary clinic now.
+                This checker cannot help in an emergency.
+              </p>
+              <p>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=emergency+veterinarian+near+me"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Find emergency veterinarians near me
+                </a>
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     );

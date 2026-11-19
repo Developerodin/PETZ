@@ -519,9 +519,24 @@
 }
 
 .pricing-card .price {
-  font-weight: 600;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  font-weight: 700;
   color: var(--color-100);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.pricing-card .recommended-pill {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-100);
+  color: var(--color-400);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .pricing-card .price-note {
@@ -1290,13 +1305,37 @@ body.sc-chat-active .header-component.header-inflow {
 }
 
 .emergency-list {
-  max-height: 280px;
-  overflow-y: auto;
   padding: 16px;
   background: var(--surface-sunken);
   border-radius: var(--radius-medium);
   margin-bottom: 20px;
   font-size: 0.9375rem;
+}
+
+.emergency-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.emergency-panel {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-medium);
+  background: #fff5f2;
+  border: 1px solid #f0c4b8;
+}
+
+.emergency-panel p {
+  margin: 0 0 12px;
+}
+
+.emergency-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.emergency-panel a {
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 .emergency-list ul {
@@ -1365,4 +1404,28 @@ body.sc-chat-active .header-component.header-inflow {
 .small-input-single input.is-error {
   outline: 2px solid #e85d4a;
   outline-offset: 2px;
+}
+
+.newsletter-consent {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.4;
+}
+
+.newsletter-consent input {
+  margin-top: 3px;
+}
+
+.newsletter-consent a {
+  text-decoration: underline;
+}
+
+.newsletter-error {
+  margin-top: 8px;
+  color: #ffb4a2;
+  font-size: 0.8125rem;
 }
