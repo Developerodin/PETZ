@@ -22,10 +22,8 @@ export function getAdminEmail() {
     .toLowerCase();
 }
 
-export function getAdminPasswordHash() {
-  const raw = String(process.env.ADMIN_PASSWORD_HASH || "").trim();
-  // Local .env.local should escape `$` as `\$` so Next.js dotenv keeps the bcrypt hash.
-  // Vercel env values are raw hashes. Quotes are stripped if dotenv kept them.
+export function getAdminPassword() {
+  const raw = String(process.env.ADMIN_PASSWORD || "").trim();
   if (
     (raw.startsWith("'") && raw.endsWith("'")) ||
     (raw.startsWith('"') && raw.endsWith('"'))
@@ -36,7 +34,7 @@ export function getAdminPasswordHash() {
 }
 
 export function adminCredentialsConfigured() {
-  return Boolean(getAdminEmail() && getAdminPasswordHash());
+  return Boolean(getAdminEmail() && getAdminPassword());
 }
 
 export async function signAdminToken(email: string) {

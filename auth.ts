@@ -30,7 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!email || !password) throw new InvalidLoginError();
 
         const user = await findUserByEmail(email);
-        if (!user) throw new InvalidLoginError();
+        if (!user || user.role === "admin") throw new InvalidLoginError();
         if (!user.passwordHash) throw new GoogleOnlyError();
 
         const valid = await verifyPassword(password, user.passwordHash);

@@ -29,6 +29,18 @@ export default auth(async (req) => {
       return NextResponse.redirect(url);
     }
 
+    if (isAdminRoot) {
+      const hasCredsInUrl =
+        req.nextUrl.searchParams.has("email") || req.nextUrl.searchParams.has("password");
+      if (hasCredsInUrl) {
+        const url = req.nextUrl.clone();
+        url.search = "";
+        const error = req.nextUrl.searchParams.get("error");
+        if (error) url.searchParams.set("error", error);
+        return NextResponse.redirect(url);
+      }
+    }
+
     return NextResponse.next();
   }
 

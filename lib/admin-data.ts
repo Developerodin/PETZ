@@ -47,8 +47,11 @@ type AuthUserLean = {
   image?: string | null;
   emailVerified?: Date | null;
   passwordHash?: string;
+  role?: "admin";
   createdAt?: Date;
 };
+
+const PET_OWNER_FILTER: Filter<AuthUserLean> = { role: { $ne: "admin" } };
 
 function iso(value?: Date | string | null) {
   if (!value) return null;
@@ -144,7 +147,7 @@ export async function getAdminCounts() {
   await connectDb();
   const users = await usersCollection();
   const [profiles, newsletter, waitlist, contact] = await Promise.all([
-    users.countDocuments(),
+    users.countDocuments(PET_OWNER_FILTER),
     NewsletterSubscriber.countDocuments(),
     WaitlistEntry.countDocuments(),
     SupportMessage.countDocuments(),
@@ -155,7 +158,7 @@ export async function getAdminCounts() {
 export async function listAdminProfiles(opts: { q?: string; page?: number }) {
   const page = Math.max(1, opts.page || 1);
   const q = String(opts.q || "").trim();
-  const filter: Filter<AuthUserLean> = {};
+  const filter: Filter<AuthUserLean> = { ...PET_OWNER_FILTER };
   if (q) {
     const re = new RegExp(escapeRegex(q), "i");
     filter.$or = [{ email: re }, { name: re }];
@@ -208,7 +211,7 @@ export async function getAdminProfile(id: string): Promise<AdminProfileDetail | 
   if (!ObjectId.isValid(id)) return null;
   const col = await usersCollection();
   const user = await col.findOne(
-    { _id: new ObjectId(id) },
+    { _id: new ObjectId(id), ...PET_OWNER_FILTER },
     {
       projection: {
         name: 1,
@@ -270,7 +273,7 @@ export async function listAllAdminProfilesForExport() {
   const col = await usersCollection();
   const users = await col
     .find(
-      {},
+      PET_OWNER_FILTER,
       {
         projection: {
           name: 1,

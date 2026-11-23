@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
 import Script from "next/script";
 import { AuthProvider } from "@/components/AuthProvider";
@@ -47,6 +47,9 @@ export const metadata: Metadata = {
       "PETZ uses AI and veterinary-informed health science to understand your pet's current health, identify potential risk areas, and create a personalized plan.",
     images: ["/assets/images/golden-retriever.jpg"],
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 

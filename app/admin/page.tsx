@@ -5,8 +5,13 @@ import { adminCredentialsConfigured } from "@/lib/admin-auth";
 import { getAdminCounts } from "@/lib/admin-data";
 import { getAdminSession } from "@/lib/admin-session";
 
-export default async function AdminHomePage() {
+export default async function AdminHomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   const session = await getAdminSession();
+  const params = await searchParams;
 
   if (!session) {
     return (
@@ -19,10 +24,10 @@ export default async function AdminHomePage() {
               <p className="auth-lede">Separate from pet-owner accounts. One admin only.</p>
               {!adminCredentialsConfigured() ? (
                 <p className="auth-error" role="alert">
-                  Admin login is not configured. Set ADMIN_EMAIL and ADMIN_PASSWORD_HASH.
+                  Admin login is not configured. Set ADMIN_EMAIL and ADMIN_PASSWORD.
                 </p>
               ) : (
-                <AdminLoginForm />
+                <AdminLoginForm error={params.error} />
               )}
             </div>
           </div>

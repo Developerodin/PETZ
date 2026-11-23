@@ -14,7 +14,7 @@ if (!fs.existsSync(envPath)) {
 }
 
 const text = fs.readFileSync(envPath, "utf8");
-const wanted = ["ADMIN_EMAIL", "ADMIN_PASSWORD_HASH", "AUTH_SECRET"];
+const wanted = ["ADMIN_EMAIL", "ADMIN_PASSWORD", "AUTH_SECRET"];
 const values = Object.fromEntries(
   text
     .split(/\r?\n/)
@@ -33,7 +33,7 @@ for (const key of wanted) {
     console.log(`${key}=(missing in .env.local)`);
     continue;
   }
-  // Strip local dotenv quotes / \$ escapes — paste the raw hash into Vercel.
+  // Strip local dotenv quotes / \$ escapes — paste the raw value into Vercel.
   if (
     (value.startsWith("'") && value.endsWith("'")) ||
     (value.startsWith('"') && value.endsWith('"'))

@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 import { compare, hash } from "bcryptjs";
 import type { ObjectId } from "mongodb";
+import { getAdminEmail, getAdminPassword } from "@/lib/admin-auth";
 import clientPromise, { getMongoDbName } from "@/lib/mongodb-client";
 
 export type AuthUserDoc = {
@@ -10,6 +11,7 @@ export type AuthUserDoc = {
   image?: string | null;
   emailVerified?: Date | null;
   passwordHash?: string;
+  role?: "admin";
   resetTokenHash?: string | null;
   resetTokenExpiresAt?: Date | null;
 };
@@ -34,6 +36,66 @@ export async function findUserByEmail(email: string) {
   return (await usersCollection()).findOne({ email: normalizeEmail(email) });
 }
 
+export async function findAdminByEmail(email: string) {
+  return (await usersCollection()).findOne({
+    email: normalizeEmail(email),
+    role: "admin",
+  });
+}
+
+/** Upsert the env-defined admin into Mongo so /admin can authenticate against users. */
+export async function ensureAdminUser() {
+  const email = getAdminEmail();
+  const password = getAdminPassword();
+  if (!email || !password) return null;
+
+  const col = await usersCollection();
+  const existing = await col.findOne({ email });
+
+  if (existing) {
+    const passwordOk = existing.passwordHash
+      ? await verifyPassword(password, existing.passwordHash)
+      : false;
+    const passwordHash = passwordOk && existing.passwordHash
+      ? existing.passwordHash
+      : await hashPassword(password);
+    if (existing.role === "admin" && passwordOk) {
+      return existing;
+    }
+    await col.updateOne(
+      { _id: existing._id },
+      {
+        $set: {
+          role: "admin" as const,
+          passwordHash,
+          name: existing.name || "Admin",
+        },
+      },
+    );
+    return { ...existing, role: "admin" as const, passwordHash };
+  }
+
+  const passwordHash = await hashPassword(password);
+  const result = await col.insertOne({
+    name: "Admin",
+    email,
+    image: null,
+    emailVerified: null,
+    passwordHash,
+    role: "admin",
+  } as AuthUserDoc);
+
+  return {
+    _id: result.insertedId,
+    name: "Admin",
+    email,
+    image: null,
+    emailVerified: null,
+    passwordHash,
+    role: "admin" as const,
+  };
+}
+
 export async function hashPassword(password: string) {
   return hash(password, 12);
 }
@@ -47,6 +109,9 @@ export async function createPasswordUser(input: { name: string; email: string; p
   const email = normalizeEmail(input.email);
   const existing = await col.findOne({ email });
 
+  if (email === getAdminEmail() || existing?.role === "admin") {
+    return { error: "exists" as const };
+  }
   if (existing?.passwordHash) {
     return { error: "exists" as const };
   }
@@ -74,7 +139,7 @@ export async function createPasswordUser(input: { name: string; email: string; p
 export async function createPasswordResetToken(email: string) {
   const col = await usersCollection();
   const user = await col.findOne({ email: normalizeEmail(email) });
-  if (!user || !user.passwordHash) {
+  if (!user || !user.passwordHash || user.role === "admin") {
     return null;
   }
 

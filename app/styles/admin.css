@@ -360,6 +360,69 @@
   width: min(100%, 26.25rem);
 }
 
+.admin-login-form-wrap {
+  position: relative;
+}
+
+.admin-login-form-wrap.is-pending .auth-email-form {
+  opacity: 0.45;
+}
+
+.admin-login-busy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+}
+
+.admin-login-busy p,
+.admin-loading p {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-300);
+}
+
+.admin-loading {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.admin-spinner {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--color-600);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: admin-spin 0.7s linear infinite;
+}
+
+.button-label:has(.admin-spinner) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button .admin-spinner {
+  width: 16px;
+  height: 16px;
+  border-color: color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

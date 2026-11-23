@@ -36,10 +36,8 @@ export function AdminSearchForm({
         </div>
       ) : null}
       <button className="button is-secondary" type="submit">
+        <span className="button-hover"></span>
         <span className="button-label">Search</span>
-        <span className="button-hover" aria-hidden="true">
-          Search
-        </span>
       </button>
     </form>
   );
